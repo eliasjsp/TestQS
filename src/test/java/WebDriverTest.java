@@ -40,7 +40,7 @@ public class WebDriverTest {
         });
         // Should see: "cheese! - Google Search"
         System.out.println("Page title is: " + driver.getTitle());
-        Assert.assertEquals("Wrong page title.", "Cheese! - Pesquisa Google", driver.getTitle());
+        Assert.assertEquals("Wrong page title.", "Cheese! - Google Search", driver.getTitle());
         //Close the browser
         driver.quit();
     }
