@@ -34,7 +34,7 @@ public class ImdbParameterizedTests {
 
         return res;
     }
-//ghjgjhf
+
     public ImdbParameterizedTests(String searchTerm) {
         this.searchTerm = searchTerm;
     }
