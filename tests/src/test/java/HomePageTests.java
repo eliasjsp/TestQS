@@ -10,9 +10,6 @@ import static org.junit.Assert.*;
 
 
 public class HomePageTests {
-    private  static final String LOCAL_URL = "http://localhost:8080/";
-    private  static final String AZURE_URL = "http://qs-ner.westeurope.cloudapp.azure.com:8080";
-
     private WebDriver driver;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
@@ -25,7 +22,7 @@ public class HomePageTests {
 
     @Test
     public void testTitle() throws Exception {
-        driver.get(AZURE_URL);
+        driver.get(Util.getBaseUrl());
         assertEquals("We are awesome", driver.getTitle());
     }
 
