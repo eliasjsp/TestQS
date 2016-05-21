@@ -21,7 +21,7 @@ public class DummyTest {
 
     @Test
     public void test() throws Exception {
-        driver.get("http://localhost:8080");
+        driver.get("http://qs-ner.westeurope.cloudapp.azure.com:8080");
         assertEquals("Hello World!", driver.getTitle());
         // Warning: assertTextPresent may require manual changes
         assertTrue(driver.findElement(By.cssSelector("BODY")).getText().matches("^[\\s\\S]*Sup mates![\\s\\S]*$"));
