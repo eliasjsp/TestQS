@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class HomePageTests {
     private  static final String LOCAL_URL = "http://localhost:8080/";
-    private  static final String AZURE_URL = "qs-ner.westeurope.cloudapp.azure.com";
+    private  static final String AZURE_URL = "http://www.qs-ner.westeurope.cloudapp.azure.com";
 
     private WebDriver driver;
     private boolean acceptNextAlert = true;
