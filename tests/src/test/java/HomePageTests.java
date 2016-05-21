@@ -8,7 +8,11 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
-public class DummyTest {
+
+public class HomePageTests {
+    private  static final String LOCAL_URL = "http://localhost:8080/";
+    private  static final String AZURE_URL = "qs-ner.westeurope.cloudapp.azure.com";
+
     private WebDriver driver;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
@@ -20,12 +24,21 @@ public class DummyTest {
     }
 
     @Test
+    public void testTitle() throws Exception {
+        driver.get(AZURE_URL);
+        assertEquals("We are awesome", driver.getTitle());
+    }
+
+
+
+
+   /* @Test
     public void test() throws Exception {
         driver.get("http://qs-ner.westeurope.cloudapp.azure.com:8080");
         assertEquals("Hello World!", driver.getTitle());
         // Warning: assertTextPresent may require manual changes
         assertTrue(driver.findElement(By.cssSelector("BODY")).getText().matches("^[\\s\\S]*Sup mates![\\s\\S]*$"));
-    }
+    }*/
 
     @After
     public void tearDown() throws Exception {
