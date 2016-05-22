@@ -28,8 +28,10 @@ public class HomePageTests {
 
     @Test
     public void testPageBanner() throws Exception {
-        driver.get(LOCAL_URL);
-        assertEquals("We are awesome", driver.findElement(By.cssSelector("h1")).getText());
+        driver.get(Util.getBaseUrl());
+        assertEquals("We are awesome", driver.findElement(By.xpath("//h1[1]")).getText());
+        assertEquals("Three programmers guys", driver.findElement(By.cssSelector("div.intro-desc")).getText());
+        //driver.findElement(By.cssSelector("BODY")).getSize();
     }
 
 
