@@ -46,7 +46,17 @@ public class HomePageTests {
         assertEquals("Nuno", driver.findElement(By.linkText("Nuno")).getText());
     }
 
+    @Test
+    public void testIfExistsRafaelMember() throws Exception {
+        driver.get(Util.getBaseUrl());
+        // Button
+        assertEquals(true, isElementPresent(By.linkText("Rafael")));
+        assertEquals("Rafael", driver.findElement(By.linkText("Rafael")).getText());
 
+        // Image
+        assertEquals(true, isElementPresent(By.cssSelector("img[alt='Rafael']")));
+        assertEquals(Util.getBaseUrl() + "/rafael.html", driver.findElements(By.xpath("//div[@class='demo-thumb']/a")).get(2).getAttribute("href"));
+    }
 
    /* @Test
     public void test() throws Exception {
