@@ -29,6 +29,11 @@ public class HomePageTests {
         assertEquals("We are awesome", driver.getTitle());
     }
 
+    @Test
+    public void testPageBanner() throws Exception {
+        driver.get(LOCAL_URL);
+        assertEquals("We are awesome", driver.findElement(By.cssSelector("h1")).getText());
+    }
 
 
 
