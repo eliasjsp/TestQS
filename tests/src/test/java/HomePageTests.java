@@ -39,6 +39,13 @@ public class HomePageTests {
         assertEquals(3, driver.findElements(By.xpath("//div[2]/div/*[contains(@class, 'col-md-4 text-center thumb-wrapper')]")).size());
     }
 
+    @Test
+    public void testIfExistsNunoMember() throws Exception {
+        driver.get(Util.getBaseUrl());
+        assertEquals(true, isElementPresent(By.linkText("Nuno")));
+        assertEquals("Nuno", driver.findElement(By.linkText("Nuno")).getText());
+    }
+
 
 
    /* @Test
