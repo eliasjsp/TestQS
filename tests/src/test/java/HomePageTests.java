@@ -31,7 +31,12 @@ public class HomePageTests {
         driver.get(Util.getBaseUrl());
         assertEquals("We are awesome", driver.findElement(By.xpath("//h1[1]")).getText());
         assertEquals("Three programmers guys", driver.findElement(By.cssSelector("div.intro-desc")).getText());
-        //driver.findElement(By.cssSelector("BODY")).getSize();
+    }
+
+    @Test
+    public void testNumberOfTeamMembers() throws Exception {
+        driver.get(Util.getBaseUrl());
+        assertEquals(3, driver.findElements(By.xpath("//div[2]/div/*[contains(@class, 'col-md-4 text-center thumb-wrapper')]")).size());
     }
 
 
