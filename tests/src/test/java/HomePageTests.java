@@ -107,7 +107,8 @@ public class HomePageTests {
     }
 
     private void existsMemberPage(String member) {
-        driver.get(Util.getBaseUrl() + "/" + member + ".html");
+        driver.get(Util.getBaseUrl() + "/");
+        driver.findElement(By.linkText(WordUtils.capitalize(member))).click();
         assertEquals("I AM " + member.toUpperCase(), driver.getTitle());
     }
 
