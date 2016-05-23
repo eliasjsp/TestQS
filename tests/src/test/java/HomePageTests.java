@@ -1,3 +1,4 @@
+import org.apache.commons.lang3.text.WordUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +14,14 @@ public class HomePageTests {
     private WebDriver driver;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
+
+    private static final int ELIAS_POSITION = 0;
+    private static final int NUNO_POSITION = 1;
+    private static final int RAFAEL_POSITION = 2;
+
+    private static final String ELIAS_NAME = "elias";
+    private static final String NUNO_NAME = "nuno";
+    private static final String RAFAEL_NAME = "rafael";
 
     @Before
     public void setUp() throws Exception {
@@ -42,41 +51,23 @@ public class HomePageTests {
     @Test
     public void testIfExistsNunoMember() throws Exception {
         driver.get(Util.getBaseUrl());
-        assertEquals(true, isElementPresent(By.linkText("Nuno")));
-        assertEquals("Nuno", driver.findElement(By.linkText("Nuno")).getText());
+        existsMemberButton(NUNO_NAME);
+        existsMemberImage(NUNO_NAME, NUNO_POSITION);
     }
 
     @Test
     public void testIfExistsRafaelMember() throws Exception {
         driver.get(Util.getBaseUrl());
-        // Button
-        assertEquals(true, isElementPresent(By.linkText("Rafael")));
-        assertEquals("Rafael", driver.findElement(By.linkText("Rafael")).getText());
-
-        // Image
-        assertEquals(true, isElementPresent(By.cssSelector("img[alt='Rafael']")));
-        assertEquals(Util.getBaseUrl() + "/rafael.html", driver.findElements(By.xpath("//div[@class='demo-thumb']/a")).get(2).getAttribute("href"));
+        existsMemberButton(RAFAEL_NAME);
+        existsMemberImage(RAFAEL_NAME, RAFAEL_POSITION);
     }
 
     @Test
     public void testIfExistsEliasMember() throws Exception {
         driver.get(Util.getBaseUrl());
-        // Button
-        assertEquals(true, isElementPresent(By.linkText("Elias")));
-        assertEquals("Elias", driver.findElement(By.linkText("Elias")).getText());
-
-        // Image
-        assertEquals(true, isElementPresent(By.cssSelector("img[alt='Elias']")));
-        assertEquals(Util.getBaseUrl() + "/elias.html", driver.findElements(By.xpath("//div[@class='demo-thumb']/a")).get(0).getAttribute("href"));
+        existsMemberButton(ELIAS_NAME);
+        existsMemberImage(ELIAS_NAME, ELIAS_POSITION);
     }
-
-   /* @Test
-    public void test() throws Exception {
-        driver.get("http://qs-ner.westeurope.cloudapp.azure.com:8080");
-        assertEquals("Hello World!", driver.getTitle());
-        // Warning: assertTextPresent may require manual changes
-        assertTrue(driver.findElement(By.cssSelector("BODY")).getText().matches("^[\\s\\S]*Sup mates![\\s\\S]*$"));
-    }*/
 
     @After
     public void tearDown() throws Exception {
@@ -85,6 +76,18 @@ public class HomePageTests {
         if (!"".equals(verificationErrorString)) {
             fail(verificationErrorString);
         }
+    }
+
+    //helper functions
+    private void existsMemberButton(String member){
+        member = WordUtils.capitalize(member);
+        assertEquals(true, isElementPresent(By.linkText(member)));
+        assertEquals(member, driver.findElement(By.linkText(member)).getText());
+    }
+
+    private void existsMemberImage(String member, int position){
+        assertEquals(true, isElementPresent(By.cssSelector("img[alt='" + WordUtils.capitalize(member) + "']")));
+        assertEquals(Util.getBaseUrl() + "/" + member + ".html", driver.findElements(By.xpath("//div[@class='demo-thumb']/a")).get(position).getAttribute("href"));
     }
 
     private boolean isElementPresent(By by) {
