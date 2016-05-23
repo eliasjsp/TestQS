@@ -58,6 +58,18 @@ public class HomePageTests {
         assertEquals(Util.getBaseUrl() + "/rafael.html", driver.findElements(By.xpath("//div[@class='demo-thumb']/a")).get(2).getAttribute("href"));
     }
 
+    @Test
+    public void testIfExistsEliasMember() throws Exception {
+        driver.get(Util.getBaseUrl());
+        // Button
+        assertEquals(true, isElementPresent(By.linkText("Elias")));
+        assertEquals("Elias", driver.findElement(By.linkText("Elias")).getText());
+
+        // Image
+        assertEquals(true, isElementPresent(By.cssSelector("img[alt='Elias']")));
+        assertEquals(Util.getBaseUrl() + "/elias.html", driver.findElements(By.xpath("//div[@class='demo-thumb']/a")).get(2).getAttribute("href"));
+    }
+
    /* @Test
     public void test() throws Exception {
         driver.get("http://qs-ner.westeurope.cloudapp.azure.com:8080");
