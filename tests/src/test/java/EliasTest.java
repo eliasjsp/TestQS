@@ -63,4 +63,14 @@ public class EliasTest {
         linkedin.click();
         assertEquals(2, (new ArrayList<String> (driver.getWindowHandles())).size());
     }
+
+    @Test
+    public void testIfHaveMenu() throws Exception {
+        driver.get(base_url);
+        assertEquals(false, (driver.findElement(By.linkText("About")) == null));
+        assertEquals(false, (driver.findElement(By.linkText("Home")) == null));
+        assertEquals(false, (driver.findElement(By.linkText("Skills")) == null));
+        assertEquals(false, (driver.findElement(By.linkText("Resume")) == null));
+        assertEquals(false, (driver.findElement(By.linkText("Contact")) == null));
+    }
 }
