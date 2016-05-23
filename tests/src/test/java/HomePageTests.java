@@ -15,6 +15,8 @@ public class HomePageTests {
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
+    private static final int NUMBER_OF_MEMBERS = 3;
+
     private static final int ELIAS_POSITION = 0;
     private static final int NUNO_POSITION = 1;
     private static final int RAFAEL_POSITION = 2;
@@ -29,6 +31,7 @@ public class HomePageTests {
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
+    //general page tests
     @Test
     public void testTitle() throws Exception {
         driver.get(Util.getBaseUrl());
@@ -45,29 +48,42 @@ public class HomePageTests {
     @Test
     public void testNumberOfTeamMembers() throws Exception {
         driver.get(Util.getBaseUrl());
-        assertEquals(3, driver.findElements(By.xpath("//div[2]/div/*[contains(@class, 'col-md-4 text-center thumb-wrapper')]")).size());
+        assertEquals(NUMBER_OF_MEMBERS, driver.findElements(By.xpath("//div[2]/div/*[contains(@class, 'col-md-4 text-center thumb-wrapper')]")).size());
     }
+    //end general page tests
 
+    //nuno testes
     @Test
     public void testIfExistsNunoMember() throws Exception {
         driver.get(Util.getBaseUrl());
         existsMemberButton(NUNO_NAME);
         existsMemberImage(NUNO_NAME, NUNO_POSITION);
     }
+    //end nuno tests
 
+    //rafael tests
     @Test
     public void testIfExistsRafaelMember() throws Exception {
         driver.get(Util.getBaseUrl());
         existsMemberButton(RAFAEL_NAME);
         existsMemberImage(RAFAEL_NAME, RAFAEL_POSITION);
     }
+    //end rafael tests
 
+    //elias tests
     @Test
     public void testIfExistsEliasMember() throws Exception {
         driver.get(Util.getBaseUrl());
         existsMemberButton(ELIAS_NAME);
         existsMemberImage(ELIAS_NAME, ELIAS_POSITION);
     }
+
+    @Test
+    public void testIfExistsEliasPage() throws Exception {
+        driver.get(Util.getBaseUrl());
+        existsMemberPage(ELIAS_NAME);
+    }
+    //end elias tests
 
     @After
     public void tearDown() throws Exception {
@@ -88,6 +104,11 @@ public class HomePageTests {
     private void existsMemberImage(String member, int position){
         assertEquals(true, isElementPresent(By.cssSelector("img[alt='" + WordUtils.capitalize(member) + "']")));
         assertEquals(Util.getBaseUrl() + "/" + member + ".html", driver.findElements(By.xpath("//div[@class='demo-thumb']/a")).get(position).getAttribute("href"));
+    }
+
+    private void existsMemberPage(String member) {
+        driver.get(Util.getBaseUrl() + "/" + member + ".html");
+        assertEquals("I AM " + member.toUpperCase(), driver.getTitle());
     }
 
     private boolean isElementPresent(By by) {
