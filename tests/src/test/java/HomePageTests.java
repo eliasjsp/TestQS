@@ -67,7 +67,7 @@ public class HomePageTests {
 
         // Image
         assertEquals(true, isElementPresent(By.cssSelector("img[alt='Elias']")));
-        assertEquals(Util.getBaseUrl() + "/elias.html", driver.findElements(By.xpath("//div[@class='demo-thumb']/a")).get(2).getAttribute("href"));
+        assertEquals(Util.getBaseUrl() + "/elias.html", driver.findElements(By.xpath("//div[@class='demo-thumb']/a")).get(0).getAttribute("href"));
     }
 
    /* @Test
