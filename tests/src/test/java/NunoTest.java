@@ -61,4 +61,21 @@ public class NunoTest {
         driver.close();
         driver.switchTo().window(tabs.get(numTabs - 1)); // open the Nuno page
     }
+
+    @Test
+    public void testLinkedInClick() throws Exception {
+        driver.get(base_url);
+        int numTabs = driver.getWindowHandles().size();
+        WebElement linkedin = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li[2]/a"));
+        assertEquals(LINKEDIN_URL, linkedin.getAttribute("href"));
+        linkedin.click();
+        assertEquals(numTabs + 1,  driver.getWindowHandles().size());
+
+        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(numTabs)); //Open the last opened tab
+        System.out.println(driver.getCurrentUrl());
+        assertEquals(true, driver.getCurrentUrl().contains(LINKEDIN_URL));
+        driver.close();
+        driver.switchTo().window(tabs.get(numTabs - 1)); // open the Nuno page
+    }
 }
