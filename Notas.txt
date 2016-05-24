@@ -25,8 +25,8 @@ When the page is loaded
 Then the web application shows the images for LinkedIn and Facebook of the team member
 When one of then is clicked, the social network should open in another tab of the browser
 
-US3: As a user I want to see detailed information about each member of the team
-AT1: Test if the information in the section "About" is displayed correctly
+US3: As a user I want to see about each team member's basic biography so that I can get to know them better.
+AT1: Test if the biography information in the "About" section is displayed correctly.
 Given that I'm in particular page of team member, on the section "About"
 When the page is loaded
 Then the web application shows more details information of the member from the  member page that we have open
