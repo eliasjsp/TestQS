@@ -18,12 +18,16 @@ Whith their name and link to another profile page
 US2: As a user I want to open the facebook and/or LinkedIn page for each element of the team, so that I can open the their social networks
 AT1: Test if the number of tabs was incremented in one unit.
 AT2: Test if the opened URL contains the member social network url 
-(We can't run tests on social ntworks sites beacuse they are protected againts scripting. 
+(We can't run tests on social networks sites beacuse they are protected againts scripting. 
 We also just test if the url contains the team member url instead of compare the full url, because the social network change url every time )
-Given that I'm in particular pge of team member
+Given that I'm in particular page of team member
 When the page is loaded
 Then the web application shows the images for LinkedIn and Facebook of the team member
 When one of then is clicked, the social network should open in another tab of the browser
 
-US3: As a user I want to see the right information about the team members.
-AT1: test if the information in the web page are right.
+US3: As a user I want to see detailed information about each member of the team
+AT1: Test if the information in the section "About" is displayed correctly
+Given that I'm in particular page of team member, on the section "About"
+When the page is loaded
+Then the web application shows more details information of the member from the  member page that we have open
+with his name, date of birth, address, nationality, phone and email
