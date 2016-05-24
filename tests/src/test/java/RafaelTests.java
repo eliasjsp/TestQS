@@ -1,0 +1,90 @@
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+/**
+ * Created by Rafael on 23/05/2016.
+ */
+public class RafaelTests {
+
+    private WebDriver driver;
+    private boolean acceptNextAlert = true;
+    private StringBuffer verificationErrors = new StringBuffer();
+    private String baseUrl = Util.getBaseUrl() + "/" + "rafael.html";
+
+    @Before
+    public void setUp() throws Exception {
+        driver = new HtmlUnitDriver();
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void testPage() throws Exception {
+        driver.get(Util.getBaseUrl());
+        driver.findElement(By.linkText("Rafael")).click();
+        assertEquals("I AM RAFAEL", driver.getTitle());
+    }
+
+    @Test
+    public void testHeader() throws Exception {
+        driver.get(baseUrl);
+        assertEquals("i am rafael", driver.findElement(By.className("intro-sub")).getText().toLowerCase());
+        assertEquals("software engineer", driver.findElement(By.cssSelector(".intro h1")).getText().toLowerCase());
+    }
+
+    @Test
+    public void testMenu() throws Exception {
+        driver.get(baseUrl);
+        assertEquals(false, (driver.findElement(By.linkText("About")) == null));
+        assertEquals(false, (driver.findElement(By.linkText("Home")) == null));
+        assertEquals(false, (driver.findElement(By.linkText("Skills")) == null));
+        assertEquals(false, (driver.findElement(By.linkText("Resume")) == null));
+        assertEquals(false, (driver.findElement(By.linkText("Contact")) == null));
+        assertEquals(false, driver.findElement(By.className("navbar-brand")) == null);
+        assertEquals(Util.getBaseUrl() + "/index.html", driver.findElement(By.className("navbar-brand")).getAttribute("href"));
+
+        driver.findElement(By.className("navbar-brand")).click();
+        assertEquals("We are awesome", driver.getTitle());
+    }
+
+    @Test
+    public void testPersonalInfo() throws Exception {
+        driver.get(baseUrl);
+
+        WebElement sectionTitle = driver.findElement(By.cssSelector("#about h2"));
+        assertEquals(false, sectionTitle == null);
+        assertEquals("about me", sectionTitle.getText().toLowerCase());
+
+        WebElement photo = driver.findElement(By.cssSelector("#about .myphoto img"));
+        assertEquals(false, photo == null);
+        assertEquals(Util.getBaseUrl() + "/assets/images/rafael.jpg", photo.getAttribute("src"));
+
+        List<WebElement> biography = driver.findElements(By.cssSelector("#about .row .biography ul li"));
+        assertEquals("Name: Rafael Caetano", biography.get(0).getText());
+        assertEquals("Date of birth: 01 Mar 1994", biography.get(1).getText());
+        assertEquals("Address: Batalha, Leiria", biography.get(2).getText());
+        assertEquals("Nationality: Portuguese", biography.get(3).getText());
+        assertEquals("Phone: (+351) 916754699", biography.get(4).getText());
+        assertEquals("Email: rafaelvcaetano@hotmail.com", biography.get(5).getText());
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        driver.quit();
+        String verificationErrorString = verificationErrors.toString();
+        if (!"".equals(verificationErrorString)) {
+            fail(verificationErrorString);
+        }
+    }
+}
+
