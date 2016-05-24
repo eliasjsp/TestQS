@@ -97,12 +97,12 @@ public class HomePageTests {
     //helper functions
     private void existsMemberButton(String member){
         member = WordUtils.capitalize(member);
-        assertEquals(true, isElementPresent(By.linkText(member)));
+        assertEquals(true, Util.isElementPresent(By.linkText(member), driver));
         assertEquals(member, driver.findElement(By.linkText(member)).getText());
     }
 
     private void existsMemberImage(String member, int position){
-        assertEquals(true, isElementPresent(By.cssSelector("img[alt='" + WordUtils.capitalize(member) + "']")));
+        assertEquals(true, Util.isElementPresent(By.cssSelector("img[alt='" + WordUtils.capitalize(member) + "']"), driver));
         assertEquals(Util.getBaseUrl() + "/" + member + ".html", driver.findElements(By.xpath("//div[@class='demo-thumb']/a")).get(position).getAttribute("href"));
     }
 
@@ -112,36 +112,5 @@ public class HomePageTests {
         assertEquals("I AM " + member.toUpperCase(), driver.getTitle());
     }
 
-    private boolean isElementPresent(By by) {
-        try {
-            driver.findElement(by);
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
 
-    private boolean isAlertPresent() {
-        try {
-            driver.switchTo().alert();
-            return true;
-        } catch (NoAlertPresentException e) {
-            return false;
-        }
-    }
-
-    private String closeAlertAndGetItsText() {
-        try {
-            Alert alert = driver.switchTo().alert();
-            String alertText = alert.getText();
-            if (acceptNextAlert) {
-                alert.accept();
-            } else {
-                alert.dismiss();
-            }
-            return alertText;
-        } finally {
-            acceptNextAlert = true;
-        }
-    }
 }
