@@ -30,6 +30,7 @@ public class NunoTest {
         driver = new HtmlUnitDriver();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
+
     @After
     public void tearDown() throws Exception {
         driver.quit();
@@ -52,14 +53,15 @@ public class NunoTest {
         WebElement face = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li/a"));
         assertEquals(FACEBOOK_URL, face.getAttribute("href"));
         face.click();
-        assertEquals(numTabs + 1,  driver.getWindowHandles().size());
+        assertEquals(numTabs + 1, driver.getWindowHandles().size());
 
-        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+        ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(numTabs)); //Open the last opened tab
         assertEquals(true, driver.getCurrentUrl().contains(FACEBOOK_URL)); // We cant use full facebook url, because facebook change the url for script protection
 
         driver.close();
         driver.switchTo().window(tabs.get(numTabs - 1)); // return to Nuno page
+        //testLinkSocialNetwork(driver, FACEBOOK_URL,  By.xpath("//section[@id='home']/div/div[2]/ul/li/a"));
     }
 
     @Test
@@ -69,13 +71,15 @@ public class NunoTest {
         WebElement linkedin = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li[2]/a"));
         assertEquals(LINKEDIN_URL, linkedin.getAttribute("href"));
         linkedin.click();
-        assertEquals(numTabs + 1,  driver.getWindowHandles().size());
-
-        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+        assertEquals(numTabs + 1, driver.getWindowHandles().size());
+        ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(numTabs)); //Open the last opened tab
+        System.out.println(driver.getCurrentUrl());
         assertEquals(true, driver.getCurrentUrl().contains(LINKEDIN_URL));
         driver.close();
-        driver.switchTo().window(tabs.get(numTabs - 1)); // return to Nuno page
+        driver.switchTo().window(tabs.get(numTabs - 1)); // open the Nuno page
+
+        //testLinkSocialNetwork(driver, LINKEDIN_URL, By.xpath("//section[@id='home']/div/div[2]/ul/li[2]/a"));
     }
 
     @Test

@@ -1,5 +1,9 @@
 import org.openqa.selenium.*;
 
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+
 public final class Util {
     private static String baseUrl;
     private static boolean acceptNextAlert = true;
@@ -47,4 +51,21 @@ public final class Util {
             acceptNextAlert = true;
         }
     }
+
+    public static void testLinkSocialNetwork(WebDriver driver, String socialNetworkURL, By by) {
+        driver.get(Util.getBaseUrl());
+        int numTabs = driver.getWindowHandles().size();
+        WebElement element = driver.findElement(by);
+        assertEquals(socialNetworkURL, element.getAttribute("href"));
+        element.click();
+        assertEquals(numTabs + 1, driver.getWindowHandles().size());
+
+        ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(numTabs)); //Open the last opened tab
+        assertEquals(true, driver.getCurrentUrl().contains(socialNetworkURL));
+        driver.close();
+        driver.switchTo().window(tabs.get(numTabs - 1)); // return to Nuno page
+    }
+
+
 }
