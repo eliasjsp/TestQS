@@ -20,7 +20,7 @@ public class NunoTest {
     private WebDriver driver;
 
     private StringBuffer verificationErrors = new StringBuffer();
-    private String base_url = Util.getBaseUrl() + "/" + "nuno.html";
+    private String baseUrl = Util.getBaseUrl() + "/" + "nuno.html";
     private static final String FACEBOOK_URL = "https://www.facebook.com/nuno.laudo";
     private static final String LINKEDIN_URL = "https://pt.linkedin.com/in/nunolaudo";
 
@@ -42,54 +42,72 @@ public class NunoTest {
 
     @Test
     public void testTitle() throws Exception {
-        driver.get(base_url);
-        assertEquals("I AM NUNO", driver.getTitle());
+        driver.get(baseUrl);
+        assertEquals("Wrong page title", "I AM NUNO", driver.getTitle());
+    }
+
+    @Test
+    public void testHeader() throws Exception {
+        driver.get(baseUrl);
+        assertEquals("Error while test headers", "i am nuno", driver.findElement(By.className("intro-sub")).getText().toLowerCase());
+        assertEquals("Error while test headers","software engineer", driver.findElement(By.cssSelector(".intro h1")).getText().toLowerCase());
     }
 
     @Test
     public void testFacebookClick() throws Exception {
-        driver.get(base_url);
+        driver.get(baseUrl);
         int numTabs = driver.getWindowHandles().size();
         WebElement face = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li/a"));
-        assertEquals(FACEBOOK_URL, face.getAttribute("href"));
+        assertEquals("Wrong href to Facebook", FACEBOOK_URL, face.getAttribute("href"));
         face.click();
-        assertEquals(numTabs + 1, driver.getWindowHandles().size());
+        assertEquals("Wrong numbers of tabs. Should be opened one more tab", numTabs + 1, driver.getWindowHandles().size());
 
-        ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(numTabs)); //Open the last opened tab
-        assertEquals(true, driver.getCurrentUrl().contains(FACEBOOK_URL)); // We cant use full facebook url, because facebook change the url for script protection
 
-        driver.close();
-        driver.switchTo().window(tabs.get(numTabs - 1)); // return to Nuno page
+        boolean foundTab = false;
+        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+        for (String tab : tabs) {
+            driver.switchTo().window(tab);
+            if (driver.getCurrentUrl().contains(FACEBOOK_URL)) {
+                foundTab = true;
+                break;
+            }
+        }
+
+        assertEquals("No Facebook tab found", true, foundTab);
         //testLinkSocialNetwork(driver, FACEBOOK_URL,  By.xpath("//section[@id='home']/div/div[2]/ul/li/a"));
     }
 
     @Test
     public void testLinkedInClick() throws Exception {
-        driver.get(base_url);
+        driver.get(baseUrl);
         int numTabs = driver.getWindowHandles().size();
         WebElement linkedin = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li[2]/a"));
-        assertEquals(LINKEDIN_URL, linkedin.getAttribute("href"));
+        assertEquals("Wrong href to LinkedIn", LINKEDIN_URL, linkedin.getAttribute("href"));
         linkedin.click();
-        assertEquals(numTabs + 1, driver.getWindowHandles().size());
+        assertEquals("Wrong numbers of tabs. Should be opened one more tab", numTabs + 1, driver.getWindowHandles().size());
 
-        ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(numTabs)); //Open the last opened tab
-        assertEquals(true, driver.getCurrentUrl().contains(LINKEDIN_URL));
+        boolean foundTab = false;
+        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+        for (String tab : tabs) {
+            driver.switchTo().window(tab);
+            if (driver.getCurrentUrl().contains(LINKEDIN_URL)) {
+                foundTab = true;
+                break;
+            }
+        }
 
-        driver.close();
-        driver.switchTo().window(tabs.get(numTabs - 1)); // open the Nuno page
+        assertEquals("No LinkedIn tab found", true, foundTab);
 
         //testLinkSocialNetwork(driver, LINKEDIN_URL, By.xpath("//section[@id='home']/div/div[2]/ul/li[2]/a"));
     }
 
     @Test
     public void testIfHaveMenu() throws Exception {
-        driver.get(base_url);
-        assertEquals(true, Util.isElementPresent(By.linkText("About"), driver));
-        assertEquals(true, Util.isElementPresent(By.linkText("Home"), driver));
-        assertEquals(true, Util.isElementPresent(By.linkText("Skills"), driver));
-        assertEquals(true, Util.isElementPresent(By.linkText("Resume"), driver));
-        assertEquals(true, Util.isElementPresent(By.linkText("Contact"), driver));
+        driver.get(baseUrl);
+        assertEquals("Missed about menu", true, Util.isElementPresent(By.linkText("About"), driver));
+        assertEquals("Missed home menu",true, Util.isElementPresent(By.linkText("Home"), driver));
+        assertEquals("Missed skills menu",true, Util.isElementPresent(By.linkText("Skills"), driver));
+        assertEquals("Missed resume menu",true, Util.isElementPresent(By.linkText("Resume"), driver));
+        assertEquals("Missed contact menu",true, Util.isElementPresent(By.linkText("Contact"), driver));
     }
 }
