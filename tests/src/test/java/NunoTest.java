@@ -18,7 +18,7 @@ import static org.junit.Assert.fail;
 public class NunoTest {
 
     private WebDriver driver;
-    private boolean acceptNextAlert = true;
+
     private StringBuffer verificationErrors = new StringBuffer();
     private String base_url = Util.getBaseUrl() + "/" + "nuno.html";
     private static final String FACEBOOK_URL = "https://www.facebook.com/nuno.laudo";
@@ -56,10 +56,10 @@ public class NunoTest {
 
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
         driver.switchTo().window(tabs.get(numTabs)); //Open the last opened tab
-        System.out.println(driver.getCurrentUrl());
-        assertEquals(true, driver.getCurrentUrl().contains(FACEBOOK_URL)); // We cant use facebook url, because facebook change the url for script protection
+        assertEquals(true, driver.getCurrentUrl().contains(FACEBOOK_URL)); // We cant use full facebook url, because facebook change the url for script protection
+
         driver.close();
-        driver.switchTo().window(tabs.get(numTabs - 1)); // open the Nuno page
+        driver.switchTo().window(tabs.get(numTabs - 1)); // return to Nuno page
     }
 
     @Test
@@ -73,9 +73,18 @@ public class NunoTest {
 
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
         driver.switchTo().window(tabs.get(numTabs)); //Open the last opened tab
-        System.out.println(driver.getCurrentUrl());
         assertEquals(true, driver.getCurrentUrl().contains(LINKEDIN_URL));
         driver.close();
-        driver.switchTo().window(tabs.get(numTabs - 1)); // open the Nuno page
+        driver.switchTo().window(tabs.get(numTabs - 1)); // return to Nuno page
+    }
+
+    @Test
+    public void testIfHaveMenu() throws Exception {
+        driver.get(base_url);
+        assertEquals(true, Util.isElementPresent(By.linkText("About"), driver));
+        assertEquals(true, Util.isElementPresent(By.linkText("Home"), driver));
+        assertEquals(true, Util.isElementPresent(By.linkText("Skills"), driver));
+        assertEquals(true, Util.isElementPresent(By.linkText("Resume"), driver));
+        assertEquals(true, Util.isElementPresent(By.linkText("Contact"), driver));
     }
 }
