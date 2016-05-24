@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -40,6 +41,52 @@ public class RafaelTests {
         driver.get(baseUrl);
         assertEquals("i am rafael", driver.findElement(By.className("intro-sub")).getText().toLowerCase());
         assertEquals("software engineer", driver.findElement(By.cssSelector(".intro h1")).getText().toLowerCase());
+    }
+
+    @Test
+    public void testFacebookClick() throws Exception {
+        driver.get(baseUrl);
+        int numTabs = driver.getWindowHandles().size();
+        WebElement face = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li/a"));
+        assertEquals(false, face == null);
+        assertEquals("https://www.facebook.com/rafael.caetano.50", face.getAttribute("href"));
+        face.click();
+        assertEquals(numTabs + 1,  driver.getWindowHandles().size());
+
+        boolean foundTab = false;
+        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+        for (String tab : tabs) {
+            driver.switchTo().window(tab);
+            if (driver.getCurrentUrl().contains("www.facebook.com/rafael.caetano.50")) {
+                foundTab = true;
+                break;
+            }
+        }
+
+        assertEquals("No Facebook tab found", true, foundTab);
+    }
+
+    @Test
+    public void testLinkedInClick() throws Exception {
+        driver.get(baseUrl);
+        int numTabs = driver.getWindowHandles().size();
+        WebElement linkedin = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li[2]/a"));
+        assertEquals(false, linkedin == null);
+        assertEquals("https://linkedin.com/in/rafael-caetano-376636b4", linkedin.getAttribute("href"));
+        linkedin.click();
+        assertEquals(numTabs + 1,  driver.getWindowHandles().size());
+
+        boolean foundTab = false;
+        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+        for (String tab : tabs) {
+            driver.switchTo().window(tab);
+            if (driver.getCurrentUrl().contains("linkedin.com/in/rafael-caetano-376636b4")) {
+                foundTab = true;
+                break;
+            }
+        }
+
+        assertEquals("No LinkedIn tab found", true, foundTab);
     }
 
     @Test
