@@ -24,3 +24,6 @@ Given that I'm in particular pge of team member
 When the page is loaded
 Then the web application shows the images for LinkedIn and Facebook of the team member
 When one of then is clicked, the social network should open in another tab of the browser
+
+US3: As a user I want to see the right information about the team members.
+AT1: test if the information in the web page are right.

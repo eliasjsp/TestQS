@@ -8,6 +8,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -72,5 +73,26 @@ public class EliasTest {
         assertEquals(false, (driver.findElement(By.linkText("Skills")) == null));
         assertEquals(false, (driver.findElement(By.linkText("Resume")) == null));
         assertEquals(false, (driver.findElement(By.linkText("Contact")) == null));
+    }
+
+    @Test
+    public void testPersonalInfo() throws Exception {
+        driver.get(base_url);
+
+        WebElement sectionTitle = driver.findElement(By.cssSelector("#about h2"));
+        assertEquals(false, sectionTitle == null);
+        assertEquals("about me", sectionTitle.getText().toLowerCase());
+
+        WebElement photo = driver.findElement(By.cssSelector("#about .myphoto img"));
+        assertEquals(false, photo == null);
+        assertEquals(Util.getBaseUrl() + "/assets/images/elias.jpg", photo.getAttribute("src"));
+
+        List<WebElement> biography = driver.findElements(By.cssSelector("#about .row .biography ul li"));
+        assertEquals("Name: Elias Pinheiro", biography.get(0).getText());
+        assertEquals("Date of birth: 01 Feb 1994", biography.get(1).getText());
+        assertEquals("Address: R. Quinta Parceiros", biography.get(2).getText());
+        assertEquals("Nationality: Brazilian", biography.get(3).getText());
+        assertEquals("Phone: (+351) 915896602", biography.get(4).getText());
+        assertEquals("Email: schmeisk@gmail.com", biography.get(5).getText());
     }
 }
