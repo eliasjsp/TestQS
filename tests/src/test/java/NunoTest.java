@@ -7,8 +7,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static javax.swing.text.html.CSS.getAttribute;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -109,5 +111,27 @@ public class NunoTest {
         assertEquals("Missed skills menu",true, Util.isElementPresent(By.linkText("Skills"), driver));
         assertEquals("Missed resume menu",true, Util.isElementPresent(By.linkText("Resume"), driver));
         assertEquals("Missed contact menu",true, Util.isElementPresent(By.linkText("Contact"), driver));
+
+        //TODO: FALTA TESTAR AS LIGAÇÕES! Se vai parar ao sitio certo!
+        //TODO: Falta user story para isto!
+    }
+
+    @Test
+    public void testPersonalInfo() throws Exception {
+        driver.get(baseUrl);
+
+        assertEquals("The elements about is not present",true, Util.isElementPresent(By.cssSelector("#about h2"), driver));
+        assertEquals("Wrong test about me", "about me", driver.findElement(By.cssSelector("#about h2")).getText().toLowerCase());
+
+        assertEquals("Cant found the image", true, Util.isElementPresent(By.cssSelector("#about .myphoto img"), driver));
+        assertEquals("Attribute src from image is wrong", Util.getBaseUrl() + "/assets/images/nuno.jpg", driver.findElement(By.cssSelector("#about .myphoto img")).getAttribute("src"));
+
+        List<WebElement> biography = driver.findElements(By.cssSelector("#about .row .biography ul li"));
+        assertEquals("Wrong name", "Name: Nuno Laúdo", biography.get(0).getText());
+        assertEquals("Wrong date of birth", "Date of birth: 24 Nov 1994", biography.get(1).getText());
+        assertEquals("Wrong address", "Address: Chã da Laranjeira, Leiria", biography.get(2).getText());
+        assertEquals("Wrong nationality", "Nationality: Portuguese", biography.get(3).getText());
+        assertEquals("Wrong phone", "Phone: (+351) 918335233", biography.get(4).getText());
+        assertEquals("Wrong email", "Email: nunolaudo@hotmail.com", biography.get(5).getText());
     }
 }
