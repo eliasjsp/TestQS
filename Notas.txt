@@ -1,7 +1,7 @@
-1. Write user stories and acceprance tests
+1. Write user stories and acceptance tests
 1. Write code for user stories and acceptance tests
 3. Commit
-4. Test in Dev enviormentt
+4. Test in Dev environment
 5. Push
 6. Build pipeline
 
@@ -15,11 +15,11 @@ When the page is  loaded
 Then the web application shows a list of team members
 Whith their name and link to another profile page
 
-US2: As a user I want to open the facebook and/or LinkedIn page for each element of the team, so that I can open the their social networks
+US2: As a user I want to open the Facebook and/or LinkedIn page for each element of the team, so that I can open the their social networks
 AT1: Test if the number of tabs was incremented in one unit.
-AT2: Test if the opened URL contains the member social network url 
-(We can't run tests on social networks sites beacuse they are protected againts scripting. 
-We also just test if the url contains the team member url instead of compare the full url, because the social network change url every time )
+AT2: Test if the opened URL contains the member social network URL 
+(We can't run tests on social networks sites because they are protected against scripting. 
+We also just test if the URL contains the team member URL instead of compare the full URL, because the social network change URL every time )
 Given that I'm in particular page of team member
 When the page is loaded
 Then the web application shows the images for LinkedIn and Facebook of the team member
@@ -31,3 +31,10 @@ Given that I'm in particular page of team member, on the section "About"
 When the page is loaded
 Then the web application shows more details information of the member from the  member page that we have open
 with his name, date of birth, address, nationality, phone and email
+
+US4: As a User I want to navigate through the page of each member of the team, so that is more easily to navigate for a certain  section
+AT1: Test if exists a menu with option to navigate for a certain section
+AT2: Test if exists a section in a page for each menu option
+Given that I'm in particular page of team member,
+When the page is loaded 
+Then the web application shows a menu with option to navigate for "Home", "About", "Skills", "Resume" and "contact"

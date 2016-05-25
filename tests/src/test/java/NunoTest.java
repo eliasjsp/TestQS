@@ -25,6 +25,7 @@ public class NunoTest {
     private String baseUrl = Util.getBaseUrl() + "/" + "nuno.html";
     private static final String FACEBOOK_URL = "https://www.facebook.com/nuno.laudo";
     private static final String LINKEDIN_URL = "https://pt.linkedin.com/in/nunolaudo";
+    private static final int NUMBER_OF_SECTIONS = 5;
 
     @Before
     public void setUp() throws Exception {
@@ -111,6 +112,31 @@ public class NunoTest {
         assertEquals("Missed skills menu",true, Util.isElementPresent(By.linkText("Skills"), driver));
         assertEquals("Missed resume menu",true, Util.isElementPresent(By.linkText("Resume"), driver));
         assertEquals("Missed contact menu",true, Util.isElementPresent(By.linkText("Contact"), driver));
+
+        ArrayList<String> sections = new ArrayList<String>();
+        sections.add(driver.findElement(By.linkText("About")).getAttribute("href").split("#")[1]);
+        sections.add(driver.findElement(By.linkText("Home")).getAttribute("href").split("#")[1]);
+        sections.add(driver.findElement(By.linkText("Skills")).getAttribute("href").split("#")[1]);
+        sections.add(driver.findElement(By.linkText("Resume")).getAttribute("href").split("#")[1]);
+        sections.add(driver.findElement(By.linkText("Contact")).getAttribute("href").split("#")[1]);
+
+        int count = 0;
+        for (WebElement siteSection : driver.findElements(By.xpath("//section"))){
+            String id = siteSection.getAttribute("id");
+            for (String section: sections) {
+                    if(section.equals(id)){
+                        count++;
+                    }
+            }
+        }
+
+        assertEquals("Doesnt exists one or more sections", NUMBER_OF_SECTIONS, count);
+
+
+
+
+
+
 
         //TODO: FALTA TESTAR AS LIGAÇÕES! Se vai parar ao sitio certo!
         //TODO: Falta user story para isto!
