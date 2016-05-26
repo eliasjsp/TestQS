@@ -1,3 +1,4 @@
+import org.apache.commons.lang3.text.WordUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,10 +26,19 @@ public class EliasTest {
     private String base_url = Util.getBaseUrl() + "/" + "elias.html";
     private static final String FACEBOOK_URL = "https://www.facebook.com/eliasjsp";
     private static final String LINKEDIN_URL = "https://pt.linkedin.com/in/eliasjsp";
-
+    private static final String TITLE = "Software Engineer";
+    private static final String SUB_TITLE = "I am a back end developer with 3 years of experience.\n" +
+            "Involving with java, javascript, nodejs.\n" +
+            "Feel free to contact.";
+    private List<String> menu;
     @Before
     public void setUp() throws Exception {
-        //driver = new FirefoxDriver();
+        menu = new ArrayList<String>();
+        menu.add("home");
+        menu.add("about");
+        menu.add("skills");
+        menu.add("resume");
+        menu.add("contact");
         driver = new HtmlUnitDriver();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
@@ -66,13 +76,38 @@ public class EliasTest {
     }
 
     @Test
+    public void testProfessionTitle() throws Exception {
+        driver.get(base_url);
+        assertEquals("Elias page title is different than expected", true, ( driver.findElement(By.xpath("//section[@id='home']/div/h1")).getText().equals(TITLE) ));
+    }
+
+    @Test
+    public void testSubTitle() throws Exception {
+        driver.get(base_url);
+        assertEquals("Elias page subtitle is different than expected", true, ( driver.findElement(By.xpath("//section[@id='home']/div/p")).getText().equals(SUB_TITLE) ));
+    }
+
+    @Test
     public void testIfHaveMenu() throws Exception {
         driver.get(base_url);
-        assertEquals(false, (driver.findElement(By.linkText("About")) == null));
-        assertEquals(false, (driver.findElement(By.linkText("Home")) == null));
-        assertEquals(false, (driver.findElement(By.linkText("Skills")) == null));
-        assertEquals(false, (driver.findElement(By.linkText("Resume")) == null));
-        assertEquals(false, (driver.findElement(By.linkText("Contact")) == null));
+        for(String m : menu) {
+            assertEquals("Menu " + m + "does not exists", true, ( driver.findElement(By.linkText(WordUtils.capitalize(m))) != null));
+        }
+    }
+
+    @Test
+    public void testIfHaveSectionForEachMenu() throws Exception {
+        driver.get(base_url);
+        for(String m : menu) {
+            assertEquals("Section " + m + "does not exists", true, ( driver.findElement(By.xpath("//section[@id='" + m + "']")) != null));
+        }
+    }
+
+    @Test
+    public void testIfClickIAMXGoToMainPage() {
+        driver.get(base_url);
+        driver.findElement(By.xpath("//img")).click();
+        assertEquals("I AM X link does not work", true, (driver.getCurrentUrl().contains("index.html") && driver.getTitle().equals("We are awesome") ));
     }
 
     @Test
