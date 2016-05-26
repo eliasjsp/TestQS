@@ -27,6 +27,13 @@ public class NunoTest {
     private static final String LINKEDIN_URL = "https://pt.linkedin.com/in/nunolaudo";
     private static final int NUMBER_OF_SECTIONS = 5;
 
+    private static final String OBEJECTIVES = "An opportunity to work and upgrade oneself, as well as being involved in an organization that believes in gaining a competitive edge and giving back to the community. I'm presently become a master in mobile computing. I hope develop skills and knowledge of mobile computing area and become an honest asset to the business. As an individual, I'm self-confident you’ll find me creative, funny and naturally passionate. I’m a forward thinker, which others may find inspiring when working as a team.";
+    private static final String WHAT_I_DO = "I am a student of master in mobile computing in IPLeiria, Portugal. Before, I graduated also in IPLeiria. Besides the normal school project, I like develop by myself.This way I can improve my skills. Normally those project are project for android platform. I already publish two apps: Color Point ( with Rafael Caetano) - Get the app here! Always on Display - Get the app here!";
+    private static final int NUMBER_OF_PUBLISHED_APPS_BY_ME = 2;
+    private static final String COLOR_POINT_URL = "https://play.google.com/store/apps/details?id=me.fayax.colorpoint";
+    private static final String ALWAYS_ON_DISPLAY = "https://play.google.com/store/apps/details?id=pt.me.fayax.alwaysondisplay";
+    private static final int NUMBER_OF_WHAT_I_DO_LIST = 6;
+
     @Before
     public void setUp() throws Exception {
         //driver = new FirefoxDriver();
@@ -132,14 +139,6 @@ public class NunoTest {
 
         assertEquals("Doesnt exists one or more sections", NUMBER_OF_SECTIONS, count);
 
-
-
-
-
-
-
-        //TODO: FALTA TESTAR AS LIGAÇÕES! Se vai parar ao sitio certo!
-        //TODO: Falta user story para isto!
     }
 
     @Test
@@ -159,5 +158,35 @@ public class NunoTest {
         assertEquals("Wrong nationality", "Nationality: Portuguese", biography.get(3).getText());
         assertEquals("Wrong phone", "Phone: (+351) 918335233", biography.get(4).getText());
         assertEquals("Wrong email", "Email: nunolaudo@hotmail.com", biography.get(5).getText());
+    }
+
+
+    @Test
+    public void testAboutMeInformation() throws Exception {
+        driver.get(baseUrl);
+        assertEquals("No title about me found", "about me", driver.findElement(By.xpath("//section[@id='about']/div/h2")).getText().toLowerCase());
+
+        assertEquals("No title objective found", "objective", driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div/h3")).getText().toLowerCase());
+
+        assertEquals("The text on objectives is wrong", OBEJECTIVES.trim(), driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div/p")).getText().trim());
+        assertEquals("The text on objectives is wrong", WHAT_I_DO.trim(), driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/p")).getText().trim());
+
+        assertEquals("The number of published apps are wrong!", NUMBER_OF_PUBLISHED_APPS_BY_ME, driver.findElements(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/p/a")).size());
+        assertEquals("The link for color point is wrong", COLOR_POINT_URL, driver.findElement(By.id("color_point")).getAttribute("href"));
+        assertEquals("The link for always on display is wrong", ALWAYS_ON_DISPLAY, driver.findElement(By.id("always_on_display")).getAttribute("href"));
+
+        assertEquals("The number of item in the list of what i do are wrong!", NUMBER_OF_WHAT_I_DO_LIST, driver.findElements(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/ul/li")).size());
+
+        System.out.println(driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/ul/li[1]")).getText());
+        System.out.println("Software development");
+        assertEquals("Text at index 1 at the list on about me section is wrong!", "Software development", driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/ul/li[1]")).getText());
+        assertEquals("Text at index 2 at the list on about me section is wrong!", "Android apps development", driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/ul/li[2]")).getText());
+        assertEquals("Text at index 3 at the list on about me section is wrong!", "IOS apps development", driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/ul/li[3]")).getText());
+        assertEquals("Text at index 4 at the list on about me section is wrong!", "Control version repositories", driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/ul/li[4]")).getText());
+        assertEquals("Text at index 5 at the list on about me section is wrong!", "Basics on project managing", driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/ul/li[5]")).getText());
+        assertEquals("Text at index 6 at the list on about me section is wrong!", "Games Development", driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/ul/li[6]")).getText());
+
+        //TODO: test if the links for each app are open correctly
+
     }
 }
