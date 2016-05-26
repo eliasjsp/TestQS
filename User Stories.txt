@@ -40,10 +40,11 @@ Given that I'm in a page of a team member,
 When the page is loaded 
 Then the web application shows a menu with option to navigate for "Home", "About", "Skills", "Resume" and "contact"
 
-US5: As a user I want to see the objectives, what each member do and including link for published apps (with the possibility to open them), so that I can get to know them better. 
+US5: As a user I want to see the objectives, what each member does and links for published apps (with the possibility to open them),
+	so that I can get to know them better and see their developed projects.
 AT1: Test if the text about "Objectives" and "What I do ?" is the expected
-AT1: Test if the list in "What I do ? contains the expected content"
-AT1: Test if the link for the published apps are corrected and open without problems
+AT2: Test if the list in "What I do ? contains the expected content"
+AT3: Test if the link for the published apps are corrected and open without problems
 Given that I'm in particular page of team member, on the section "About"
 When the page is loaded
 Then the web application shows the objectives of the member, what he does and the links for published apps

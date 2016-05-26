@@ -144,6 +144,33 @@ public class RafaelTests {
         assertEquals("Email: rafaelvcaetano@hotmail.com", biography.get(5).getText());
     }
 
+    @Test
+    public void testAboutMeInformation() throws Exception {
+        driver.get(baseUrl);
+
+        assertEquals("No title 'Objective' found", "objective", driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div/h3")).getText().toLowerCase());
+        assertEquals("Objectives text not found", true, Util.isElementPresent(By.xpath("//section[@id='about']/div/div/div[2]/div/p"), driver));
+
+        assertEquals("No title 'What i do?' found", "what i do?", driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/h3")).getText().toLowerCase());
+        assertEquals("What i do? text not found", true, Util.isElementPresent(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/p"), driver));
+
+        List<WebElement> whatIDo = driver.findElements(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/ul/li"));
+        if (whatIDo == null)
+            fail("What I Do? list not found");
+
+        String[] whatIDoArray = new String[] {
+                "Software Development",
+                "Game Development",
+                "Android Development"
+        };
+        assertEquals("The number of items in the list of what i do are wrong!", whatIDoArray.length, whatIDo.size());
+
+        for (int i = 0; i < whatIDoArray.length; i++) {
+            WebElement element = whatIDo.get(i);
+            assertEquals("Text at index " + i + " of What I Do? is wrong!", whatIDoArray[i], element.getText());
+        }
+    }
+
     @After
     public void tearDown() throws Exception {
         driver.quit();
