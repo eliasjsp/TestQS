@@ -25,7 +25,10 @@ public class EliasTest {
     private String base_url = Util.getBaseUrl() + "/" + "elias.html";
     private static final String FACEBOOK_URL = "https://www.facebook.com/eliasjsp";
     private static final String LINKEDIN_URL = "https://pt.linkedin.com/in/eliasjsp";
-
+    private static final String TITLE = "Software Engineer";
+    private static final String SUB_TITLE = "I am a back end developer with 3 years of experience.\n" +
+            "Involving with java, javascript, nodejs.\n" +
+            "Feel free to contact.";
     @Before
     public void setUp() throws Exception {
         //driver = new FirefoxDriver();
@@ -63,6 +66,18 @@ public class EliasTest {
         assertEquals(LINKEDIN_URL, linkedin.getAttribute("href"));
         linkedin.click();
         assertEquals(2, (new ArrayList<String> (driver.getWindowHandles())).size());
+    }
+
+    @Test
+    public void testProfessionTitle() throws Exception {
+        driver.get(base_url);
+        assertEquals("Elias page title is different than expected", true, ( driver.findElement(By.xpath("//section[@id='home']/div/h1")).getText().equals(TITLE) ));
+    }
+
+    @Test
+    public void testSubTitle() throws Exception {
+        driver.get(base_url);
+        assertEquals("Elias page subtitle is different than expected", true, ( driver.findElement(By.xpath("//section[@id='home']/div/p")).getText().equals(SUB_TITLE) ));
     }
 
     @Test
