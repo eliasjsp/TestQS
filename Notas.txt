@@ -32,9 +32,10 @@ When the page is loaded
 Then the web application shows more details information of the member from the  member page that we have open
 with his name, date of birth, address, nationality, phone and email
 
-US4: As a User I want to navigate through the page of each member of the team, so that is more easily to navigate for a certain  section
+US4: As a User I want to navigate through the page of each member of the team, so that is more easy to navigate to a certain section
 AT1: Test if exists a menu with option to navigate for a certain section
 AT2: Test if exists a section in a page for each menu option
-Given that I'm in particular page of team member,
+AT3: Test if there are no multiple sections for each menu entry
+Given that I'm in a page of a team member,
 When the page is loaded 
 Then the web application shows a menu with option to navigate for "Home", "About", "Skills", "Resume" and "contact"

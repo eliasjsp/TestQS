@@ -92,6 +92,7 @@ public class RafaelTests {
     @Test
     public void testMenu() throws Exception {
         driver.get(baseUrl);
+        // AT1
         assertEquals(false, (driver.findElement(By.linkText("About")) == null));
         assertEquals(false, (driver.findElement(By.linkText("Home")) == null));
         assertEquals(false, (driver.findElement(By.linkText("Skills")) == null));
@@ -100,6 +101,24 @@ public class RafaelTests {
         assertEquals(false, driver.findElement(By.className("navbar-brand")) == null);
         assertEquals(Util.getBaseUrl() + "/index.html", driver.findElement(By.className("navbar-brand")).getAttribute("href"));
 
+        // AT2
+        ArrayList<String> sections = new ArrayList<String>();
+        sections.add(driver.findElement(By.linkText("About")).getAttribute("href").split("#")[1]);
+        sections.add(driver.findElement(By.linkText("Home")).getAttribute("href").split("#")[1]);
+        sections.add(driver.findElement(By.linkText("Skills")).getAttribute("href").split("#")[1]);
+        sections.add(driver.findElement(By.linkText("Resume")).getAttribute("href").split("#")[1]);
+        sections.add(driver.findElement(By.linkText("Contact")).getAttribute("href").split("#")[1]);
+
+        for (String section: sections) {
+            if(!Util.isElementPresent(By.id(section), driver)){
+                fail("Section '" + section + "' is not present in the document");
+            }
+
+            // AT3
+            List<WebElement> sectionList = driver.findElements(By.id(section));
+            if (sectionList.size() > 1)
+                fail("Multiple sections found for '" + section + "'");
+        }
         driver.findElement(By.className("navbar-brand")).click();
         assertEquals("We are awesome", driver.getTitle());
     }
