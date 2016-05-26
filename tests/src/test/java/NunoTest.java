@@ -127,17 +127,17 @@ public class NunoTest {
         sections.add(driver.findElement(By.linkText("Resume")).getAttribute("href").split("#")[1]);
         sections.add(driver.findElement(By.linkText("Contact")).getAttribute("href").split("#")[1]);
 
-        int count = 0;
-        for (WebElement siteSection : driver.findElements(By.xpath("//section"))){
-            String id = siteSection.getAttribute("id");
-            for (String section: sections) {
-                    if(section.equals(id)){
-                        count++;
-                    }
+        for (String section: sections) {
+            if(!Util.isElementPresent(By.id(section), driver)){
+                fail("Section '" + section + "' is not present in the document");
             }
-        }
 
-        assertEquals("Doesnt exists one or more sections", NUMBER_OF_SECTIONS, count);
+            List<WebElement> sectionList = driver.findElements(By.id(section));
+            if (sectionList.size() > 1)
+                fail("Multiple sections found for '" + section + "'");
+        }
+        driver.findElement(By.className("navbar-brand")).click();
+        assertEquals("We are awesome", driver.getTitle());
 
     }
 
