@@ -220,15 +220,13 @@ public class NunoTest {
         title = title.split("–")[0];
 
         assertEquals("No Color point tab found", true, foundTab);
-        assertEquals("Wrong page was opened", "Color Point".trim(), title.trim());
+        assertEquals("Wrong page was opened", "Color Point", driver.findElement(By.cssSelector("div.id-app-title")).getText());
 
         //Switch again to our page
         driver.switchTo().window(windowHandle);
-        System.out.println(driver.getWindowHandles().size());
 
         //Always on Display
         alwaysOnDisplay.click();
-        System.out.println(driver.getWindowHandles().size());
         assertEquals("Wrong numbers of tabs. Should be opened one more tab", numTabs + 1, driver.getWindowHandles().size());
 
         foundTab = false;
@@ -239,13 +237,12 @@ public class NunoTest {
             if (driver.getCurrentUrl().contains(ALWAYS_ON_DISPLAY)) {
                 foundTab = true;
                 title = driver.getTitle();
-                System.out.println(title);
                 break;
             }
         }
         title = title.split("–")[0];
 
         assertEquals("No always on display tab found", true, foundTab);
-        assertEquals("Wrong page was opened", "Always on Display".trim(), title.trim());
+        assertEquals("Wrong page was opened", "Always on Display", driver.findElement(By.cssSelector("div.id-app-title")).getText());
     }
 }
