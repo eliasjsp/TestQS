@@ -217,14 +217,18 @@ public class NunoTest {
                 break;
             }
         }
+        title = title.split("–")[0];
+
         assertEquals("No Color point tab found", true, foundTab);
-        assertEquals("Wrong page was opened", "Color Point – Aplicações Android no Google Play", title);
+        assertEquals("Wrong page was opened", "Color Point".trim(), title.trim());
 
         //Switch again to our page
         driver.switchTo().window(windowHandle);
+        System.out.println(driver.getWindowHandles().size());
 
         //Always on Display
         alwaysOnDisplay.click();
+        System.out.println(driver.getWindowHandles().size());
         assertEquals("Wrong numbers of tabs. Should be opened one more tab", numTabs + 1, driver.getWindowHandles().size());
 
         foundTab = false;
@@ -239,7 +243,9 @@ public class NunoTest {
                 break;
             }
         }
+        title = title.split("–")[0];
+
         assertEquals("No always on display tab found", true, foundTab);
-        assertEquals("Wrong page was opened", "Always on Display – Aplicações Android no Google Play", title);
+        assertEquals("Wrong page was opened", "Always on Display".trim(), title.trim());
     }
 }
