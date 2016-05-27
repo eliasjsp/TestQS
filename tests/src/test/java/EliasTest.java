@@ -51,11 +51,6 @@ public class EliasTest {
         }
     }
 
-    @Test
-    public void testTitle() throws Exception {
-        driver.get(base_url);
-        assertEquals("I AM ELIAS", driver.getTitle());
-    }
 
     @Test
     public void testFacebookClick() throws Exception {
@@ -87,28 +82,35 @@ public class EliasTest {
         assertEquals("Elias page subtitle is different than expected", true, ( driver.findElement(By.xpath("//section[@id='home']/div/p")).getText().equals(SUB_TITLE) ));
     }
 
-    @Test
-    public void testIfHaveMenu() throws Exception {
+    /*@Test
+    public void testIfHaveButtonToUserScrollUp() {
         driver.get(base_url);
-        for(String m : menu) {
-            assertEquals("Menu " + m + "does not exists", true, ( driver.findElement(By.linkText(WordUtils.capitalize(m))) != null));
+        WebElement scrollUp = null;
+        try {
+            scrollUp = driver.findElement(By.xpath("//body/div[3]/a"));
+        } catch (Exception e) {}
+        //System.out.println(scrollUp.getCssValue("display"));
+        System.out.println(scrollUp.getAttribute("style"));
+        System.out.println("Text" + scrollUp.getText());
+        if(true) {
+            for(String m : menu) {
+                driver.findElement(By.linkText(WordUtils.capitalize(m))).click();
+                if(m.equals("home"))
+                    assertEquals("Scroll up is displayed on " + m + " section", true, scrollUp == null );
+                else {
+                    try {
+                        scrollUp = driver.findElement(By.xpath("//body/div[3]/a"));
+                    } catch (Exception e) {}
+                    assertEquals("Scroll up not displayed on " + m + " section", true, scrollUp.isDisplayed());
+                    scrollUp.click();
+                    assertEquals("Scroll up is displayed on " + m + " section", false, scrollUp.isDisplayed() );
+                }
+            }
+        } else {
+            assertEquals("Does not have the scroll up", true, false);
         }
-    }
 
-    @Test
-    public void testIfHaveSectionForEachMenu() throws Exception {
-        driver.get(base_url);
-        for(String m : menu) {
-            assertEquals("Section " + m + "does not exists", true, ( driver.findElement(By.xpath("//section[@id='" + m + "']")) != null));
-        }
-    }
-
-    @Test
-    public void testIfClickIAMXGoToMainPage() {
-        driver.get(base_url);
-        driver.findElement(By.xpath("//img")).click();
-        assertEquals("I AM X link does not work", true, (driver.getCurrentUrl().contains("index.html") && driver.getTitle().equals("We are awesome") ));
-    }
+    }*/
 
     @Test
     public void testPersonalInfo() throws Exception {
