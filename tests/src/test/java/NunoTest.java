@@ -169,16 +169,13 @@ public class NunoTest {
         assertEquals("No title objective found", "objective", driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div/h3")).getText().toLowerCase());
 
         assertEquals("The text on objectives is wrong", OBEJECTIVES.trim(), driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div/p")).getText().trim());
-        assertEquals("The text on objectives is wrong", WHAT_I_DO.trim(), driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/p")).getText().trim());
+        assertEquals("The text on what i do is wrong", WHAT_I_DO.trim(), driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/p")).getText().trim());
 
         assertEquals("The number of published apps are wrong!", NUMBER_OF_PUBLISHED_APPS_BY_ME, driver.findElements(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/p/a")).size());
-        assertEquals("The link for color point is wrong", COLOR_POINT_URL, driver.findElement(By.id("color_point")).getAttribute("href"));
-        assertEquals("The link for always on display is wrong", ALWAYS_ON_DISPLAY, driver.findElement(By.id("always_on_display")).getAttribute("href"));
+
 
         assertEquals("The number of item in the list of what i do are wrong!", NUMBER_OF_WHAT_I_DO_LIST, driver.findElements(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/ul/li")).size());
 
-        System.out.println(driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/ul/li[1]")).getText());
-        System.out.println("Software development");
         assertEquals("Text at index 1 at the list on about me section is wrong!", "Software development", driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/ul/li[1]")).getText());
         assertEquals("Text at index 2 at the list on about me section is wrong!", "Android apps development", driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/ul/li[2]")).getText());
         assertEquals("Text at index 3 at the list on about me section is wrong!", "IOS apps development", driver.findElement(By.xpath("//section[@id='about']/div/div/div[2]/div[2]/ul/li[3]")).getText());
@@ -188,5 +185,61 @@ public class NunoTest {
 
         //TODO: test if the links for each app are open correctly
 
+    }
+
+    @Test
+    public void testPublishedAppsURLs() throws Exception {
+        driver.get(baseUrl);
+        WebElement alwaysOnDisplay = driver.findElement(By.id("always_on_display"));
+        WebElement colorPoint = driver.findElement(By.id("color_point"));
+
+        assertEquals("Always on display link not found", true, Util.isElementPresent(By.id("always_on_display"), driver));
+        assertEquals("Color point link not found", true, Util.isElementPresent(By.id("color_point"), driver));
+
+        assertEquals("The link for color point is wrong", COLOR_POINT_URL, colorPoint.getAttribute("href"));
+        assertEquals("The link for always on display is wrong", ALWAYS_ON_DISPLAY, alwaysOnDisplay.getAttribute("href"));
+
+        int numTabs = driver.getWindowHandles().size();
+        String windowHandle = driver.getWindowHandle();
+
+        //Color Point
+        colorPoint.click();
+        assertEquals("Wrong numbers of tabs. Should be opened one more tab", numTabs + 1, driver.getWindowHandles().size());
+
+        boolean foundTab = false;
+        String title = "";
+        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+        for (String tab : tabs) {
+            driver.switchTo().window(tab);
+            if (driver.getCurrentUrl().contains(COLOR_POINT_URL)) {
+                foundTab = true;
+                title = driver.getTitle();
+                break;
+            }
+        }
+        assertEquals("No Color point tab found", true, foundTab);
+        assertEquals("Wrong page was opened", "Color Point – Aplicações Android no Google Play", title);
+
+        //Switch again to our page
+        driver.switchTo().window(windowHandle);
+
+        //Always on Display
+        alwaysOnDisplay.click();
+        assertEquals("Wrong numbers of tabs. Should be opened one more tab", numTabs + 1, driver.getWindowHandles().size());
+
+        foundTab = false;
+        title = "";
+        tabs = new ArrayList<String> (driver.getWindowHandles());
+        for (String tab : tabs) {
+            driver.switchTo().window(tab);
+            if (driver.getCurrentUrl().contains(ALWAYS_ON_DISPLAY)) {
+                foundTab = true;
+                title = driver.getTitle();
+                System.out.println(title);
+                break;
+            }
+        }
+        assertEquals("No always on display tab found", true, foundTab);
+        assertEquals("Wrong page was opened", "Always on Display – Aplicações Android no Google Play", title);
     }
 }
