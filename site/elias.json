@@ -74,7 +74,7 @@
       "when" : "2012-2015",
       "what" : "Computer science - Bachelor degree",
       "where": "Polytechnic Institute of Leiria",
-      "desc" : "I got the degree in the Information Systems core. More information at: http://www.ipleiria.pt/cursos/course/undergraduate-in-computer-engineering/"
+      "desc" : "I got the degree in the Information Systems core. More information at: <a href=\"http://www.ipleiria.pt/cursos/course/undergraduate-in-computer-engineering/\">IPLeiria - Degree</a>"
     },
     {
       "when" : "2009-2012",
@@ -98,5 +98,5 @@
     }
   ],
   "hire" : "Working at AMARMITA.COM",
-  "hire-available" : "false"
+  "hire-available" : 0
 }
