@@ -1,4 +1,5 @@
 $(function () {
+    var resumeCount = 0;
     function populateWhatIDoList(key, val) {
         var ul = $("#"+key);
         $.each(val, function (key, val) {
@@ -6,27 +7,30 @@ $(function () {
         });
     }
 
-    function populateEducationTimeline(key, val) {
+    function getResumeHtml(val) {
+        return ' <li ' + (resumeCount % 2 == 0 ? '' : 'class="timeline-inverted"') + '> ' +
+            '<div class="posted-date"> ' +
+            '<span class="month">' + val.when + '</span> ' +
+            '</div><!-- /posted-date --> ' +
+            '<div class="timeline-panel wow fadeInUp"> ' +
+            '<div class="timeline-content"> ' +
+            '<div class="timeline-heading"> ' +
+            '<h3>' + val.what + '</h3> ' +
+            '<span>' + val.where + '</span> ' +
+            '</div><!-- /timeline-heading --> ' +
+            '<div class="timeline-body"> ' +
+            '<p>' + val.desc + '</p> ' +
+            '</div><!-- /timeline-body --> ' +
+            '</div> <!-- /timeline-content --> ' +
+            '</div><!-- /timeline-panel --> ' +
+            '</li>';
+    }
+
+    function populateResumeTimeline(key, val) {
         var div = $("#"+key);
-        var i = 0;
         $.each(val, function ( key, val ) {
-            div.append(' <li ' + (i%2 == 0 ? '' : 'class="timeline-inverted"') + '> ' +
-                            '<div class="posted-date"> ' +
-                                '<span class="month">' + val.when + '</span> ' +
-                            '</div><!-- /posted-date --> ' +
-                            '<div class="timeline-panel wow fadeInUp"> ' +
-                                '<div class="timeline-content"> ' +
-                                    '<div class="timeline-heading"> ' +
-                                        '<h3>' + val.what + '</h3> ' +
-                                        '<span>' + val.where + '</span> ' +
-                                    '</div><!-- /timeline-heading --> ' +
-                                    '<div class="timeline-body"> ' +
-                                        '<p>' + val.desc + '</p> ' +
-                                    '</div><!-- /timeline-body --> ' +
-                                '</div> <!-- /timeline-content --> ' +
-                            '</div><!-- /timeline-panel --> ' +
-                        '</li>');
-            i++;
+            div.append(getResumeHtml(val));
+            resumeCount++;
         });
     }
 
@@ -79,16 +83,11 @@ $(function () {
         }
     }
 
-    function populateExperienceTimeline(key, val) {
-
-    }
-
     $.getJSON( "../elias.json", function( data ) {
         $.each(data, function (key, val) {
-            //console.log("key : " + key + " val: " + val);
             switch (key) {
-                case "home-facebook" :
-                case "home-linkedin" :
+                case "home-facebook":
+                case "home-linkedin":
                     $("#"+key).attr("href", val);
                     break;
                 case "what-i-do-list":
@@ -101,10 +100,8 @@ $(function () {
                     populateOtherSkills(key, val);
                     break;
                 case "education-timeline":
-                    populateEducationTimeline(key, val);
-                    break;
                 case "experience-timeline":
-                    populateExperienceTimeline(key, val);
+                    populateResumeTimeline(key, val);
                     break;
                 case "hire-available":
                     if(val == 0)

@@ -1,5 +1,5 @@
 {
-  "home-sub-title" : "I am a back end developer with 3 years of experience. Involving with java, javascript, nodejs. Feel free to contact.",
+  "home-sub-title" : "I am a back end developer with 3 years of experience. <br>Involving with java, javascript, nodejs.<br> Feel free to contact.",
   "home-facebook" : "https://www.facebook.com/eliasjsp",
   "home-linkedin" : "https://pt.linkedin.com/in/eliasjsp",
   "name" : "Elias Pinheiro",
@@ -49,6 +49,10 @@
   ],
   "other-skills" : [
     {
+      "name" : "English",
+      "progress": "80"
+    },
+    {
       "name" : "Leadership",
       "progress": "85"
     },
@@ -97,6 +101,6 @@
       "desc" : "I got experience in JavaScript, HTML, CSS and JavaEE."
     }
   ],
-  "hire" : "Working at AMARMITA.COM",
+  "hire" : "Working at <a href=\"https://www.amarmita.pt\" target=\"_blank\">AMARMITA.PT<a>",
   "hire-available" : 0
 }

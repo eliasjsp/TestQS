@@ -988,6 +988,9 @@ Resume Timeline
     margin-top: -6px;
     text-transform: capitalize;
 }
+.more-skill {
+    margin: auto;
+}
 
 
 
@@ -1454,11 +1457,17 @@ Icon for all respective meta
     font-size: 36px;
     margin-bottom: 40px;
 }
+.hire-section h2 a{
+    color: #333333;
+}
+
+.hire-section h2 a:hover{
+    opacity: 0.5;
+}
 
 .hire-section .btn {
     padding: 9px 54px;
 }
-
 
 /* === Contact Section === */
 .contact-section  {
