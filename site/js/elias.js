@@ -83,7 +83,7 @@ $(function () {
 
     }
 
-    $.getJSON( "../elias.json", function( data ) {
+    $.getJSON( "../json/elias.json", function( data ) {
         $.each(data, function (key, val) {
             //console.log("key : " + key + " val: " + val);
             switch (key) {
