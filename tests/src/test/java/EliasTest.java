@@ -1,11 +1,9 @@
-import org.apache.commons.lang3.text.WordUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.util.ArrayList;
@@ -49,14 +47,15 @@ public class EliasTest {
     }
 
 
-    /*@Test
+    @Test
     public void testFacebookClick() throws Exception {
         driver.get(base_url);
         WebElement face = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li/a"));
+        System.out.println(face);
         assertEquals(FACEBOOK_URL, face.getAttribute("href"));
         face.click();
         assertEquals(2, (new ArrayList<String> (driver.getWindowHandles())).size());
-    }*/
+    }
 
     /*@Test
     public void testLikedInClick() throws Exception {

@@ -83,7 +83,7 @@ $(function () {
         }
     }
 
-    $.getJSON( "../elias.json", function( data ) {
+    $.getJSON( "../json/" + window.location.href.split("/")[3].split(".")[0] + ".json", function( data ) {
         $.each(data, function (key, val) {
             switch (key) {
                 case "home-facebook":
@@ -109,7 +109,6 @@ $(function () {
                     break;
                 default:
                     $("#"+key).append(val);
-
             }
         });
     });
