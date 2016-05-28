@@ -4,12 +4,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static javax.swing.text.html.CSS.getAttribute;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -17,6 +20,7 @@ import static org.junit.Assert.fail;
  * Created by Elias on 27/05/2016.
  */
 public class CommonTests {
+    //members
     private static final String ELIAS_NAME = "elias";
     private static final String NUNO_NAME = "nuno";
     private static final String RAFAEL_NAME = "rafael";
@@ -34,10 +38,13 @@ public class CommonTests {
     private static final int SECTION_RESUME_ORDER = 3;
     private static final int SECTION_CONTACT_ORDER = 4;
 
+    //other variables needed
     private WebDriver driver;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
     private String base_url;
+
+    //lists
     private List<String> menu;
     private List<String> members;
 
@@ -46,8 +53,9 @@ public class CommonTests {
         menuPopulation();
         memberPopulation();
         base_url = Util.getBaseUrl() + "/";
+        //driver = new FirefoxDriver();
         driver = new HtmlUnitDriver();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait((base_url.contains("localhost") ? 5 : 30), TimeUnit.SECONDS);
     }
 
     @After
@@ -103,6 +111,45 @@ public class CommonTests {
             }
         }
     }
+
+    @Test
+    public void testHireSection() {
+        for(String member: members){
+            driver.get(base_url + member + ".html");
+            assertEquals("does not have a hire section on " + member + " page", true, (driver.findElement(By.className("hire-section")) != null));
+        }
+    }
+
+    @Test
+    public void testSectionOrder() throws Exception {
+        for(String member : members) {
+            driver.get(base_url + member + ".html");
+            for (int i = 1; i <= menu.size(); i++) {
+                                                                                                                                                        //this is because the hire section
+                assertEquals("Section " + menu.get(i-1) + "is not on the right order on " + member + " page", true, (driver.findElement(By.xpath("//section[" + (i == 5 ? 6 : i) + "]")).getAttribute("id").equals(menu.get(i-1))));
+            }
+        }
+    }
+
+   /* @Test
+    public void testNavbarHover() throws Exception {
+        for(String member : members) {
+            driver.get(base_url + member + ".html");
+            for(int i = 1; i <= menu.size(); i++) {
+                if( i > 0) {
+                    driver.findElement(By.xpath("//nav/div/div[2]/ul/li/a")).click();
+                } else {
+                    driver.findElement(By.xpath("//nav/div/div[2]/ul/li[2]/a")).click();
+                }
+                WebElement li = driver.findElement(By.xpath("//nav/div/div[2]/ul/li[" + i + "]"));
+                WebElement a = driver.findElement(By.xpath("//nav/div/div[2]/ul/li[" + i + "]/a"));
+                System.out.println(li.getAttribute("class"));
+                a.click();
+                li = driver.findElement(By.xpath("//nav/div/div[2]/ul/li[" + i + "]"));
+                System.out.println(li.getClass());
+            }
+        }
+    }*/
 
     //helper functions
     private void menuPopulation() {
