@@ -1,0 +1,102 @@
+{
+  "home-sub-title" : "I am a back end developer with 3 years of experience. Involving with java, javascript, nodejs. Feel free to contact.",
+  "home-facebook" : "https://www.facebook.com/eliasjsp",
+  "home-linkedin" : "https://pt.linkedin.com/in/eliasjsp",
+  "name" : "Elias Pinheiro",
+  "bday" : "01 Feb 1994",
+  "address" : "Leiria, Portugal",
+  "nationality" : "Brazilian",
+  "phone" : "(+351) 915896602",
+  "email" : "schmeisk@gmail.com",
+  "objective" : "An opportunity to work and upgrade oneself, as well as being involved in an organization that believes in gaining a competitive edge and giving back to the community. I'm presently expanding my solid experience in back end ddeveloping. I focus on using my interpersonal skills to build good user experience and create a strong interest in my employers. As an individual, I'm self-confident you’ll find me creative, funny and naturally passionate. I’m a forward thinker, which others may find inspiring when working as a team.",
+  "what-i-do" : "I have been working as a back end developer since. I have a love of clean, elegant styling code. I loving creating awesome as per my clients’ need. I think programmer experience when I try to read something for my code. Making the code clean as possible.",
+  "what-i-do-list" : [
+    "Desktop Applications",
+    "Game Development (Unity)",
+    "Cross Platform Applications",
+    "Data Mining",
+    "Web Applications"
+  ],
+  "programming-skills" : [
+    {
+      "name" : "Java",
+      "progress": "80"
+    },
+    {
+      "name" : "Data Mining",
+      "progress": "85"
+    },
+    {
+      "name" : "Unity",
+      "progress": "60"
+    },
+    {
+      "name" : "AngularJS",
+      "progress": "60"
+    },
+    {
+      "name" : "NodeJS",
+      "progress": "75"
+    },
+    {
+      "name" : "JavaScript",
+      "progress": "85"
+    },
+    {
+      "name" : "PHP",
+      "progress": "75"
+    }
+  ],
+  "other-skills" : [
+    {
+      "name" : "Leadership",
+      "progress": "85"
+    },
+    {
+      "name" : "Communication",
+      "progress": "95"
+    },
+    {
+      "name" : "Motivation",
+      "progress": "100"
+    },
+    {
+      "name" : "Problem Solving",
+      "progress": "90"
+    },
+    {
+      "name" : "Self Discipline",
+      "progress": "80"
+    }
+  ],
+  "education-timeline" : [
+    {
+      "when" : "2012-2015",
+      "what" : "Computer science - Bachelor degree",
+      "where": "Polytechnic Institute of Leiria",
+      "desc" : "I got the degree in the Information Systems core. More information at: http://www.ipleiria.pt/cursos/course/undergraduate-in-computer-engineering/"
+    },
+    {
+      "when" : "2009-2012",
+      "what" : "Informatics and management technician",
+      "where": "High School, Ourém, Portugal",
+      "desc" : "I got bases in programing, economics and hardware."
+    }
+  ],
+  "experience-timeline" : [
+    {
+      "when" : "2016-NOW",
+      "what" : "Back End Developer and Data Miner",
+      "where": "AMARMITA.COM",
+      "desc" : "I'm getting experience in data mining and back end developing(PHP, JavaScript, RazorflowJS, SQL)."
+    },
+    {
+      "when" : "2015-2015",
+      "what" : "Front-end developer - Internship",
+      "where": "Interact Solutions, Lajeado, RS, Brasil",
+      "desc" : "I got experience in JavaScript, HTML, CSS and JavaEE."
+    }
+  ],
+  "hire" : "Working at AMARMITA.COM",
+  "hire-available" : "false"
+}

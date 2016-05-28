@@ -27,9 +27,6 @@ public class EliasTest {
     private static final String FACEBOOK_URL = "https://www.facebook.com/eliasjsp";
     private static final String LINKEDIN_URL = "https://pt.linkedin.com/in/eliasjsp";
     private static final String TITLE = "Software Engineer";
-    private static final String SUB_TITLE = "I am a back end developer with 3 years of experience.\n" +
-            "Involving with java, javascript, nodejs.\n" +
-            "Feel free to contact.";
     private List<String> menu;
     @Before
     public void setUp() throws Exception {
@@ -52,34 +49,28 @@ public class EliasTest {
     }
 
 
-    @Test
+    /*@Test
     public void testFacebookClick() throws Exception {
         driver.get(base_url);
         WebElement face = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li/a"));
         assertEquals(FACEBOOK_URL, face.getAttribute("href"));
         face.click();
         assertEquals(2, (new ArrayList<String> (driver.getWindowHandles())).size());
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void testLikedInClick() throws Exception {
         driver.get(base_url);
         WebElement linkedin = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li[2]/a"));
         assertEquals(LINKEDIN_URL, linkedin.getAttribute("href"));
         linkedin.click();
         assertEquals(2, (new ArrayList<String> (driver.getWindowHandles())).size());
-    }
+    }*/
 
     @Test
     public void testProfessionTitle() throws Exception {
         driver.get(base_url);
         assertEquals("Elias page title is different than expected", true, ( driver.findElement(By.xpath("//section[@id='home']/div/h1")).getText().equals(TITLE) ));
-    }
-
-    @Test
-    public void testSubTitle() throws Exception {
-        driver.get(base_url);
-        assertEquals("Elias page subtitle is different than expected", true, ( driver.findElement(By.xpath("//section[@id='home']/div/p")).getText().equals(SUB_TITLE) ));
     }
 
     /*@Test
@@ -112,7 +103,7 @@ public class EliasTest {
 
     }*/
 
-    @Test
+    /*@Test
     public void testPersonalInfo() throws Exception {
         driver.get(base_url);
 
@@ -131,5 +122,5 @@ public class EliasTest {
         assertEquals("Nationality: Brazilian", biography.get(3).getText());
         assertEquals("Phone: (+351) 915896602", biography.get(4).getText());
         assertEquals("Email: schmeisk@gmail.com", biography.get(5).getText());
-    }
+    }*/
 }

@@ -37,7 +37,6 @@ public class CommonTests {
     private static final int SECTION_SKILLS_ORDER = 3;
     private static final int SECTION_RESUME_ORDER = 4;
     private static final int SECTION_HIRE_ORDER = 5;
-    private static final int SECTION_CONTACT_ORDER = 6;
 
     //other variables needed
     private WebDriver driver;
@@ -130,7 +129,6 @@ public class CommonTests {
             assertEquals("Section skills is not on the right order on " + member + " page", true, (driver.findElement(By.xpath("//section[" + SECTION_SKILLS_ORDER + "]")).getAttribute("id").equals("skills")));
             assertEquals("Section resume is not on the right order on " + member + " page", true, (driver.findElement(By.xpath("//section[" + SECTION_RESUME_ORDER + "]")).getAttribute("id").equals("resume")));
             assertEquals("Section hire is not on the right order on " + member + " page", true, (driver.findElement(By.xpath("//section[" + SECTION_HIRE_ORDER + "]")).getAttribute("class").contains("hire-section")));
-            assertEquals("Section contact is not on the right order on " + member + " page", true, (driver.findElement(By.xpath("//section[" + SECTION_CONTACT_ORDER + "]")).getAttribute("id").equals("contact")));
         }
     }
 
@@ -161,7 +159,6 @@ public class CommonTests {
         menu.add("about");
         menu.add("skills");
         menu.add("resume");
-        menu.add("contact");
     }
 
     private void memberPopulation() {
