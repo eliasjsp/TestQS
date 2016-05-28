@@ -760,6 +760,14 @@ Resume Timeline
     width: 100%;
 }
 
+
+.timeline-body:hover a{
+    color: #333333;
+}
+.timeline-body a:hover{
+    opacity: 0.5;
+}
+
 .timeline-content{
     padding:5px 20px 0 20px;
 }

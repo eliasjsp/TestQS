@@ -37,6 +37,7 @@ public class EliasTest {
         menu.add("resume");
         menu.add("contact");
         driver = new HtmlUnitDriver();
+
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
     @After
