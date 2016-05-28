@@ -1,0 +1,106 @@
+{
+  "home-sub-title" : "I am a junior software developer <br>Involving Android, Java, C# .<br> Feel free to contact.",
+  "home-facebook" : "https://www.facebook.com/nuno.laudo",
+  "home-linkedin" : "https://pt.linkedin.com/in/nunolaudo",
+  "name" : "Nuno Laúdo",
+  "bday" : "24 Nov 1994",
+  "address" : "Leiria, Portugal",
+  "nationality" : "Portuguese",
+  "phone" : "(+351) 918335233",
+  "email" : "nunolaudo@hotmail.com",
+  "objective" : "An opportunity to work and upgrade oneself, as well as being involved in an organization that believes in gaining a competitive edge and giving back to the community. I'm presently become a master in mobile computing. I hope develop skills and knowledge of mobile computing area and become an honest asset to the business.  As an individual, I'm self-confident you’ll find me creative, funny and naturally passionate. I’m a forward thinker, which others may find inspiring when working as a team.",
+  "what-i-do" : "I am a student of master in mobile computing in IPLeiria, Portugal. Before, I graduated also in IPLeiria. </br>Besides the normal school project, I like develop by myself.This way I can improve my skills. Normally those project are project for android platform. </br>I already publish two apps: </br>Color Point ( with Rafael Caetano) - <a id=\"color_point\" href=\"https://play.google.com/store/apps/details?id=me.fayax.colorpoint\" target=\"_new\"> Get the app here!</a> </br>Always on Display - <a id=\"always_on_display\" href=\"https://play.google.com/store/apps/details?id=pt.me.fayax.alwaysondisplay\" target=\"_new\"> Get the app here!</a>",
+  "what-i-do-list" : [
+    "Desktop Applications",
+    "Game Development (Unity)",
+    "Cross Platform Applications",
+    "Data Mining",
+    "Web Applications"
+  ],
+  "programming-skills" : [
+    {
+      "name" : "Java",
+      "progress": "80"
+    },
+    {
+      "name" : "Data Mining",
+      "progress": "85"
+    },
+    {
+      "name" : "Unity",
+      "progress": "60"
+    },
+    {
+      "name" : "AngularJS",
+      "progress": "60"
+    },
+    {
+      "name" : "NodeJS",
+      "progress": "75"
+    },
+    {
+      "name" : "JavaScript",
+      "progress": "85"
+    },
+    {
+      "name" : "PHP",
+      "progress": "75"
+    }
+  ],
+  "other-skills" : [
+    {
+      "name" : "English",
+      "progress": "80"
+    },
+    {
+      "name" : "Leadership",
+      "progress": "85"
+    },
+    {
+      "name" : "Communication",
+      "progress": "95"
+    },
+    {
+      "name" : "Motivation",
+      "progress": "100"
+    },
+    {
+      "name" : "Problem Solving",
+      "progress": "90"
+    },
+    {
+      "name" : "Self Discipline",
+      "progress": "80"
+    }
+  ],
+  "education-timeline" : [
+    {
+      "when" : "2012-2015",
+      "what" : "Computer science - Bachelor degree",
+      "where": "Polytechnic Institute of Leiria",
+      "desc" : "I got the degree in the Information Systems core. More information at: <a href=\"http://www.ipleiria.pt/cursos/course/undergraduate-in-computer-engineering/\">IPLeiria - Degree</a>"
+    },
+    {
+      "when" : "2009-2012",
+      "what" : "Informatics and management technician",
+      "where": "High School, Ourém, Portugal",
+      "desc" : "I got bases in programing, economics and hardware."
+    }
+  ],
+  "experience-timeline" : [
+    {
+      "when" : "2016-NOW",
+      "what" : "Back End Developer and Data Miner",
+      "where": "AMARMITA.COM",
+      "desc" : "I'm getting experience in data mining and back end developing(PHP, JavaScript, RazorflowJS, SQL)."
+    },
+    {
+      "when" : "2015-2015",
+      "what" : "Front-end developer - Internship",
+      "where": "Interact Solutions, Lajeado, RS, Brasil",
+      "desc" : "I got experience in JavaScript, HTML, CSS and JavaEE."
+    }
+  ],
+  "hire" : "Working at <a href=\"https://www.amarmita.pt\" target=\"_blank\">AMARMITA.PT<a>",
+  "hire-available" : 0
+}
