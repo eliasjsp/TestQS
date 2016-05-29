@@ -3,6 +3,10 @@ import com.google.gson.JsonParser;
 import org.openqa.selenium.*;
 
 import java.io.IOException;
+import java.io.Reader;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -36,16 +40,18 @@ public final class Util {
         }
     }
 
-    public static JsonObject getJsonObject(String relativePath) throws Exception {
+    public static JsonObject getJsonObject(String member) throws Exception {
         JsonParser jp = new JsonParser();
-        Path path = Paths.get(EliasTest.class.getResource(".").toURI());
-        return(JsonObject) jp.parse(readFile(path.getParent().getParent().getParent()+ relativePath, Charset.defaultCharset()));
-    }
+        URL url = new URL(getBaseUrl() + "/json/" + member + ".json");
+        ReadableByteChannel channel = Channels.newChannel(url.openStream());
+        Reader reader = Channels.newReader(channel, "utf-8");
+        String data = "";
+        int character;
+        while ((character = reader.read()) >= 0f) {
+            data += (char) character;
+        }
 
-
-    private static String readFile(String path, Charset encoding)throws IOException {
-        byte[] encoded = Files.readAllBytes(Paths.get(path));
-        return new String(encoded, encoding);
+        return (JsonObject) jp.parse(data);
     }
 
     public static boolean isAlertPresent(WebDriver driver) {
