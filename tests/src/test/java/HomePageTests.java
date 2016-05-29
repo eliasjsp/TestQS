@@ -78,11 +78,11 @@ public class HomePageTests {
         existsMemberImage(ELIAS_NAME, ELIAS_POSITION);
     }
 
-    @Test
+    /*@Test
     public void testIfExistsEliasPage() throws Exception {
         driver.get(Util.getBaseUrl());
         existsMemberPage(ELIAS_NAME);
-    }
+    }*/
     //end elias tests
 
     @After
@@ -103,7 +103,7 @@ public class HomePageTests {
 
     private void existsMemberImage(String member, int position){
         assertEquals(true, Util.isElementPresent(By.cssSelector("img[alt='" + WordUtils.capitalize(member) + "']"), driver));
-        assertEquals(Util.getBaseUrl() + "/" + member + ".html", driver.findElements(By.xpath("//div[@class='demo-thumb']/a")).get(position).getAttribute("href"));
+        assertEquals(Util.getBaseUrl() + "/member.html?name=" + member, driver.findElements(By.xpath("//div[@class='demo-thumb']/a")).get(position).getAttribute("href"));
     }
 
     private void existsMemberPage(String member) {

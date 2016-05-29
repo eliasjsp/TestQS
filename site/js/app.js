@@ -92,8 +92,12 @@ $(function () {
                     break;
                 case "home-facebook":
                 case "home-linkedin":
-                    $("#"+key).attr("href", val);
+                    $("#" + key).attr("href", val);
                     break;
+				case "photo":
+					$("#" + key).attr("src", val);
+					$("#" + key).attr("alt", val.split("/").slice(-1)[0].split(".")[0]);
+					break;
                 case "what-i-do-list":
                     populateWhatIDoList(key, val);
                     break;
@@ -109,10 +113,10 @@ $(function () {
                     break;
                 case "hire-available":
                     if(val == 0)
-                        $("#btn-hire").css( 'display', 'none' );
+                        $("#btn-hire").css('display', 'none');
                     break;
                 default:
-                    $("#"+key).append(val);
+                    $("#" + key).append(val);
             }
         });
     });

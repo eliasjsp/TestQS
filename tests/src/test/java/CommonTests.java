@@ -58,12 +58,12 @@ public class CommonTests {
 
     private String memberName;
 
-    @Parameterized.Parameters
-    public static Collection primeNumbers() {
+    @Parameterized.Parameters(name = "{index}: {0}")
+    public static Collection members() {
         return Arrays.asList(new String[] {
-                NUNO_NAME ,
-                ELIAS_NAME /*,
-                RAFAEL_NAME*/
+                "elias",
+                "nuno",
+                "rafael"
         });
     }
 
