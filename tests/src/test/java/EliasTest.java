@@ -1,3 +1,6 @@
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.sun.xml.internal.bind.api.impl.NameConverter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -5,11 +8,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import sun.nio.cs.StandardCharsets;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.google.common.io.Resources.getResource;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -22,22 +32,29 @@ public class EliasTest {
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
     private String base_url = Util.getBaseUrl() + "/" + "elias.html";
-    private static final String FACEBOOK_URL = "https://www.facebook.com/eliasjsp";
-    private static final String LINKEDIN_URL = "https://pt.linkedin.com/in/eliasjsp";
     private static final String TITLE = "Software Engineer";
-    private List<String> menu;
+    private JsonObject data;
+
+    public EliasTest() throws Exception {
+        JsonParser jp = new JsonParser();
+        Path path = Paths.get(EliasTest.class.getResource(".").toURI());
+        data = (JsonObject) jp.parse(readFile(path.getParent().getParent().getParent()+"/site/json/elias.json", Charset.defaultCharset()));
+    }
+
+    /**
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
-        menu = new ArrayList<String>();
-        menu.add("home");
-        menu.add("about");
-        menu.add("skills");
-        menu.add("resume");
-        menu.add("contact");
-        driver = new HtmlUnitDriver();
-
+        driver = new HtmlUnitDriver(true);
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
+
+    private String readFile(String path, Charset encoding)throws IOException {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded, encoding);
+    }
+
     @After
     public void tearDown() throws Exception {
         driver.quit();
@@ -50,26 +67,25 @@ public class EliasTest {
 
     @Test
     public void testFacebookClick() throws Exception {
-        driver.get(base_url);
+        waitToLoad();
         WebElement face = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li/a"));
         System.out.println(face);
-        assertEquals(FACEBOOK_URL, face.getAttribute("href"));
+        assertEquals(getAsStringFromData("home-facebook"), face.getAttribute("href"));
         face.click();
         assertEquals(2, (new ArrayList<String> (driver.getWindowHandles())).size());
     }
-
-    /*@Test
+    @Test
     public void testLikedInClick() throws Exception {
-        driver.get(base_url);
+        waitToLoad();
         WebElement linkedin = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li[2]/a"));
-        assertEquals(LINKEDIN_URL, linkedin.getAttribute("href"));
+        assertEquals(getAsStringFromData("home-linkedin"), linkedin.getAttribute("href"));
         linkedin.click();
         assertEquals(2, (new ArrayList<String> (driver.getWindowHandles())).size());
-    }*/
+    }
 
     @Test
     public void testProfessionTitle() throws Exception {
-        driver.get(base_url);
+        waitToLoad();
         assertEquals("Elias page title is different than expected", true, ( driver.findElement(By.xpath("//section[@id='home']/div/h1")).getText().equals(TITLE) ));
     }
 
@@ -103,24 +119,33 @@ public class EliasTest {
 
     }*/
 
-    /*@Test
+    @Test
     public void testPersonalInfo() throws Exception {
-        driver.get(base_url);
-
-        WebElement sectionTitle = driver.findElement(By.cssSelector("#about h2"));
+        waitToLoad();
+        WebElement sectionTitle = driver.findElement(By.id("about-title"));
         assertEquals(false, sectionTitle == null);
-        assertEquals("about me", sectionTitle.getText().toLowerCase());
 
         WebElement photo = driver.findElement(By.cssSelector("#about .myphoto img"));
         assertEquals(false, photo == null);
         assertEquals(Util.getBaseUrl() + "/assets/images/elias.jpg", photo.getAttribute("src"));
 
-        List<WebElement> biography = driver.findElements(By.cssSelector("#about .row .biography ul li"));
-        assertEquals("Name: Elias Pinheiro", biography.get(0).getText());
-        assertEquals("Date of birth: 01 Feb 1994", biography.get(1).getText());
-        assertEquals("Address: R. Quinta Parceiros", biography.get(2).getText());
-        assertEquals("Nationality: Brazilian", biography.get(3).getText());
-        assertEquals("Phone: (+351) 915896602", biography.get(4).getText());
-        assertEquals("Email: schmeisk@gmail.com", biography.get(5).getText());
-    }*/
+        assertEquals(getAsStringFromData("name"), driver.findElement(By.id("name")).getText());
+        assertEquals(getAsStringFromData("bday"), driver.findElement(By.id("bday")).getText());
+        assertEquals(getAsStringFromData("address"), driver.findElement(By.id("address")).getText());
+        assertEquals(getAsStringFromData("nationality"), driver.findElement(By.id("nationality")).getText());
+        assertEquals(getAsStringFromData("phone"), driver.findElement(By.id("phone")).getText());
+        assertEquals(getAsStringFromData("email"), driver.findElement(By.id("email")).getText());
+    }
+
+
+
+    //helper funtions
+    private void waitToLoad() throws InterruptedException {
+        driver.get(base_url);
+        Thread.sleep(1000);
+    }
+
+    private String getAsStringFromData(String thing) {
+        return data.getAsJsonPrimitive(thing).getAsString();
+    }
 }

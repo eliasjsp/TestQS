@@ -779,6 +779,14 @@ Resume Timeline
     border-left-width: 0;
 }
 
+.timeline-panel:hover a {
+    color: #333333;
+}
+
+.timeline-panel:hover a:hover {
+    opacity: 0.5;
+}
+
 .timeline>li .timeline-panel:after {
     right: auto;
     left: -14px;

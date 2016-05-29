@@ -47,13 +47,13 @@ public class CommonTests {
     //lists
     private List<String> menu;
     private List<String> members;
-
-    @Before
-    public void setUp() throws Exception {
+    public CommonTests() {
         menuPopulation();
         memberPopulation();
         base_url = Util.getBaseUrl() + "/";
-        //driver = new FirefoxDriver();
+    }
+    @Before
+    public void setUp() throws Exception {
         driver = new HtmlUnitDriver();
         driver.manage().timeouts().implicitlyWait((base_url.contains("localhost") ? 5 : 30), TimeUnit.SECONDS);
     }
