@@ -1,7 +1,15 @@
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.openqa.selenium.*;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import static javafx.scene.input.KeyCode.J;
 import static org.junit.Assert.assertEquals;
 
 public final class Util {
@@ -28,6 +36,18 @@ public final class Util {
         }
     }
 
+    public static JsonObject getJsonObject(String relativePath) throws Exception {
+        JsonParser jp = new JsonParser();
+        Path path = Paths.get(EliasTest.class.getResource(".").toURI());
+        return(JsonObject) jp.parse(readFile(path.getParent().getParent().getParent()+ relativePath, Charset.defaultCharset()));
+    }
+
+
+    private static String readFile(String path, Charset encoding)throws IOException {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded, encoding);
+    }
+
     public static boolean isAlertPresent(WebDriver driver) {
         try {
             driver.switchTo().alert();
@@ -50,21 +70,6 @@ public final class Util {
         } finally {
             acceptNextAlert = true;
         }
-    }
-
-    public static void testLinkSocialNetwork(WebDriver driver, String socialNetworkURL, By by) {
-        driver.get(Util.getBaseUrl());
-        int numTabs = driver.getWindowHandles().size();
-        WebElement element = driver.findElement(by);
-        assertEquals(socialNetworkURL, element.getAttribute("href"));
-        element.click();
-        assertEquals(numTabs + 1, driver.getWindowHandles().size());
-
-        ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(numTabs)); //Open the last opened tab
-        assertEquals(true, driver.getCurrentUrl().contains(socialNetworkURL));
-        driver.close();
-        driver.switchTo().window(tabs.get(numTabs - 1)); // return to Nuno page
     }
 
 

@@ -50,20 +50,20 @@ public class NunoTest {
         }
     }
 
-    @Test
+    /*@Test
     public void testTitle() throws Exception {
         driver.get(baseUrl);
         assertEquals("Wrong page title", "I AM NUNO", driver.getTitle());
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void testHeader() throws Exception {
         driver.get(baseUrl);
         assertEquals("Error while test headers", "i am nuno", driver.findElement(By.className("intro-sub")).getText().toLowerCase());
         assertEquals("Error while test headers","software engineer", driver.findElement(By.cssSelector(".intro h1")).getText().toLowerCase());
-    }
+    }*/
 
-    @Test
+   /* @Test
     public void testFacebookClick() throws Exception {
         driver.get(baseUrl);
         int numTabs = driver.getWindowHandles().size();
@@ -85,9 +85,9 @@ public class NunoTest {
 
         assertEquals("No Facebook tab found", true, foundTab);
         //testLinkSocialNetwork(driver, FACEBOOK_URL,  By.xpath("//section[@id='home']/div/div[2]/ul/li/a"));
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void testLinkedInClick() throws Exception {
         driver.get(baseUrl);
         int numTabs = driver.getWindowHandles().size();
@@ -109,9 +109,9 @@ public class NunoTest {
         assertEquals("No LinkedIn tab found", true, foundTab);
 
         //testLinkSocialNetwork(driver, LINKEDIN_URL, By.xpath("//section[@id='home']/div/div[2]/ul/li[2]/a"));
-    }
+    }*/
 
-    @Test
+   /* @Test
     public void testIfHaveMenu() throws Exception {
         driver.get(baseUrl);
         assertEquals("Missed about menu", true, Util.isElementPresent(By.linkText("About"), driver));
@@ -139,7 +139,7 @@ public class NunoTest {
         driver.findElement(By.className("navbar-brand")).click();
         assertEquals("We are awesome", driver.getTitle());
 
-    }
+    }*/
 
     @Test
     public void testPersonalInfo() throws Exception {

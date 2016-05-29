@@ -31,14 +31,16 @@ public class EliasTest {
     private WebDriver driver;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
-    private String base_url = Util.getBaseUrl() + "/" + "elias.html";
+    private String base_url = Util.getBaseUrl() + "/" + "member.html?name=elias";
     private static final String TITLE = "Software Engineer";
     private JsonObject data;
 
-    public EliasTest() throws Exception {
-        JsonParser jp = new JsonParser();
-        Path path = Paths.get(EliasTest.class.getResource(".").toURI());
-        data = (JsonObject) jp.parse(readFile(path.getParent().getParent().getParent()+"/site/json/elias.json", Charset.defaultCharset()));
+    public EliasTest()  {
+        try {
+            data = Util.getJsonObject("/site/json/elias.json");
+        } catch (Exception e){
+
+        }
     }
 
     /**
@@ -50,10 +52,7 @@ public class EliasTest {
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
-    private String readFile(String path, Charset encoding)throws IOException {
-        byte[] encoded = Files.readAllBytes(Paths.get(path));
-        return new String(encoded, encoding);
-    }
+
 
     @After
     public void tearDown() throws Exception {
@@ -69,7 +68,6 @@ public class EliasTest {
     public void testFacebookClick() throws Exception {
         waitToLoad();
         WebElement face = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li/a"));
-        System.out.println(face);
         assertEquals(getAsStringFromData("home-facebook"), face.getAttribute("href"));
         face.click();
         assertEquals(2, (new ArrayList<String> (driver.getWindowHandles())).size());

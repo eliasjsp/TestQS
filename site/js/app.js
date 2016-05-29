@@ -83,9 +83,13 @@ $(function () {
         }
     }
 
-    $.getJSON( "../json/" + window.location.href.split("/")[3].split(".")[0] + ".json", function( data ) {
+    $.getJSON( "../json/" + window.location.href.split("name=")[1].split(".")[0] + ".json", function( data ) {
         $.each(data, function (key, val) {
             switch (key) {
+                case "title":
+                    document.title = val;
+                    $(".intro-sub").html(val);
+                    break;
                 case "home-facebook":
                 case "home-linkedin":
                     $("#"+key).attr("href", val);
