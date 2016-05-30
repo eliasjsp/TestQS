@@ -91,11 +91,11 @@ $(function () {
                publishedAppDiv = 
                         '<div class="col-md-4 text-center thumb-wrapper">' +
                             '<div class="demo-thumb">' +
-                            '<a href="' + val.link + '" title="Always on Display"> ' +
-                                '<img src="' + val["image-url"] + '" style="max-width:200px; max-height:200px" alt="Color Point">' +
+                            '<a href="' + val.url + '" title="Always on Display" target="_new"> ' +
+                                '<img src="' + val["image-url"] + '" style="max-width:200px; max-height:200px" alt="' + val.name + '">' +
                             '</a>' +
                             '</div>' +
-                            '<a href="' + val.link + '" class="btn btn-primary" style="margin-top: 10px;">Color Point</a>' +
+                            '<a href="' + val.url + '" class="btn btn-primary" style="margin-top: 10px;" target="_new">Color Point</a>' +
                         '</div>';
                         
                div.append(publishedAppDiv);
