@@ -84,6 +84,7 @@ $(function () {
     }
     
      function populatePublishedApps(key, val) {
+         var div = $("#published-apps-container").css('display', 'block');
          var div = $("#"+key);
          var publishedAppDiv;
           $.each(val, function (key, val) {
