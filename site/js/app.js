@@ -82,6 +82,24 @@ $(function () {
             div.append(divB);
         }
     }
+    
+     function populatePublishedApps(key, val) {
+         var div = $("#"+key);
+         var publishedAppDiv;
+          $.each(val, function (key, val) {
+               publishedAppDiv = 
+                        '<div class="col-md-4 text-center thumb-wrapper">' +
+                            '<div class="demo-thumb">' +
+                            '<a href="' + val.link + '" title="Always on Display"> ' +
+                                '<img src="' + val["image-url"] + '" style="max-width:200px; max-height:200px" alt="Color Point">' +
+                            '</a>' +
+                            '</div>' +
+                            '<a href="' + val.link + '" class="btn btn-primary" style="margin-top: 10px;">Color Point</a>' +
+                        '</div>';
+                        
+               div.append(publishedAppDiv);
+          });
+     }
 
     $.getJSON( "../json/" + window.location.href.split("name=")[1].split(".")[0] + ".json", function( data ) {
         $.each(data, function (key, val) {
@@ -114,6 +132,9 @@ $(function () {
                 case "hire-available":
                     if(val == 0)
                         $("#btn-hire").css('display', 'none');
+                    break;
+                case "published-apps":
+                    populatePublishedApps(key, val);
                     break;
                 default:
                     $("#" + key).append(val);

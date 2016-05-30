@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -226,7 +227,7 @@ public class CommonTests {
     @Test
     public void testAboutMeInformation() throws Exception {
         waitToLoad();
-
+        //System.out.println((String)((JavascriptExecutor)driver).executeScript("return arguments[0].innerHTML;", driver.findElement(By.id("what-i-do"))));
         assertEquals("No title 'Objective' found for " + memberName, "Objective", driver.findElement(By.id("objective-title")).getAttribute("textContent"));
         assertEquals("Objectives text not found for " + memberName, true, Util.isElementPresent(By.id("objective"), driver));
         assertEquals("Objectives text is wrong for " + memberName, getAsStringFromData("objective"), driver.findElement(By.id("objective")).getAttribute("textContent"));
@@ -278,7 +279,6 @@ public class CommonTests {
         }
     }
 
-    //TODO: ESTA FUNCAO E MESMO NECESSRARIO ? NAO HA OUTRA FORMA? PQ A NECESISIDADE DISTO ?
     //helper funtions
     private void waitToLoad() throws InterruptedException {
         driver.get(baseUrl);

@@ -11,7 +11,7 @@
   "phone" : "(+351) 918335233",
   "email" : "nunolaudo@hotmail.com",
   "objective" : "An opportunity to work and upgrade oneself, as well as being involved in an organization that believes in gaining a competitive edge and giving back to the community. I'm presently become a master in mobile computing. I hope develop skills and knowledge of mobile computing area and become an honest asset to the business.  As an individual, I'm self-confident you’ll find me creative, funny and naturally passionate. I’m a forward thinker, which others may find inspiring when working as a team.",
-  "what-i-do" : "I am a student of master in mobile computing in IPLeiria, Portugal. Before, I graduated also in IPLeiria. </br>Besides the normal school project, I like develop by myself.This way I can improve my skills. Normally those project are project for android platform. </br>I already publish two apps: </br>Color Point ( with Rafael Caetano) - <a id=\"color_point\" href=\"https://play.google.com/store/apps/details?id=me.fayax.colorpoint\" target=\"_new\"> Get the app here!</a> </br>Always on Display - <a id=\"always_on_display\" href=\"https://play.google.com/store/apps/details?id=pt.me.fayax.alwaysondisplay\" target=\"_new\"> Get the app here!</a>",
+  "what-i-do" : "I am a student of master in mobile computing in IPLeiria, Portugal. Before, I graduated also in IPLeiria.Besides the normal school project, I like develop by myself.This way I can improve my skills. Normally those project are project for android platform",
   "what-i-do-list" : [
     "Desktop Applications",
     "Game Development (Unity)",
@@ -19,6 +19,18 @@
     "Data Mining",
     "Web Applications"
   ],
+  "published-apps" : [
+    {
+      "name" : "Color Point",
+      "image-url" : "https://lh4.ggpht.com/pl44TqlwC-JE9SEFtVWi4RTibzq-K_3b6idMLTzLeodPZmeMCT5swmXbgRYmH1LFBvk=w300",
+      "url": "https://play.google.com/store/apps/details?id=me.fayax.colorpoint"
+    },
+    {
+      "name" : "Color Point",
+      "image-url" : "https://lh3.googleusercontent.com/dWPx9pHBkFnHROI_W78vuGbWwEuU6yW4NmrT6LX7zTNHRtbAN1_-v0eo6SnBlocpVA=w300",
+      "url": "https://play.google.com/store/apps/details?id=pt.me.fayax.alwaysondisplay"
+    }
+  ],  
   "programming-skills" : [
     {
       "name" : "Java",
@@ -102,7 +114,5 @@
       "where": "Interact Solutions, Lajeado, RS, Brasil",
       "desc" : "I got experience in JavaScript, HTML, CSS and JavaEE."
     }
-  ],
-  "hire" : "Working at <a href=\"https://www.amarmita.pt\" target=\"_blank\">AMARMITA.PT<a>",
-  "hire-available" : 0
+  ]
 }

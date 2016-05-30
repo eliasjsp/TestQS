@@ -1,6 +1,8 @@
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -52,6 +54,12 @@ public final class Util {
         }
 
         return (JsonObject) jp.parse(data);
+    }
+
+
+    public static void waitUntilClickable(WebDriver driver, By locator){
+        WebDriverWait waiting = new WebDriverWait(driver, 10);
+        waiting.until(ExpectedConditions.visibilityOf(driver.findElement(locator)));
     }
 
     public static boolean isAlertPresent(WebDriver driver) {
