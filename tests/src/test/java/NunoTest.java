@@ -31,7 +31,6 @@ public class NunoTest {
 
     @Before
     public void setUp() throws Exception {
-        //driver = new FirefoxDriver();
         driver = new HtmlUnitDriver(true) {
             @Override
             protected WebClient newWebClient(BrowserVersion version) {
@@ -50,48 +49,47 @@ public class NunoTest {
         }
     }
 
-    @After
-    public void tearDown() throws Exception {
-        driver.quit();
-        String verificationErrorString = verificationErrors.toString();
-        if (!"".equals(verificationErrorString)) {
-            fail(verificationErrorString);
-        }
-    }
-
     @Test
     public void testPublishedAppsURLs() throws Exception {
         driver.get(baseUrl);
 
         JsonArray publishedApps = getAsArrayFromData("published-apps");
+        assertEquals("Incorrect number of published apps", driver.findElements(By.xpath("//div[@id='published-apps']/div/a")).size(), publishedApps.size());
 
         int numTabs = driver.getWindowHandles().size();
         String windowHandle = driver.getWindowHandle();
-
-        assertEquals("the number of published apps on page are different from JSON", driver.findElements(By.xpath("//div[@id='published-apps']/div/a")).size(), publishedApps.size());
         //TODO: Verificar outros <a>
         //TODO: Verificar imagens
         //TODO: NEste momento os aray tem de de estar vazios ou este teste deve falhar
 
         for (int i = 0; i < publishedApps.size(); i++) {
+            JsonObject appObject = publishedApps.get(i).getAsJsonObject();
+
             int divIndex = i + 1;
-            String appName = publishedApps.get(i).getAsJsonObject().get("name").getAsString();
-            String appURL = publishedApps.get(i).getAsJsonObject().get("url").getAsString();
-            WebElement appElement = driver.findElement(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]/div/a"));
+            String appName = appObject.get("name").getAsString();
+            String appURL = appObject.get("url").getAsString();
+            String iconURL = appObject.get("image-url").getAsString();
 
             assertEquals(appName + " link not found", true, Util.isElementPresent(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]/div/a"), driver));
-
+            WebElement appElement = driver.findElement(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]/div/a"));
             assertEquals("The link for " + appName + " is wrong", appURL, appElement.getAttribute("href"));
+
+            assertEquals(appName + " icon not found", true, Util.isElementPresent(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]//a/img"), driver));
+            assertEquals(appName + " icon is incorrect", iconURL, driver.findElement(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]//a/img")).getAttribute("src"));
+            assertEquals(appName + " icon is incorrect", appName, driver.findElement(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]//a/img")).getAttribute("alt"));
+
+            assertEquals(appElement + " button not found", true, Util.isElementPresent(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]/a"), driver));
+            assertEquals(appElement + " button has wrong URL", appURL, driver.findElement(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]/a")).getAttribute("href"));
+            assertEquals(appElement + " button has wront text", appName, driver.findElement(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]/a")).getText());
 
             appElement.click();
             assertEquals("Wrong numbers of tabs. Should be opened one more tab", numTabs + 1, driver.getWindowHandles().size());
-
 
             boolean foundTab = false;
             ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
             for (String tab : tabs) {
                 driver.switchTo().window(tab);
-                if (driver.getCurrentUrl().contains(publishedApps.get(i).getAsJsonObject().get("url").getAsString())) {
+                if (driver.getCurrentUrl().contains(appObject.get("url").getAsString())) {
                     foundTab = true;
                     break;
                 }
@@ -141,6 +139,15 @@ public class NunoTest {
         assertEquals("No always on display tab found", true, foundTab);
         assertEquals("Wrong page was opened", publishedApps.get(1).getAsJsonObject().get("name").getAsString(), driver.findElement(By.cssSelector("div.id-app-title")).getText());
 */
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        driver.quit();
+        String verificationErrorString = verificationErrors.toString();
+        if (!"".equals(verificationErrorString)) {
+            fail(verificationErrorString);
+        }
     }
 
     private String getAsStringFromData(String thing) {
