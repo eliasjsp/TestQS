@@ -214,7 +214,7 @@ public class CommonTests {
         assertEquals("Wrong numbers of tabs. Should be opened one more tab on " + memberName + "page", numTabs + 1, driver.getWindowHandles().size());
 
         boolean foundTab = false;
-        ArrayList<String> tabs = new ArrayList<> (driver.getWindowHandles());
+        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
         for (String tab : tabs) {
             driver.switchTo().window(tab);
             if (driver.getCurrentUrl().contains(getAsStringFromData("home-facebook"))) {
@@ -256,7 +256,7 @@ public class CommonTests {
         waitToLoad();
 
         String curriculumURL = getAsStringFromData("curriculum");
-        if (curriculumURL == null || curriculumURL.isEmpty()) {
+        if (curriculumURL == null || curriculumURL.length() == 0) {
 
         } else {
             int numTabs = driver.getWindowHandles().size();
@@ -266,7 +266,7 @@ public class CommonTests {
             assertEquals("Wrong numbers of tabs. Should be opened one more tab on " + memberName + "page", numTabs + 1, driver.getWindowHandles().size());
 
             boolean foundTab = false;
-            ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+            ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
             for (String tab : tabs) {
                 driver.switchTo().window(tab);
                 if (driver.getCurrentUrl().contains(curriculumURL)) {
