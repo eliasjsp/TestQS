@@ -87,12 +87,14 @@ public class CommonTests {
 
     @Test
     public void testTitle() throws Exception {
+        System.out.println("Test testTitle");
         waitToLoad();
         assertEquals("Title of member " + memberName + " is wrong:" + driver.getCurrentUrl(), "I AM " + memberName.toUpperCase(), driver.getTitle());
     }
 
     @Test
     public void testHeader() throws Exception {
+        System.out.println("Test testHeader");
         waitToLoad();
         assertEquals("Error while test headers on " + memberName + " page", "i am " + memberName, driver.findElement(By.className("intro-sub")).getText().toLowerCase());
         assertEquals(memberName + " page title is different than expected", true, driver.findElement(By.xpath("//section[@id='home']/div/h1")).getText().equals(TITLE));
@@ -100,6 +102,7 @@ public class CommonTests {
 
     @Test
     public void testIfClickIAMXGoToMainPage() throws Exception {
+        System.out.println("Test testIfClickIAMXGoToMainPage");
         waitToLoad();
         driver.findElement(By.className("navbar-brand")).click();
         assertEquals("I AM X link does not work on " + memberName + " page", true, driver.getCurrentUrl().contains("index.html"));
@@ -108,12 +111,14 @@ public class CommonTests {
 
     @Test
     public void testIfHaveIntuitiveThingToUserKnowHeNeedsScrollDown() throws Exception {
+        System.out.println("Test testIfHaveIntuitiveThingToUserKnowHeNeedsScrollDown");
         waitToLoad();
         assertEquals("Does not have the wheel on " + memberName + " page", true, (driver.findElement(By.className("wheel")) != null));
     }
 
     @Test
     public void testIfHaveMenu() throws Exception {
+        System.out.println("Test testIfHaveMenu");
         waitToLoad();
         for (String section : menu) {
             String sectionTitle = WordUtils.capitalize(section);
@@ -130,6 +135,7 @@ public class CommonTests {
 
     @Test
     public void testIfHaveSectionForEachMenu() throws Exception {
+        System.out.println("Test testIfHaveSectionForEachMenu");
         waitToLoad();
         for (String m : menu) {
             assertEquals("Section " + m + " does not exists on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='" + m + "']")) != null));
@@ -138,12 +144,14 @@ public class CommonTests {
 
     @Test
     public void testIfHaveHireSection() throws Exception {
+        System.out.println("Test testIfHaveHireSection");
         waitToLoad();
         assertEquals("does not have a hire section on " + memberName + " page", true, (driver.findElement(By.className("hire-section")) != null));
     }
 
     @Test
     public void testSectionOrder() throws Exception {
+        System.out.println("Test testSectionOrder");
         waitToLoad();
         assertEquals("Section home is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[" + SECTION_HOME_ORDER + "]")).getAttribute("id").equals("home")));
         assertEquals("Section about is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[" + SECTION_ABOUT_ORDER + "]")).getAttribute("id").equals("about")));
@@ -154,6 +162,7 @@ public class CommonTests {
 
     @Test
     public void testFacebookClick() throws Exception {
+        System.out.println("Test testFacebookClick");
         waitToLoad();
         int numTabs = driver.getWindowHandles().size();
         WebElement face = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li/a"));
@@ -176,6 +185,7 @@ public class CommonTests {
 
     @Test
     public void testLinkedInClick() throws Exception {
+        System.out.println("Test testLinkedInClick");
         waitToLoad();
         int numTabs = driver.getWindowHandles().size();
         WebElement linkedin = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li[2]/a"));
@@ -200,6 +210,7 @@ public class CommonTests {
 
     @Test
     public void testPersonalInfo() throws Exception {
+        System.out.println("Test testPersonalInfo");
         waitToLoad();
 
         WebElement sectionTitle = driver.findElement(By.id("about"));
@@ -219,6 +230,7 @@ public class CommonTests {
 
     @Test
     public void testAboutMeInformation() throws Exception {
+        System.out.println("Test testAboutMeInformation");
         waitToLoad();
         //System.out.println((String)((JavascriptExecutor)driver).executeScript("return arguments[0].innerHTML;", driver.findElement(By.id("what-i-do"))));
         assertEquals("No title 'Objective' found for " + memberName, "Objective", driver.findElement(By.id("objective-title")).getAttribute("textContent"));
@@ -244,6 +256,7 @@ public class CommonTests {
 
     @Test
     public void testPublishedAppsURLs() throws Exception {
+        System.out.println("Test testPublishedAppsURLs");
         waitToLoad();
 
         JsonArray publishedApps = getAsArrayFromData("published-apps");
