@@ -25,7 +25,7 @@ import static org.junit.Assert.fail;
 /**
  * Created by Elias on 27/05/2016.
  */
-@RunWith(Parameterized.class)
+//@RunWith(Parameterized.class)
 public class CommonTests {
     //ORDER
     private static final int ABOUT_NAME_ORDER = 0;
@@ -63,8 +63,8 @@ public class CommonTests {
         );
     }
 
-    public CommonTests(String memberName) {
-        this.memberName = memberName;
+    public CommonTests(/*String memberName*/) {
+        this.memberName = "rafael";
         this.baseUrl = Util.getBaseUrl() + "/member.html?name=" + memberName;
 
         Logger.getLogger("").setLevel(Level.OFF);
