@@ -207,6 +207,28 @@ public class CommonTests {
     }
 
     @Test
+    public void testCurriculumClick() throws Exception {
+        waitToLoad();
+        int numTabs = driver.getWindowHandles().size();
+        WebElement c = driver.findElement(By.id("curriculum"));
+        assertEquals("Wrong href to Curriculum for " + memberName + "page", Util.getBaseUrl()+getAsStringFromData("curriculum"), c.getAttribute("href"));
+        c.click();
+        assertEquals("Wrong numbers of tabs. Should be opened one more tab on " + memberName + "page", numTabs + 1, driver.getWindowHandles().size());
+
+        boolean foundTab = false;
+        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+        for (String tab : tabs) {
+            driver.switchTo().window(tab);
+            if (driver.getCurrentUrl().contains(getAsStringFromData("curriculum"))) {
+                foundTab = true;
+                break;
+            }
+        }
+        assertEquals("No Curriculum tab found on " + memberName + "page", true, foundTab);
+    }
+
+
+    @Test
     public void testPersonalInfo() throws Exception {
         waitToLoad();
 
@@ -251,7 +273,7 @@ public class CommonTests {
     }
 
 
-    @Test
+   /* @Test
     public void testNavbarHover() throws Exception {
         waitToLoad();
         WebElement li = driver.findElement(By.xpath("//nav/div/div[2]/ul/li"));
@@ -266,7 +288,7 @@ public class CommonTests {
             System.out.println(li.getCssValue("color"));
             //assertEquals("Menu hover does not work", true, li.getAttribute("class") != null && li.getAttribute("class").equals("active"));
         }
-    }
+    }*/
 
     @After
     public void tearDown() throws Exception {
