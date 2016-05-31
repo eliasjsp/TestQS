@@ -173,7 +173,7 @@ public class CommonTests {
         assertEquals("Section hire is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[" + SECTION_HIRE_ORDER + "]")).getAttribute("class").contains("hire-section")));
     }
 
-    @Test
+    /*@Test
     public void testFacebookClick() throws Exception {
         System.out.println("Test testFacebookClick");
         waitToLoad();
@@ -194,9 +194,9 @@ public class CommonTests {
         }
 
         assertEquals("No Facebook tab found on " + memberName + "page", true, foundTab);
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void testLinkedInClick() throws Exception {
         System.out.println("Test testLinkedInClick");
         waitToLoad();
@@ -219,7 +219,7 @@ public class CommonTests {
         assertEquals("No LinkedIn tab found on " + memberName + "page", true, foundTab);
 
         //testLinkSocialNetwork(driver, LINKEDIN_URL, By.xpath("//section[@id='home']/div/div[2]/ul/li[2]/a"));
-    }
+    }*/
 
     @Test
     public void testPersonalInfo() throws Exception {
