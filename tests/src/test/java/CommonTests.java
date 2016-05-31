@@ -184,7 +184,7 @@ public class CommonTests {
     public void testIfHaveHireSection() throws Exception {
         waitToLoad();
         assertEquals("does not have a hire section on " + memberName + " page", true, (driver.findElement(By.className("hire-section")) != null));
-        //TODO:if the user doesn´t have a job, test if exists a option to hire him and test its functionality
+        //TODO:if the user doesnï¿½t have a job, test if exists a option to hire him and test its functionality
         //TODO: if the user have a job, test the company's link
     }
 
