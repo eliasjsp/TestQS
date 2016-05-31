@@ -97,6 +97,7 @@ public class CommonTests {
 
     @Before
     public void setUp() throws Exception {
+<<<<<<< HEAD
         driver = new HtmlUnitDriver(true) {
             @Override
             protected WebClient newWebClient(BrowserVersion version) {
@@ -105,6 +106,10 @@ public class CommonTests {
                 return webClient;
             }
         };
+=======
+        //driver = new FirefoxDriver();
+        driver = new HtmlUnitDriver(true);
+>>>>>>> 07a90bf21a88b795ad22a9491b54ccc123b36d90
         driver.manage().timeouts().implicitlyWait((baseUrl.contains("localhost") ? 5 : 30), TimeUnit.SECONDS);
     }
 
@@ -190,7 +195,7 @@ public class CommonTests {
     public void testIfHaveHireSection() throws Exception {
         waitToLoad();
         assertEquals("does not have a hire section on " + memberName + " page", true, (driver.findElement(By.className("hire-section")) != null));
-        //TODO:if the user doesn´t have a job, test if exists a option to hire him and test its functionality
+        //TODO:if the user doesnÂ´t have a job, test if exists a option to hire him and test its functionality
         //TODO: if the user have a job, test the company's link
     }
 
