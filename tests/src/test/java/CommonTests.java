@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import static java.awt.SystemColor.text;
 import static javafx.scene.input.KeyCode.T;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
 
 /**
@@ -185,6 +186,8 @@ public class CommonTests {
     public void testIfHaveHireSection() throws Exception {
         waitToLoad();
         assertEquals("does not have a hire section on " + memberName + " page", true, (driver.findElement(By.className("hire-section")) != null));
+        //TODO:if the user doesn´t have a job, test if exists a option to hire him and test its functionality
+        //TODO: if the user have a job, test the company's link
     }
 
     @Test
@@ -263,6 +266,21 @@ public class CommonTests {
     }
 
     @Test
+    public void testPersonalInfoLabels() throws Exception {
+        waitToLoad();
+        List<WebElement> descriptionLabels = driver.findElements(By.xpath("//section[@id='about']/div/div/div/div/ul/li/strong"));
+        List<WebElement> informationLabels = driver.findElements(By.xpath("//section[@id='about']/div/div/div/div/ul/li/span"));
+
+        assertEquals("The number description labels are different than information labels on " + memberName + " page", descriptionLabels.size(), informationLabels.size());
+
+        for (int i=0; i< descriptionLabels.size(); i++){
+            assertEquals("One description label on " + memberName + " page is not bold", "bold", descriptionLabels.get(i).getCssValue("font-weight")) ;
+            assertNotEquals("One information label on " + memberName + " page is  bold", "bold", informationLabels.get(i).getCssValue("font-weight")); ;
+        }
+    }
+
+
+    @Test
     public void testAboutMeInformation() throws Exception {
         waitToLoad();
         //System.out.println((String)((JavascriptExecutor)driver).executeScript("return arguments[0].innerHTML;", driver.findElement(By.id("what-i-do"))));
@@ -286,6 +304,8 @@ public class CommonTests {
             assertEquals("Text at index " + i + " of What I Do? is wrong for " + memberName, whatIDoArray.get(i).getAsString(), element.getAttribute("textContent"));
         }
     }
+
+    //TODO: test order of aboutMe elements
 
     @Test
     public void testPublishedAppsURLs() throws Exception {
