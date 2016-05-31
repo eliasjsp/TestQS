@@ -56,7 +56,7 @@ public final class Util {
         int g = Integer.parseInt(st.nextToken(",").trim());
         int b = Integer.parseInt(st.nextToken(",").trim());
         Color c = new Color(r, g, b);
-        return "#"+Integer.toHexString(c.getRGB()).substring(2);
+        return "#" + Integer.toHexString(c.getRGB()).substring(2);
     }
 
     public static void waitUntilClickable(WebDriver driver, By locator){

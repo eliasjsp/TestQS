@@ -34,7 +34,7 @@ public class HomePageTests {
         driver = new HtmlUnitDriver();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
-        //Logger.getLogger("").setLevel(Level.OFF);
+        Logger.getLogger("").setLevel(Level.OFF);
     }
 
     //general page tests
