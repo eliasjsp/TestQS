@@ -4,20 +4,14 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -54,20 +48,20 @@ public class CommonTests {
 
     private String memberName;
 
-    @Parameterized.Parameters(name = "{index}: {0}")
+    /*@Parameterized.Parameters(name = "{index}: {0}")
     public static Collection members() {
         return Arrays.asList(
                 "elias",
                 "nuno",
                 "rafael"
         );
-    }
+    }*/
 
     public CommonTests(/*String memberName*/) {
         this.memberName = "rafael";
         this.baseUrl = Util.getBaseUrl() + "/member.html?name=" + memberName;
 
-        Logger.getLogger("").setLevel(Level.OFF);
+        //Logger.getLogger("").setLevel(Level.OFF);
         menuPopulation();
 
         try {
