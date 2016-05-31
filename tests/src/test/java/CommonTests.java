@@ -2,6 +2,7 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.sun.xml.internal.bind.v2.TODO;
 import org.apache.commons.lang3.text.WordUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -34,12 +35,12 @@ import static org.junit.Assert.fail;
 @RunWith(Parameterized.class)
 public class CommonTests {
     //ORDER
-    private static final int ABOUT_NAME_ORDER = 0;
-    private static final int ABOUT_BDAY_ORDER = 1;
-    private static final int ABOUT_ADDRESS_ORDER = 2;
-    private static final int ABOUT_NATIONALITY_ORDER = 3;
-    private static final int ABOUT_PHONE_ORDER = 4;
-    private static final int ABOUT_EMAIL_ORDER = 5;
+    private static final int ABOUT_NAME_ORDER = 1;
+    private static final int ABOUT_BDAY_ORDER = 2;
+    private static final int ABOUT_ADDRESS_ORDER = 3;
+    private static final int ABOUT_NATIONALITY_ORDER = 4;
+    private static final int ABOUT_PHONE_ORDER = 5;
+    private static final int ABOUT_EMAIL_ORDER = 6;
     private static final int SECTION_HOME_ORDER = 1;
     private static final int SECTION_ABOUT_ORDER = 2;
     private static final int SECTION_SKILLS_ORDER = 3;
@@ -279,6 +280,19 @@ public class CommonTests {
         }
     }
 
+    @Test
+    public void testPersonalInfoOrder() throws Exception {
+        waitToLoad();
+        assertEquals("Label name is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_NAME_ORDER + "]/strong")).getText()).equals("Name:"));
+        assertEquals("Label date of birth is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_BDAY_ORDER + "]/strong")).getText()).equals("Date of birth:"));
+        assertEquals("Label address is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_ADDRESS_ORDER + "]/strong")).getText()).equals("Address:"));
+        assertEquals("Label nationality is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_NATIONALITY_ORDER + "]/strong")).getText()).equals("Nationality:"));
+        assertEquals("Label phone is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_PHONE_ORDER + "]/strong")).getText()).equals("Phone:"));
+        assertEquals("Label email is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_EMAIL_ORDER + "]/strong")).getText()).equals("Email:"));
+
+    }
+
+    //TODO: check if both labels have correct information
 
     @Test
     public void testAboutMeInformation() throws Exception {
@@ -305,7 +319,6 @@ public class CommonTests {
         }
     }
 
-    //TODO: test order of aboutMe elements
 
     @Test
     public void testPublishedAppsURLs() throws Exception {
