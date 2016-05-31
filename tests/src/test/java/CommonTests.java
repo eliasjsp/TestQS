@@ -40,6 +40,9 @@ public class CommonTests {
     private static final int SECTION_SKILLS_ORDER = 3;
     private static final int SECTION_RESUME_ORDER = 4;
     private static final int SECTION_HIRE_ORDER = 5;
+                                                //%20 is to appear correct on browser
+    private static final String MAIL_TO_SUBJECT = "?Subject=[FROM%20YOUR%20WEBSITE]";
+    private static final String MAIL_TO_HREF_INITIAL = "mailto:";
 
     //other variables needed
     private static final String TITLE = "Software Engineer";
@@ -208,10 +211,16 @@ public class CommonTests {
 
     @Test
     public void testCurriculumClick() throws Exception {
+        String curriculumURL = "";
+        try {
+            curriculumURL = getAsStringFromData("curriculum");
+        } catch (Exception e) {
+            assertEquals("User does not have curriculum data in json", false, true);
+        }
         waitToLoad();
         int numTabs = driver.getWindowHandles().size();
         WebElement c = driver.findElement(By.id("curriculum"));
-        assertEquals("Wrong href to Curriculum for " + memberName + "page", Util.getBaseUrl()+getAsStringFromData("curriculum"), c.getAttribute("href"));
+        assertEquals("Wrong href to Curriculum for " + memberName + "page", Util.getBaseUrl()+curriculumURL, c.getAttribute("href"));
         c.click();
         assertEquals("Wrong numbers of tabs. Should be opened one more tab on " + memberName + "page", numTabs + 1, driver.getWindowHandles().size());
 
@@ -219,7 +228,7 @@ public class CommonTests {
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
         for (String tab : tabs) {
             driver.switchTo().window(tab);
-            if (driver.getCurrentUrl().contains(getAsStringFromData("curriculum"))) {
+            if (driver.getCurrentUrl().contains(curriculumURL)) {
                 foundTab = true;
                 break;
             }
@@ -227,6 +236,19 @@ public class CommonTests {
         assertEquals("No Curriculum tab found on " + memberName + "page", true, foundTab);
     }
 
+    @Test
+    public void testMailTo() throws Exception {
+        waitToLoad();
+        WebElement mailto = driver.findElement(By.id("mail-to"));
+        String email = "";
+        try {
+           email = getAsStringFromData("email");
+        } catch (Exception e) {
+            assertEquals("User does not have mail data in json", false, true);
+        }
+        assertEquals("mail to does not exists", false, mailto == null);
+        assertEquals("mail to href is not equal", MAIL_TO_HREF_INITIAL + email +MAIL_TO_SUBJECT, mailto.getAttribute("href"));
+    }
 
     @Test
     public void testPersonalInfo() throws Exception {
