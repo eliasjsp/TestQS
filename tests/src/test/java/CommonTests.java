@@ -294,6 +294,72 @@ public class CommonTests {
         }
     }
 
+    @Test
+    public void testPublishedAppsURLs() throws Exception {
+        waitToLoad();
+
+        JsonArray publishedApps = getAsArrayFromData("published-apps");
+        if (publishedApps == null || publishedApps.size() == 0) {
+            assertEquals("Published apps group was found", false, Util.isElementPresent(By.xpath("//div[@id='published-apps']/div"), driver));
+            assertEquals("Published apps group should have display:none", "display:none", driver.findElement(By.id("published-apps-container")).getAttribute("style"));
+            assertEquals("Published apps group should be hidden", false, driver.findElement(By.id("published-apps-container")).isDisplayed());
+        } else {
+            assertEquals("Incorrect number of published apps", driver.findElements(By.xpath("//div[@id='published-apps']/div/a")).size(), publishedApps.size());
+
+            int numTabs = driver.getWindowHandles().size();
+            String windowHandle = driver.getWindowHandle();
+            //TODO: NEste momento os aray tem de de estar vazios ou este teste deve falhar
+
+            for (int i = 0; i < publishedApps.size(); i++) {
+                JsonObject appObject = publishedApps.get(i).getAsJsonObject();
+
+                int divIndex = i + 1;
+                String appName = appObject.get("name").getAsString();
+                String appURL = appObject.get("url").getAsString();
+                String iconURL = appObject.get("image-url").getAsString();
+
+                assertEquals(appName + " link not found", true, Util.isElementPresent(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]/div/a"), driver));
+                WebElement appElement = driver.findElement(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]/div/a"));
+                assertEquals("The link for " + appName + " is wrong", appURL, appElement.getAttribute("href"));
+
+                assertEquals(appName + " icon not found", true, Util.isElementPresent(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]//a/img"), driver));
+                assertEquals(appName + " icon is incorrect", iconURL, driver.findElement(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]//a/img")).getAttribute("src"));
+                assertEquals(appName + " icon is incorrect", appName, driver.findElement(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]//a/img")).getAttribute("alt"));
+
+                assertEquals(appElement + " button not found", true, Util.isElementPresent(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]/a"), driver));
+                assertEquals(appElement + " button has wrong URL", appURL, driver.findElement(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]/a")).getAttribute("href"));
+                assertEquals(appElement + " button has wront text", appName, driver.findElement(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]/a")).getText());
+
+                ArrayList<WebElement> clickElements = new ArrayList<WebElement>();
+                clickElements.add(appElement);
+                clickElements.add(driver.findElement(By.xpath("//div[@id='published-apps']/div[" + divIndex + "]/a")));
+
+                for (WebElement clickable : clickElements) {
+                    clickable.click();
+                    assertEquals("Wrong numbers of tabs. Should be opened one more tab", numTabs + 1, driver.getWindowHandles().size());
+
+                    boolean foundTab = false;
+                    ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+                    for (String tab : tabs) {
+                        driver.switchTo().window(tab);
+                        if (driver.getCurrentUrl().contains(appURL)) {
+                            foundTab = true;
+                            break;
+                        }
+                    }
+                    assertEquals("No " + appName + " tab found", true, foundTab);
+                    assertEquals("Wrong page was opened", true, driver.getTitle().contains(appName));
+
+                    // Close app tab
+                    driver.close();
+                    driver.switchTo().window(windowHandle);
+
+                    assertEquals("Wrong numbers of tabs. Should be equal to beginning", numTabs, driver.getWindowHandles().size());
+                }
+            }
+        }
+    }
+
 
    /* @Test
     public void testNavbarHover() throws Exception {
