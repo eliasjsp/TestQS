@@ -1,15 +1,21 @@
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.commons.lang3.text.WordUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -19,7 +25,7 @@ import static org.junit.Assert.fail;
 /**
  * Created by Elias on 27/05/2016.
  */
-//@RunWith(Parameterized.class)
+@RunWith(Parameterized.class)
 public class CommonTests {
     //ORDER
     private static final int ABOUT_NAME_ORDER = 0;
@@ -48,17 +54,17 @@ public class CommonTests {
 
     private String memberName;
 
-    /*@Parameterized.Parameters(name = "{index}: {0}")
+    @Parameterized.Parameters(name = "{index}: {0}")
     public static Collection members() {
         return Arrays.asList(
                 "elias",
                 "nuno",
                 "rafael"
         );
-    }*/
+    }
 
-    public CommonTests(/*String memberName*/) {
-        this.memberName = "rafael";
+    public CommonTests(String memberName) {
+        this.memberName = memberName;
         this.baseUrl = Util.getBaseUrl() + "/member.html?name=" + memberName;
 
         //Logger.getLogger("").setLevel(Level.OFF);
@@ -81,7 +87,14 @@ public class CommonTests {
 
     @Before
     public void setUp() throws Exception {
-        driver = new HtmlUnitDriver(true);
+        driver = new HtmlUnitDriver(true) {
+            @Override
+            protected WebClient newWebClient(BrowserVersion version) {
+                WebClient webClient = super.newWebClient(version);
+                webClient.getOptions().setThrowExceptionOnScriptError(false);
+                return webClient;
+            }
+        };
         driver.manage().timeouts().implicitlyWait((baseUrl.contains("localhost") ? 5 : 30), TimeUnit.SECONDS);
     }
 
@@ -160,7 +173,7 @@ public class CommonTests {
         assertEquals("Section hire is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[" + SECTION_HIRE_ORDER + "]")).getAttribute("class").contains("hire-section")));
     }
 
-    /*@Test
+    @Test
     public void testFacebookClick() throws Exception {
         System.out.println("Test testFacebookClick");
         waitToLoad();
@@ -181,7 +194,7 @@ public class CommonTests {
         }
 
         assertEquals("No Facebook tab found on " + memberName + "page", true, foundTab);
-    }*/
+    }
 
     @Test
     public void testLinkedInClick() throws Exception {
@@ -189,9 +202,9 @@ public class CommonTests {
         waitToLoad();
         int numTabs = driver.getWindowHandles().size();
         WebElement linkedin = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li[2]/a"));
-        assertEquals("Wrong href to LinkedIn for " + memberName + "page", getAsStringFromData("home-linkedin"), linkedin.getAttribute("href"));
+        assertEquals("Wrong href to LinkedIn for " + memberName + " page", getAsStringFromData("home-linkedin"), linkedin.getAttribute("href"));
         linkedin.click();
-        assertEquals("Wrong numbers of tabs. Should be opened one more tab on " + memberName + "page", numTabs + 1, driver.getWindowHandles().size());
+        assertEquals("Wrong numbers of tabs. Should be opened one more tab on " + memberName + " page", numTabs + 1, driver.getWindowHandles().size());
 
         boolean foundTab = false;
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
