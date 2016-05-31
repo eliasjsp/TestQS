@@ -10,6 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.util.ArrayList;
@@ -88,6 +89,7 @@ public class CommonTests {
 
     @Before
     public void setUp() throws Exception {
+        //driver = new FirefoxDriver();
         driver = new HtmlUnitDriver(true);
         driver.manage().timeouts().implicitlyWait((baseUrl.contains("localhost") ? 5 : 30), TimeUnit.SECONDS);
     }
@@ -250,25 +252,22 @@ public class CommonTests {
     }
 
 
-   /* @Test
+    @Test
     public void testNavbarHover() throws Exception {
-        for(String member : members) {
-            driver.get(baseUrl + member + ".html");
-            for(int i = 1; i <= menu.size(); i++) {
-                if( i > 0) {
-                    driver.findElement(By.xpath("//nav/div/div[2]/ul/li/a")).click();
-                } else {
-                    driver.findElement(By.xpath("//nav/div/div[2]/ul/li[2]/a")).click();
-                }
-                WebElement li = driver.findElement(By.xpath("//nav/div/div[2]/ul/li[" + i + "]"));
-                WebElement a = driver.findElement(By.xpath("//nav/div/div[2]/ul/li[" + i + "]/a"));
-                System.out.println(li.getAttribute("class"));
-                a.click();
-                li = driver.findElement(By.xpath("//nav/div/div[2]/ul/li[" + i + "]"));
-                System.out.println(li.getClass());
-            }
+        waitToLoad();
+        WebElement li = driver.findElement(By.xpath("//nav/div/div[2]/ul/li"));
+        System.out.println(li.getCssValue("color"));
+        //assertEquals("Menu hover does not work", true, li.getAttribute("class") != null && li.getAttribute("class").equals("active"));
+        for(int i = menu.size(); i >0; i--) {
+            WebElement a = driver.findElement(By.xpath("//nav/div/div[2]/ul/li[" + i + "]/a"));
+            a.click();
+            Thread.sleep(1000);
+            li = driver.findElement(By.xpath("//nav/div/div[2]/ul/li[" + i + "]"));
+            System.out.println("Depois de clicar " + menu.get(i-1) + " "  + li.getAttribute("class") );
+            System.out.println(li.getCssValue("color"));
+            //assertEquals("Menu hover does not work", true, li.getAttribute("class") != null && li.getAttribute("class").equals("active"));
         }
-    }*/
+    }
 
     @After
     public void tearDown() throws Exception {
