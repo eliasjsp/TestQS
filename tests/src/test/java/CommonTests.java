@@ -466,7 +466,7 @@ public class CommonTests {
     private void waitToLoad() throws InterruptedException {
         driver.get(baseUrl);
         // Wait for JavaScript to load data
-        Thread.sleep(100);
+        Thread.sleep(200);
     }
 
     private String getAsStringFromData(String thing) {
