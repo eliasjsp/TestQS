@@ -109,6 +109,10 @@ $(function () {
                     document.title = val;
                     $(".intro-sub").html(val);
                     break;
+                case "curriculum"   :
+                    $("#" + key).css('display', 'inline-block');
+                    $("#" + key).attr("href", val);
+                    break;
                 case "home-facebook":
                 case "home-linkedin":
                     $("#" + key).attr("href", val);
@@ -136,6 +140,11 @@ $(function () {
                     break;
                 case "published-apps":
                     populatePublishedApps(key, val);
+                    break;
+                case "email" :
+                    $("#" + key).append(val);
+                    $("#mail-to").attr("href", "mailto:" + val + "?Subject=[FROM%20YOUR%20WEBSITE]");
+                    $("#btn-hire").attr("href", "mailto:" + val + "?Subject=[FROM%20YOUR%20WEBSITE]");
                     break;
                 default:
                     $("#" + key).append(val);

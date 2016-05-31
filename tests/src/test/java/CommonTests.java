@@ -2,6 +2,7 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import org.apache.commons.lang3.text.WordUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -19,8 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * Created by Elias on 27/05/2016.
@@ -28,17 +28,20 @@ import static org.junit.Assert.fail;
 @RunWith(Parameterized.class)
 public class CommonTests {
     //ORDER
-    private static final int ABOUT_NAME_ORDER = 0;
-    private static final int ABOUT_BDAY_ORDER = 1;
-    private static final int ABOUT_ADDRESS_ORDER = 2;
-    private static final int ABOUT_NATIONALITY_ORDER = 3;
-    private static final int ABOUT_PHONE_ORDER = 4;
-    private static final int ABOUT_EMAIL_ORDER = 5;
+    private static final int ABOUT_NAME_ORDER = 1;
+    private static final int ABOUT_BDAY_ORDER = 2;
+    private static final int ABOUT_ADDRESS_ORDER = 3;
+    private static final int ABOUT_NATIONALITY_ORDER = 4;
+    private static final int ABOUT_PHONE_ORDER = 5;
+    private static final int ABOUT_EMAIL_ORDER = 6;
     private static final int SECTION_HOME_ORDER = 1;
     private static final int SECTION_ABOUT_ORDER = 2;
     private static final int SECTION_SKILLS_ORDER = 3;
     private static final int SECTION_RESUME_ORDER = 4;
     private static final int SECTION_HIRE_ORDER = 5;
+                                                //%20 is to appear correct on browser
+    private static final String MAIL_TO_SUBJECT = "?Subject=[FROM%20YOUR%20WEBSITE]";
+    private static final String MAIL_TO_HREF_INITIAL = "mailto:";
 
     //other variables needed
     private static final String TITLE = "Software Engineer";
@@ -111,14 +114,40 @@ public class CommonTests {
         waitToLoad();
         assertEquals("Error while test headers on " + memberName + " page", "i am " + memberName, driver.findElement(By.className("intro-sub")).getText().toLowerCase());
         assertEquals(memberName + " page title is different than expected", true, driver.findElement(By.xpath("//section[@id='home']/div/h1")).getText().equals(TITLE));
+        String text = (String) ((HtmlUnitDriver)driver).executeScript("return arguments[0].innerHTML", driver.findElement(By.id("home-sub-title")));
+        text = text.replace("<BR>", "<br>");
+        assertEquals("The text above specialization  on the of " + memberName + " page is wrong", getAsStringFromData("home-sub-title"), text);
+
+        //order of elements
+        assertEquals("The order fo elements is wrong on " + memberName + " page", true, Util.isElementPresent(By.cssSelector("div.intro > div + h1+ p#home-sub-title"),driver));
+    }
+
+
+    @Test
+    public void testHeaderCSS() throws Exception {
+        waitToLoad();
+        //Identification
+        WebElement identification = driver.findElement(By.cssSelector("div.intro-sub"));
+        assertEquals("The color of specialization text is wrong on " + memberName + " page", "#ffffff", Util.rgbToHex(identification.getCssValue("color")));
+        assertEquals("The size of specialization text is wrong on " + memberName + " page", "24px", identification.getCssValue("font-size"));
+        assertEquals("The size of specialization text is wrong on " + memberName + " page", "uppercase", identification.getCssValue("text-transform"));
+
+        //Specialization
+        WebElement specialization = driver.findElement(By.xpath("//section[@id='home']/div/h1"));
+        assertEquals("The color of specialization text is wrong on " + memberName + " page", "#52b3d9", Util.rgbToHex(specialization.getCssValue("color")));
+        assertEquals("The color of specialization text is wrong on " + memberName + " page", "#68c3a3", Util.rgbToHex(driver.findElement(By.xpath("//section[@id='home']/div/h1/span")).getCssValue("color")));
+        assertEquals("The size of specialization text is wrong on " + memberName + " page", "60px", specialization.getCssValue("font-size"));
     }
 
     @Test
     public void testIfClickIAMXGoToMainPage() throws Exception {
         System.out.println("Test testIfClickIAMXGoToMainPage");
         waitToLoad();
-        driver.findElement(By.className("navbar-brand")).click();
-        assertEquals("I AM X link does not work on " + memberName + " page", true, driver.getCurrentUrl().contains("index.html"));
+        WebElement goBack = driver.findElement(By.className("navbar-brand"));
+        assertEquals("I AM X link has a wrong href", Util.getBaseUrl() + "/index.html", goBack.getAttribute("href"));
+
+        goBack.click();
+        assertEquals("I AM X link does not work on " + memberName + " page", driver.getCurrentUrl(), Util.getBaseUrl()  + "/index.html");
         assertEquals("I AM X link page has wrong title", "We are awesome", driver.getTitle());
     }
 
@@ -160,6 +189,8 @@ public class CommonTests {
         System.out.println("Test testIfHaveHireSection");
         waitToLoad();
         assertEquals("does not have a hire section on " + memberName + " page", true, (driver.findElement(By.className("hire-section")) != null));
+        //TODO:if the user doesn´t have a job, test if exists a option to hire him and test its functionality
+        //TODO: if the user have a job, test the company's link
     }
 
     @Test
@@ -184,7 +215,7 @@ public class CommonTests {
         assertEquals("Wrong numbers of tabs. Should be opened one more tab on " + memberName + "page", numTabs + 1, driver.getWindowHandles().size());
 
         boolean foundTab = false;
-        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+        ArrayList<String> tabs = new ArrayList<> (driver.getWindowHandles());
         for (String tab : tabs) {
             driver.switchTo().window(tab);
             if (driver.getCurrentUrl().contains(getAsStringFromData("home-facebook"))) {
@@ -222,6 +253,47 @@ public class CommonTests {
     }*/
 
     @Test
+    public void testCurriculumClick() throws Exception {
+        waitToLoad();
+
+        String curriculumURL = getAsStringFromData("curriculum");
+        if (curriculumURL == null || curriculumURL.isEmpty()) {
+
+        } else {
+            int numTabs = driver.getWindowHandles().size();
+            WebElement c = driver.findElement(By.id("curriculum"));
+            assertEquals("Wrong href to Curriculum for " + memberName + "page", Util.getBaseUrl() + curriculumURL, c.getAttribute("href"));
+            c.click();
+            assertEquals("Wrong numbers of tabs. Should be opened one more tab on " + memberName + "page", numTabs + 1, driver.getWindowHandles().size());
+
+            boolean foundTab = false;
+            ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+            for (String tab : tabs) {
+                driver.switchTo().window(tab);
+                if (driver.getCurrentUrl().contains(curriculumURL)) {
+                    foundTab = true;
+                    break;
+                }
+            }
+            assertEquals("No Curriculum tab found on " + memberName + "page", true, foundTab);
+        }
+    }
+
+    @Test
+    public void testMailTo() throws Exception {
+        waitToLoad();
+        WebElement mailto = driver.findElement(By.id("mail-to"));
+        String email = "";
+        try {
+           email = getAsStringFromData("email");
+        } catch (Exception e) {
+            fail("User does not have mail data in json");
+        }
+        assertEquals("mail to does not exists", false, mailto == null);
+        assertEquals("mail to href is not equal", MAIL_TO_HREF_INITIAL + email +MAIL_TO_SUBJECT, mailto.getAttribute("href"));
+    }
+
+    @Test
     public void testPersonalInfo() throws Exception {
         System.out.println("Test testPersonalInfo");
         waitToLoad();
@@ -240,6 +312,34 @@ public class CommonTests {
         assertEquals(getAsStringFromData("phone"), driver.findElement(By.id("phone")).getText());
         assertEquals(getAsStringFromData("email"), driver.findElement(By.id("email")).getText());
     }
+
+    @Test
+    public void testPersonalInfoLabels() throws Exception {
+        waitToLoad();
+        List<WebElement> descriptionLabels = driver.findElements(By.xpath("//section[@id='about']/div/div/div/div/ul/li/strong"));
+        List<WebElement> informationLabels = driver.findElements(By.xpath("//section[@id='about']/div/div/div/div/ul/li/span"));
+
+        assertEquals("The number description labels are different than information labels on " + memberName + " page", descriptionLabels.size(), informationLabels.size());
+
+        for (int i=0; i< descriptionLabels.size(); i++){
+            assertEquals("One description label on " + memberName + " page is not bold", "bold", descriptionLabels.get(i).getCssValue("font-weight")) ;
+            assertNotEquals("One information label on " + memberName + " page is  bold", "bold", informationLabels.get(i).getCssValue("font-weight")); ;
+        }
+    }
+
+    @Test
+    public void testPersonalInfoOrder() throws Exception {
+        waitToLoad();
+        assertEquals("Label name is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_NAME_ORDER + "]/strong")).getText()).equals("Name:"));
+        assertEquals("Label date of birth is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_BDAY_ORDER + "]/strong")).getText()).equals("Date of birth:"));
+        assertEquals("Label address is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_ADDRESS_ORDER + "]/strong")).getText()).equals("Address:"));
+        assertEquals("Label nationality is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_NATIONALITY_ORDER + "]/strong")).getText()).equals("Nationality:"));
+        assertEquals("Label phone is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_PHONE_ORDER + "]/strong")).getText()).equals("Phone:"));
+        assertEquals("Label email is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_EMAIL_ORDER + "]/strong")).getText()).equals("Email:"));
+
+    }
+
+    //TODO: check if both labels have correct information
 
     @Test
     public void testAboutMeInformation() throws Exception {
@@ -266,6 +366,7 @@ public class CommonTests {
             assertEquals("Text at index " + i + " of What I Do? is wrong for " + memberName, whatIDoArray.get(i).getAsString(), element.getAttribute("textContent"));
         }
     }
+
 
     @Test
     public void testPublishedAppsURLs() throws Exception {
@@ -323,6 +424,7 @@ public class CommonTests {
                     }
                     assertEquals("No " + appName + " tab found", true, foundTab);
                     assertEquals("Wrong page was opened", true, driver.getTitle().contains(appName));
+                    assertEquals("Wrong page was opened", appName, driver.findElement(By.cssSelector("div.id-app-title")).getText());
 
                     // Close app tab
                     driver.close();
@@ -337,21 +439,18 @@ public class CommonTests {
 
    /* @Test
     public void testNavbarHover() throws Exception {
-        for(String member : members) {
-            driver.get(baseUrl + member + ".html");
-            for(int i = 1; i <= menu.size(); i++) {
-                if( i > 0) {
-                    driver.findElement(By.xpath("//nav/div/div[2]/ul/li/a")).click();
-                } else {
-                    driver.findElement(By.xpath("//nav/div/div[2]/ul/li[2]/a")).click();
-                }
-                WebElement li = driver.findElement(By.xpath("//nav/div/div[2]/ul/li[" + i + "]"));
-                WebElement a = driver.findElement(By.xpath("//nav/div/div[2]/ul/li[" + i + "]/a"));
-                System.out.println(li.getAttribute("class"));
-                a.click();
-                li = driver.findElement(By.xpath("//nav/div/div[2]/ul/li[" + i + "]"));
-                System.out.println(li.getClass());
-            }
+        waitToLoad();
+        WebElement li = driver.findElement(By.xpath("//nav/div/div[2]/ul/li"));
+        System.out.println(li.getCssValue("color"));
+        //assertEquals("Menu hover does not work", true, li.getAttribute("class") != null && li.getAttribute("class").equals("active"));
+        for(int i = menu.size(); i >0; i--) {
+            WebElement a = driver.findElement(By.xpath("//nav/div/div[2]/ul/li[" + i + "]/a"));
+            a.click();
+            Thread.sleep(1000);
+            li = driver.findElement(By.xpath("//nav/div/div[2]/ul/li[" + i + "]"));
+            System.out.println("Depois de clicar " + menu.get(i-1) + " "  + li.getAttribute("class") );
+            System.out.println(li.getCssValue("color"));
+            //assertEquals("Menu hover does not work", true, li.getAttribute("class") != null && li.getAttribute("class").equals("active"));
         }
     }*/
 
@@ -372,7 +471,8 @@ public class CommonTests {
     }
 
     private String getAsStringFromData(String thing) {
-        return data.getAsJsonPrimitive(thing).getAsString();
+        JsonPrimitive obj = data.getAsJsonPrimitive(thing);
+        return obj == null ? null : obj.getAsString();
     }
 
     private JsonArray getAsArrayFromData(String what) {

@@ -15,7 +15,18 @@ When the page is  loaded
 Then the web application shows a list of team members
 Whith their name and link to another profile page
 
-US2: As a user I want to open the Facebook and/or LinkedIn page for each element of the team, so that I can open the their social networks
+US2: As a user when I open one page I want to see the correspondent name of the member and their specialization so that I can know of wich member is a page that I have opnened
+AT1: Test if exists a expression like "I am <name>" on the top of the page
+AT2: Test if a title of the page is like "I am <name>" 
+AT3: Test if the specialization is correct 
+AT4: Test if the introductory test is correct
+AT5: Test if the order of elements is: I am <name> ; specialization; introductory test
+AT6: Test if the specialization have right css (color and text size)
+AT7: Test if the identification have right css (color, text size and text-transform)
+When the page is loaded
+Then the web application shows a specializations of the member and a introductory text
+
+US3: As a user I want to open the Facebook and/or LinkedIn page for each element of the team, so that I can open the their social networks
 AT1: Test if the number of tabs was incremented in one unit.
 AT2: Test if the opened URL contains the member social network URL 
 (We can't run tests on social networks sites because they are protected against scripting. 
@@ -25,33 +36,53 @@ When the page is loaded
 Then the web application shows the images for LinkedIn and Facebook of the team member
 When one of then is clicked, the social network should open in another tab of the browser
 
-US3: As a user I want to see about each team member's basic biography so that I can get to know them better.
+US4: As a user I want to see option to go back when I am in  one member page, so that i can go back to home page easily
+AT1: Test if the link have a correct href to homepage
+AT2: Test if the user click, the title of homepage is correct and the current page url is what we expect(to guarantee that we are on homepage)
+When the page is loaded and we are on one member page
+Then the web application have a option to return to homepage
+
+US5: As a user I want to see a image that suggest that I have to scrolldow, so that that website is more intuitive
+AT1: Test if the image exists
+When the page is loaded and we are on one member page
+Then the web application have a image to suggest that we have to scroll down
+
+US6: As a user I want to see about each team member's basic biography so that I can get to know them better.
 AT1: Test if the biography information in the "About" section is displayed correctly.
+AT2: Test if the description labels are bold and information labels not
+AT3: Test if the order of data is correct
 Given that I'm in particular page of team member, on the section "About"
 When the page is loaded
 Then the web application shows more details information of the member from the  member page that we have open
 with his name, date of birth, address, nationality, phone and email
 
-US4: As a User I want to navigate through the page of each member of the team, so that is more easy to navigate to a certain section
+US7: As a User I want to navigate through the page of each member of the team, so that is more easy to navigate to a certain section
 AT1: Test if exists a menu with option to navigate for a certain section
 AT2: Test if exists a section in a page for each menu option
 AT3: Test if there are no multiple sections for each menu entry
+AT4: Test if the order of elements is: home, about, skills, resume and hire
 Given that I'm in a page of a team member,
 When the page is loaded 
 Then the web application shows a menu with option to navigate for "Home", "About", "Skills", "Resume" and "contact"
 
-US5: As a user I want to see the objectives and what each member does,
-	so that I can get to know them better and see their developed projects.
+US8: As a user I want to see the objectives and what each member does,so that I can get to know them better and see their developed projects.
 AT1: Test if the text about "Objectives" and "What I do ?" is the expected
 AT2: Test if the list in "What I do ? contains the expected content"
 Given that I'm in particular page of team member, on the section "About"
 When the page is loaded
 Then the web application shows the objectives of the member and what he does
 
-US6: As a user I want to see the apps published by each member, so that I can know in which projects they have been involved.
+US9: As a user I want to see the apps published by each member, so that I can know in which projects they have been involved.
 AT1: Test if the text "Published Applications" is present
 AT2: Test if all applications are shown correctly
 AT3: Test if the links to the apps work
 Given that I'm in particular page of team member, on the section "About"
 When the page is loaded
 Then the web application shows the published apps
+
+US10: As a user I want to see ifthe user have already a job so that if the user doesn't have I can hire him.
+AT1: If the user desn't have job, test if exists a option to hire him and test its functionality
+AT2: If the user have a job, test the company link
+Given that I'm in particular page of team member, on the section on bottom of the page
+When the page is loaded
+Then the web application shows the link of the company's to which the member works

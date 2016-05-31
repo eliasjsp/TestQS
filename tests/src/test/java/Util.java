@@ -4,10 +4,12 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.awt.*;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.util.StringTokenizer;
 
 public final class Util {
     private static String baseUrl;
@@ -47,6 +49,15 @@ public final class Util {
         return (JsonObject) jp.parse(data);
     }
 
+    public static String rgbToHex(String rgb){
+        String s1 = rgb.substring(5);
+        StringTokenizer st = new StringTokenizer(s1);
+        int r = Integer.parseInt(st.nextToken(",").trim());
+        int g = Integer.parseInt(st.nextToken(",").trim());
+        int b = Integer.parseInt(st.nextToken(",").trim());
+        Color c = new Color(r, g, b);
+        return "#"+Integer.toHexString(c.getRGB()).substring(2);
+    }
 
     public static void waitUntilClickable(WebDriver driver, By locator){
         WebDriverWait waiting = new WebDriverWait(driver, 10);
