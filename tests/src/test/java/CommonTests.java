@@ -1,3 +1,5 @@
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.commons.lang3.text.WordUtils;
@@ -9,6 +11,7 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.util.ArrayList;
@@ -19,6 +22,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.awt.SystemColor.text;
+import static javafx.scene.input.KeyCode.T;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -87,7 +92,14 @@ public class CommonTests {
 
     @Before
     public void setUp() throws Exception {
-        driver = new HtmlUnitDriver(true);
+        driver = new HtmlUnitDriver(true) {
+            @Override
+            protected WebClient newWebClient(BrowserVersion version) {
+                WebClient webClient = super.newWebClient(version);
+                webClient.getOptions().setThrowExceptionOnScriptError(false);
+                return webClient;
+            }
+        };
         driver.manage().timeouts().implicitlyWait((baseUrl.contains("localhost") ? 5 : 30), TimeUnit.SECONDS);
     }
 
@@ -102,6 +114,11 @@ public class CommonTests {
         waitToLoad();
         assertEquals("Error while test headers on " + memberName + " page", "i am " + memberName, driver.findElement(By.className("intro-sub")).getText().toLowerCase());
         assertEquals(memberName + " page title is different than expected", true, driver.findElement(By.xpath("//section[@id='home']/div/h1")).getText().equals(TITLE));
+        String text = (String) ((HtmlUnitDriver)driver).executeScript("return arguments[0].innerHTML", driver.findElement(By.id("home-sub-title")));
+        text = text.replace("<BR>", "<br>");
+        assertEquals("The text above specialization  on the of " + memberName + " page is wrong", getAsStringFromData("home-sub-title"), text);
+
+        assertEquals("the order fo elements is wrong on " + memberName + " page", true, Util.isElementPresent(By.cssSelector("div.intro > div + h1+ p#home-sub-title"),driver));
     }
 
     @Test
@@ -303,6 +320,7 @@ public class CommonTests {
                     }
                     assertEquals("No " + appName + " tab found", true, foundTab);
                     assertEquals("Wrong page was opened", true, driver.getTitle().contains(appName));
+                    assertEquals("Wrong page was opened", appName, driver.findElement(By.cssSelector("div.id-app-title")).getText());
 
                     // Close app tab
                     driver.close();
