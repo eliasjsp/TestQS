@@ -122,7 +122,7 @@ public class CommonTests {
         assertEquals("The order fo elements is wrong on " + memberName + " page", true, Util.isElementPresent(By.cssSelector("div.intro > div + h1+ p#home-sub-title"),driver));
     }
 
-    /*@Test
+    @Test
     public void testHeaderCSS() throws Exception {
         waitToLoad();
         //Identification
@@ -433,8 +433,7 @@ public class CommonTests {
                 }
             }
         }
-    }*/
-
+    }
 
    /* @Test
     public void testNavbarHover() throws Exception {
