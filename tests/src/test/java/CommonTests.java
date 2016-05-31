@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
@@ -47,7 +49,6 @@ public class CommonTests {
     private static final String TITLE = "Software Engineer";
 
     private WebDriver driver;
-    private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
     private String baseUrl;
     private JsonObject data;
@@ -70,7 +71,7 @@ public class CommonTests {
         this.memberName = memberName;
         this.baseUrl = Util.getBaseUrl() + "/member.html?name=" + memberName;
 
-        //Logger.getLogger("").setLevel(Level.OFF);
+        Logger.getLogger("").setLevel(Level.OFF);
         menuPopulation();
 
         try {
