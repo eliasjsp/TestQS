@@ -38,13 +38,13 @@ $(function () {
         var div = $("#"+key);
         $.each(val, function ( key, val ) {
             div.append('<div class="col-xs-12 col-sm-4 col-md-2"> '+
-                            '<div class="chart" data-percent="' + val.progress + '" data-color="e74c3c">'+
-                                '<span class="percent"></span>'+
-                                '<div class="chart-text">'+
-                                    '<span>' + val.name + '</span>'+
-                                '</div>'+
-                            '</div>'+
-                        '</div>');
+                           '<div class="chart" data-percent="' + val.progress + '" data-color="e74c3c">'+
+                               '<span class="percent"></span>'+
+                               '<div class="chart-text">'+
+                                   '<span>' + val.name + '</span>'+
+                               '</div>'+
+                           '</div>'+
+                       '</div>');
         });
     }
 
@@ -54,7 +54,7 @@ $(function () {
         var divA = "<div class=\"col-md-6\">";
         var divB = divA;
         $.each(val, function (key, val) {
-            if((i%2) == 0){
+            if((i % 2) == 0){
                 divA += '<div class="skill-progress">' +
                             '<div class="skill-title"><h3>' + val.name + '</h3></div>'+
                             '<div class="progress">'+
@@ -83,24 +83,24 @@ $(function () {
         }
     }
     
-     function populatePublishedApps(key, val) {
-         var div = $("#published-apps-container").css('display', 'block');
-         var div = $("#"+key);
-         var publishedAppDiv;
-          $.each(val, function (key, val) {
-               publishedAppDiv = 
-                        '<div class="col-md-4 text-center thumb-wrapper">' +
-                            '<div class="demo-thumb">' +
-                            '<a href="' + val.url + '" title="Always on Display" target="_new"> ' +
-                                '<img src="' + val["image-url"] + '" style="max-width:200px; max-height:200px" alt="' + val.name + '">' +
+    function populatePublishedApps(key, val) {
+        $("#published-apps-container").css('display', 'block');
+        var div = $("#" + key);
+        var publishedAppDiv;
+        $.each(val, function (key, val) {
+            publishedAppDiv =
+                    '<div class="col-md-4 text-center thumb-wrapper">' +
+                        '<div class="demo-thumb">' +
+                            '<a href="' + val.url + '" title="' + val.name + '" target="_new"> ' +
+                               '<img src="' + val["image-url"] + '" style="max-width:200px; max-height:200px" alt="' + val.name + '">' +
                             '</a>' +
-                            '</div>' +
-                            '<a href="' + val.url + '" class="btn btn-primary" style="margin-top: 10px;" target="_new">Color Point</a>' +
-                        '</div>';
-                        
-               div.append(publishedAppDiv);
-          });
-     }
+                        '</div>' +
+                        '<a href="' + val.url + '" class="btn btn-primary" style="margin-top: 10px;" target="_new">' + val.name + '</a>' +
+                    '</div>';
+
+            div.append(publishedAppDiv);
+        });
+    }
 
     $.getJSON( "../json/" + window.location.href.split("name=")[1].split(".")[0] + ".json", function( data ) {
         $.each(data, function (key, val) {
