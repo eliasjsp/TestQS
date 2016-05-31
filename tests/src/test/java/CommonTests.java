@@ -118,14 +118,36 @@ public class CommonTests {
         text = text.replace("<BR>", "<br>");
         assertEquals("The text above specialization  on the of " + memberName + " page is wrong", getAsStringFromData("home-sub-title"), text);
 
-        assertEquals("the order fo elements is wrong on " + memberName + " page", true, Util.isElementPresent(By.cssSelector("div.intro > div + h1+ p#home-sub-title"),driver));
+        //order of elements
+        assertEquals("The order fo elements is wrong on " + memberName + " page", true, Util.isElementPresent(By.cssSelector("div.intro > div + h1+ p#home-sub-title"),driver));
+    }
+
+
+    @Test
+    public void testHeaderCSS() throws Exception {
+        waitToLoad();
+        //Identification
+        WebElement identification = driver.findElement(By.cssSelector("div.intro-sub"));
+        assertEquals("The color of specialization text is wrong on " + memberName + " page", "#ffffff", Util.rgbToHex(identification.getCssValue("color")));
+        assertEquals("The size of specialization text is wrong on " + memberName + " page", "24px", identification.getCssValue("font-size"));
+        assertEquals("The size of specialization text is wrong on " + memberName + " page", "uppercase", identification.getCssValue("text-transform"));
+
+        //Specialization
+        WebElement specialization = driver.findElement(By.xpath("//section[@id='home']/div/h1"));
+        assertEquals("The color of specialization text is wrong on " + memberName + " page", "#52b3d9", Util.rgbToHex(specialization.getCssValue("color")));
+        assertEquals("The color of specialization text is wrong on " + memberName + " page", "#68c3a3", Util.rgbToHex(driver.findElement(By.xpath("//section[@id='home']/div/h1/span")).getCssValue("color")));
+        assertEquals("The size of specialization text is wrong on " + memberName + " page", "60px", specialization.getCssValue("font-size"));
     }
 
     @Test
     public void testIfClickIAMXGoToMainPage() throws Exception {
         waitToLoad();
-        driver.findElement(By.className("navbar-brand")).click();
-        assertEquals("I AM X link does not work on " + memberName + " page", true, driver.getCurrentUrl().contains("index.html"));
+        WebElement goBack = driver.findElement(By.className("navbar-brand"));
+        System.out.println(goBack.getAttribute("href"));
+        assertEquals("I AM X link has a wrong href", Util.getBaseUrl() + "/index.html", goBack.getAttribute("href"));
+
+        goBack.click();
+        assertEquals("I AM X link does not work on " + memberName + " page", driver.getCurrentUrl(), Util.getBaseUrl()  + "/index.html");
         assertEquals("I AM X link page has wrong title", "We are awesome", driver.getTitle());
     }
 
