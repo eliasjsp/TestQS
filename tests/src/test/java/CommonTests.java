@@ -2,7 +2,7 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.sun.xml.internal.bind.v2.TODO;
+import com.google.gson.JsonPrimitive;
 import org.apache.commons.lang3.text.WordUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -12,7 +12,6 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.util.ArrayList;
@@ -23,11 +22,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static java.awt.SystemColor.text;
-import static javafx.scene.input.KeyCode.T;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * Created by Elias on 27/05/2016.
@@ -148,7 +143,6 @@ public class CommonTests {
     public void testIfClickIAMXGoToMainPage() throws Exception {
         waitToLoad();
         WebElement goBack = driver.findElement(By.className("navbar-brand"));
-        System.out.println(goBack.getAttribute("href"));
         assertEquals("I AM X link has a wrong href", Util.getBaseUrl() + "/index.html", goBack.getAttribute("href"));
 
         goBack.click();
@@ -214,7 +208,7 @@ public class CommonTests {
         assertEquals("Wrong numbers of tabs. Should be opened one more tab on " + memberName + "page", numTabs + 1, driver.getWindowHandles().size());
 
         boolean foundTab = false;
-        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+        ArrayList<String> tabs = new ArrayList<> (driver.getWindowHandles());
         for (String tab : tabs) {
             driver.switchTo().window(tab);
             if (driver.getCurrentUrl().contains(getAsStringFromData("home-facebook"))) {
@@ -252,29 +246,29 @@ public class CommonTests {
 
     @Test
     public void testCurriculumClick() throws Exception {
-        String curriculumURL = "";
-        try {
-            curriculumURL = getAsStringFromData("curriculum");
-        } catch (Exception e) {
-            assertEquals("User does not have curriculum data in json", false, true);
-        }
         waitToLoad();
-        int numTabs = driver.getWindowHandles().size();
-        WebElement c = driver.findElement(By.id("curriculum"));
-        assertEquals("Wrong href to Curriculum for " + memberName + "page", Util.getBaseUrl()+curriculumURL, c.getAttribute("href"));
-        c.click();
-        assertEquals("Wrong numbers of tabs. Should be opened one more tab on " + memberName + "page", numTabs + 1, driver.getWindowHandles().size());
 
-        boolean foundTab = false;
-        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
-        for (String tab : tabs) {
-            driver.switchTo().window(tab);
-            if (driver.getCurrentUrl().contains(curriculumURL)) {
-                foundTab = true;
-                break;
+        String curriculumURL = getAsStringFromData("curriculum");
+        if (curriculumURL == null || curriculumURL.isEmpty()) {
+
+        } else {
+            int numTabs = driver.getWindowHandles().size();
+            WebElement c = driver.findElement(By.id("curriculum"));
+            assertEquals("Wrong href to Curriculum for " + memberName + "page", Util.getBaseUrl() + curriculumURL, c.getAttribute("href"));
+            c.click();
+            assertEquals("Wrong numbers of tabs. Should be opened one more tab on " + memberName + "page", numTabs + 1, driver.getWindowHandles().size());
+
+            boolean foundTab = false;
+            ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+            for (String tab : tabs) {
+                driver.switchTo().window(tab);
+                if (driver.getCurrentUrl().contains(curriculumURL)) {
+                    foundTab = true;
+                    break;
+                }
             }
+            assertEquals("No Curriculum tab found on " + memberName + "page", true, foundTab);
         }
-        assertEquals("No Curriculum tab found on " + memberName + "page", true, foundTab);
     }
 
     @Test
@@ -285,7 +279,7 @@ public class CommonTests {
         try {
            email = getAsStringFromData("email");
         } catch (Exception e) {
-            assertEquals("User does not have mail data in json", false, true);
+            fail("User does not have mail data in json");
         }
         assertEquals("mail to does not exists", false, mailto == null);
         assertEquals("mail to href is not equal", MAIL_TO_HREF_INITIAL + email +MAIL_TO_SUBJECT, mailto.getAttribute("href"));
@@ -466,7 +460,8 @@ public class CommonTests {
     }
 
     private String getAsStringFromData(String thing) {
-        return data.getAsJsonPrimitive(thing).getAsString();
+        JsonPrimitive obj = data.getAsJsonPrimitive(thing);
+        return obj == null ? null : obj.getAsString();
     }
 
     private JsonArray getAsArrayFromData(String what) {
