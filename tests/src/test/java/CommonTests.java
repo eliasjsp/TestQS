@@ -67,7 +67,7 @@ public class CommonTests {
         this.memberName = memberName;
         this.baseUrl = Util.getBaseUrl() + "/member.html?name=" + memberName;
 
-        //Logger.getLogger("").setLevel(Level.OFF);
+        Logger.getLogger("").setLevel(Level.OFF);
         menuPopulation();
 
         try {
