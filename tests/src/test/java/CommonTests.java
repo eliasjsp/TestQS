@@ -203,7 +203,6 @@ public class CommonTests {
         WebElement face = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li/a"));
         assertEquals("Wrong href to Facebook for " + memberName + "page", getAsStringFromData("home-facebook"), face.getAttribute("href"));
         face.click();
-        Thread.sleep(1000);
         assertEquals("Wrong numbers of tabs. Should be opened one more tab on " + memberName + "page", numTabs + 1, driver.getWindowHandles().size());
 
         boolean foundTab = false;
@@ -229,7 +228,7 @@ public class CommonTests {
         Thread.sleep(200);
         assertEquals("Wrong numbers of tabs. Should be opened one more tab on " + memberName + " page", numTabs + 1, driver.getWindowHandles().size());
 
-        boolean foundTab = false;
+     /*   boolean foundTab = false;
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
         for (String tab : tabs) {
             driver.switchTo().window(tab);
@@ -240,7 +239,7 @@ public class CommonTests {
             }
         }
 
-        assertEquals("No LinkedIn tab found on " + memberName + "page", true, foundTab);
+        assertEquals("No LinkedIn tab found on " + memberName + "page", true, foundTab);*/
     }
 
     @Test
