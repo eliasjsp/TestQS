@@ -1,6 +1,7 @@
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import org.apache.commons.lang3.text.WordUtils;
@@ -433,6 +434,59 @@ public class CommonTests {
                 }
             }
         }
+    }
+
+    @Test
+    public void testProgrammingSkills() throws Exception {
+        waitToLoad("testProgrammingSkills");
+
+		JsonArray programmingSkills = getAsArrayFromData("programming-skills");
+		if (programmingSkills == null || programmingSkills.size() == 0) {
+
+		} else {
+			assertEquals("Skills section not found", true, Util.isElementPresent(By.id("skills"), driver));
+			assertEquals("Skills title not found", true, Util.isElementPresent(By.xpath("//section[@id='skills']/div/h2"), driver));
+			WebElement titleElement = driver.findElement(By.xpath("//section[@id='skills']/div/h2"));
+			assertEquals("Skills title is wrong", "Skills", titleElement.getAttribute("textContent"));
+			// TODO: maybe test CSS of title
+
+			assertEquals("Main skill div not found", true, Util.isElementPresent(By.id("programming-skills"), driver));
+
+			List<WebElement> skills = driver.findElements(By.cssSelector("#skills div.skill-progress"));
+			assertEquals("Wrong number of skills", programmingSkills.size(), skills.size());
+			if (skills.size() > 1) {
+				assertEquals("Should have 2 columns", 2, driver.findElements(By.cssSelector("#skills div.col-md-6")).size());
+
+				int leftCount = (int) Math.ceil(skills.size() / 2f);
+				int rightCount = (int) Math.floor(skills.size() / 2f);
+
+				assertEquals("Wrong number of skills on the left", leftCount, driver.findElements(By.xpath("//div[@id='programming-skills']/div[1]/div")).size());
+				assertEquals("Wrong number of skills on the left", rightCount, driver.findElements(By.xpath("//div[@id='programming-skills']/div[2]/div")).size());
+			} else if (skills.size() == 1) {
+				assertEquals("Should have a single column", 1, driver.findElements(By.cssSelector("#skills div.col-md-6")).size());
+				assertEquals("Wrong number of elements in left div", 1, driver.findElements(By.cssSelector("#skills div.col-md-6 div.skill-progress")).size());
+			} else {
+				assertEquals("Columns should not be present", false, Util.isElementPresent(By.xpath("//div[@id='programming-skills']/div"), driver));
+				return;
+			}
+
+			for (JsonElement skill : programmingSkills) {
+				JsonObject skillObj = skill.getAsJsonObject();
+				String skillName = skillObj.get("name").getAsString();
+				int skillProgress = skillObj.get("progress").getAsInt();
+
+				assertEquals("Skill div not found", true, Util.isElementPresent(By.xpath("//div[@id='programming-skills']//div[@class='skill-progress' and ./div[@class='skill-title']/h3/text()='" + skillName + "']"), driver));
+				WebElement skillDiv = driver.findElement(By.xpath("//div[@id='programming-skills']//div[@class='skill-progress' and ./div[@class='skill-title']/h3/text()='" + skillName + "']"));
+				assertEquals("Skill name not found", true, Util.isElementPresent(skillDiv, By.cssSelector("div.skill-title")));
+				assertEquals("Wrong skill name", skillName, skillDiv.findElement(By.cssSelector("div.skill-title")).getText());
+
+				assertEquals("Progress div not found", true, Util.isElementPresent(skillDiv, By.cssSelector("div.progress div.progress-bar")));
+				assertEquals("Progress div has wrong role", "progressbar", skillDiv.findElement(By.cssSelector("div.progress div.progress-bar")).getAttribute("role"));
+
+				assertEquals("Progress not found", true, Util.isElementPresent(skillDiv, By.cssSelector(".progress-bar span")));
+				assertEquals("Progress is not correct", skillProgress + "%", skillDiv.findElement(By.cssSelector(".progress-bar span")).getText());
+			}
+		}
     }
 
    /* @Test

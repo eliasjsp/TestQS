@@ -31,8 +31,24 @@
   ],
   "programming-skills" : [
     {
-      "name" : "Sample",
-      "progress": "100"
+      "name" : "Java",
+      "progress": "90"
+    },
+    {
+      "name" : "Android",
+      "progress": "85"
+    },
+    {
+      "name" : "Ruby",
+      "progress": "80"
+    },
+    {
+      "name" : "C",
+      "progress": "75"
+    },
+    {
+      "name" : "Node.js",
+      "progress": "70"
     }
   ],
   "other-skills" : [
