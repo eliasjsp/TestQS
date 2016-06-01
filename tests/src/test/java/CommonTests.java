@@ -226,13 +226,14 @@ public class CommonTests {
         WebElement linkedin = driver.findElement(By.xpath("//section[@id='home']/div/div[2]/ul/li[2]/a"));
         assertEquals("Wrong href to LinkedIn for " + memberName + " page", getAsStringFromData("home-linkedin"), linkedin.getAttribute("href"));
         linkedin.click();
-        Thread.sleep(1000);
+        Thread.sleep(200);
         assertEquals("Wrong numbers of tabs. Should be opened one more tab on " + memberName + " page", numTabs + 1, driver.getWindowHandles().size());
 
         boolean foundTab = false;
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
         for (String tab : tabs) {
             driver.switchTo().window(tab);
+            Thread.sleep(200);
             if (driver.getCurrentUrl().contains(getAsStringFromData("home-linkedin"))) {
                 foundTab = true;
                 break;
