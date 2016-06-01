@@ -105,10 +105,10 @@ public class HomePageTests {
     @Test
     public void testCSSImages() throws Exception {
         waitToLoad("testCSSImages");
-        /*for (WebElement element : driver.findElements(By.xpath("//img"))){
-            //assertEquals("Wrong image css", "50%", element.getCssValue("border-radius"));
-            System.out.println("sdad");
-        }*/
+        for (WebElement element : driver.findElements(By.xpath("//img"))){
+            assertEquals("Wrong image border-radius css", "50%", element.getCssValue("border-radius"));
+            assertEquals("Wrong image width", "middle", element.getCssValue("vertical-align"));
+        }
     }
 
     @After
