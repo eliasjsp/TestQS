@@ -442,7 +442,7 @@ public class CommonTests {
 
 		JsonArray programmingSkills = getAsArrayFromData("programming-skills");
 		if (programmingSkills == null || programmingSkills.size() == 0) {
-
+			assertEquals("Skills should be empty", false, Util.isElementPresent(By.cssSelector("#programming-skills div.col-md-6"), driver));
 		} else {
 			assertEquals("Skills section not found", true, Util.isElementPresent(By.id("skills"), driver));
 			assertEquals("Skills title not found", true, Util.isElementPresent(By.xpath("//section[@id='skills']/div/h2"), driver));
@@ -488,6 +488,43 @@ public class CommonTests {
 			}
 		}
     }
+
+	@Test
+	public void testOtherSkills() throws Exception {
+		waitToLoad("testOtherSkills");
+
+		JsonArray otherSkills = getAsArrayFromData("other-skills");
+		if (otherSkills == null || otherSkills.size() == 0) {
+			assertEquals("Skills should be empty", false, Util.isElementPresent(By.cssSelector("#other-skills div"), driver));
+		} else {
+			assertEquals("Other Skills title not found", true, Util.isElementPresent(By.xpath("//section[@id='skills']/div/div[@class='skill-chart text-center']/h3"), driver));
+			WebElement titleElement = driver.findElement(By.xpath("//section[@id='skills']/div/div[@class='skill-chart text-center']/h3"));
+			assertEquals("Other Skills title is wrong", "More skills", titleElement.getAttribute("textContent"));
+			// TODO: maybe test CSS of title
+
+			assertEquals("Other skills div not found", true, Util.isElementPresent(By.id("other-skills"), driver));
+
+			List<WebElement> skills = driver.findElements(By.cssSelector("#skills div.chart"));
+			assertEquals("Wrong number of other skills", otherSkills.size(), skills.size());
+
+			int index = 1;
+			for (JsonElement skill : otherSkills) {
+				JsonObject skillObj = skill.getAsJsonObject();
+				String skillName = skillObj.get("name").getAsString();
+				int skillProgress = skillObj.get("progress").getAsInt();
+
+				assertEquals(skillName + " skill div not found", true, Util.isElementPresent(By.xpath("(//div[@id='other-skills']//div[@class='chart'])[" + index + "]"), driver));
+				WebElement skillDiv = driver.findElement(By.xpath("(//div[@id='other-skills']//div[@class='chart'])[" + index + "]"));
+				assertEquals("Skill name not found", true, Util.isElementPresent(skillDiv, By.cssSelector("div.chart-text span")));
+				assertEquals("Wrong skill name", skillName, skillDiv.findElement(By.cssSelector("div.chart-text span")).getText());
+
+				assertEquals("Progress span not found", true, Util.isElementPresent(skillDiv, By.cssSelector("span.percent")));
+
+				assertEquals("Progress is not correct", "" + skillProgress, skillDiv.getAttribute("data-percent"));
+				index++;
+			}
+		}
+	}
 
    /* @Test
     public void testNavbarHover() throws Exception {
