@@ -321,16 +321,26 @@ public class CommonTests {
     @Test
     public void testPersonalInfoOrder() throws Exception {
         waitToLoad("testPersonalInfoOrder");
-        assertEquals("Label name is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_NAME_ORDER + "]/strong")).getText()).equals("Name:"));
-        assertEquals("Label date of birth is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_BDAY_ORDER + "]/strong")).getText()).equals("Date of birth:"));
-        assertEquals("Label address is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_ADDRESS_ORDER + "]/strong")).getText()).equals("Address:"));
-        assertEquals("Label nationality is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_NATIONALITY_ORDER + "]/strong")).getText()).equals("Nationality:"));
-        assertEquals("Label phone is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_PHONE_ORDER + "]/strong")).getText()).equals("Phone:"));
-        assertEquals("Label email is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_EMAIL_ORDER + "]/strong")).getText()).equals("Email:"));
+        assertEquals("Information name label name is not on the right order on " + memberName + " page", "Name:", (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_NAME_ORDER + "]/strong")).getText()));
+        assertEquals("Content label name is not on the right order on " + memberName + " page", getAsStringFromData("name"), (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_NAME_ORDER + "]/span")).getText()));
+
+        assertEquals("Information label date of birth is not on the right order on " + memberName + " page", "Date of birth:", (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_BDAY_ORDER + "]/strong")).getText()));
+        assertEquals("Content label date of birth is not on the right order on " + memberName + " page", getAsStringFromData("bday"), (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_BDAY_ORDER + "]/span")).getText()));
+
+        assertEquals("Information label address is not on the right order on " + memberName + " page", "Address:", (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_ADDRESS_ORDER + "]/strong")).getText()));
+        assertEquals("Content label address of birth is not on the right order on " + memberName + " page", getAsStringFromData("address"), (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_ADDRESS_ORDER + "]/span")).getText()));
+
+        assertEquals("Label nationality is not on the right order on " + memberName + " page", "Nationality:", (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_NATIONALITY_ORDER + "]/strong")).getText()));
+        assertEquals("Content label nationality of birth is not on the right order on " + memberName + " page", getAsStringFromData("nationality"), (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_NATIONALITY_ORDER + "]/span")).getText()));
+
+        assertEquals("Label phone is not on the right order on " + memberName + " page", "Phone:", (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_PHONE_ORDER + "]/strong")).getText()));
+        assertEquals("Content label phone of birth is not on the right order on " + memberName + " page", getAsStringFromData("phone"), (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_PHONE_ORDER + "]/span")).getText()));
+
+        assertEquals("Label email is not on the right order on " + memberName + " page", "Email:", (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_EMAIL_ORDER + "]/strong")).getText()));
+        assertEquals("Content label phone of birth is not on the right order on " + memberName + " page", getAsStringFromData("email"), (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_EMAIL_ORDER + "]/span")).getText()));
 
     }
 
-    //TODO: check if both labels have correct information
 
     @Test
     public void testAboutMeInformation() throws Exception {
