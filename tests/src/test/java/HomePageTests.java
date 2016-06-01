@@ -1,9 +1,12 @@
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
 import org.apache.commons.lang3.text.WordUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.util.concurrent.TimeUnit;
@@ -31,8 +34,15 @@ public class HomePageTests {
 
     @Before
     public void setUp() throws Exception {
-        driver = new HtmlUnitDriver();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver = new HtmlUnitDriver(true) {
+            @Override
+            protected WebClient newWebClient(BrowserVersion version) {
+                WebClient webClient = super.newWebClient(version);
+                webClient.getOptions().setThrowExceptionOnScriptError(false);
+                return webClient;
+            }
+        };
+        driver.manage().timeouts().implicitlyWait((Util.getBaseUrl().contains("localhost") ? 5 : 30), TimeUnit.SECONDS);
 
         Logger.getLogger("").setLevel(Level.OFF);
     }
@@ -91,6 +101,16 @@ public class HomePageTests {
     }*/
     //end elias tests
 
+
+    @Test
+    public void testCSSImages() throws Exception {
+        waitToLoad("testCSSImages");
+        /*for (WebElement element : driver.findElements(By.xpath("//img"))){
+            //assertEquals("Wrong image css", "50%", element.getCssValue("border-radius"));
+            System.out.println("sdad");
+        }*/
+    }
+
     @After
     public void tearDown() throws Exception {
         driver.quit();
@@ -101,13 +121,13 @@ public class HomePageTests {
     }
 
     //helper functions
-    private void existsMemberButton(String member){
+    private void existsMemberButton(String member) {
         member = WordUtils.capitalize(member);
         assertEquals(true, Util.isElementPresent(By.linkText(member), driver));
         assertEquals(member, driver.findElement(By.linkText(member)).getText());
     }
 
-    private void existsMemberImage(String member, int position){
+    private void existsMemberImage(String member, int position) {
         assertEquals(true, Util.isElementPresent(By.cssSelector("img[alt='" + WordUtils.capitalize(member) + "']"), driver));
         assertEquals(Util.getBaseUrl() + "/member.html?name=" + member, driver.findElements(By.xpath("//div[@class='demo-thumb']/a")).get(position).getAttribute("href"));
     }
@@ -118,5 +138,12 @@ public class HomePageTests {
         assertEquals("I AM " + member.toUpperCase(), driver.getTitle());
     }
 
+    //helper funtions
+    private void waitToLoad(String method) throws InterruptedException {
+        System.out.println("Testing " + method );
+        driver.get(Util.getBaseUrl());
+        // Wait for JavaScript to load data
+        Thread.sleep(200);
+    }
 
 }
