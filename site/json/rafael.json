@@ -10,6 +10,7 @@
   "nationality" : "Portuguese",
   "phone" : "(+351) 916754699",
   "email" : "rafaelvcaetano@hotmail.com",
+  "curriculum" : "/curriculum/rafael_cv.pdf",
   "objective" : "Since I was a kid, technology always fascinated me. Computers were a great attraction to me and I was always eager to jump into one and dwelve into their infinite possibilities. One thing that always called my atention were games. The possibilites were endless and hours of fun could be enjoyed. This led me to want to learn how to make them and eventaly learn how to program. It was at this point that I knew exactly what I wanted to do in life and since then I commited myself to learn how to do it, in the best possible way. That is my objective in life: to always learn and get better so that I can achieve great goals and eventualy make it so that my work has an impact in someone's life.",
   "what-i-do" : "I'm currently a student of a Master's Degree in Computer Engineering and Mobile Computing. During the years I've developed multiple projects of multiple areas but found special passion in a few. Software development became a passion for me as well as game development. Besides the numerous academic projects that I took part in, I also developed some applications as personal projects. These include a mobile game and an utility targeted for a flight simulation community. Both of these projects were developed for the Android platform.",
   "what-i-do-list" : [
@@ -31,14 +32,46 @@
   ],
   "programming-skills" : [
     {
-      "name" : "Sample",
-      "progress": "100"
+      "name" : "Java",
+      "progress": "90"
+    },
+    {
+      "name" : "Android",
+      "progress": "85"
+    },
+    {
+      "name" : "Ruby",
+      "progress": "80"
+    },
+    {
+      "name" : "C",
+      "progress": "75"
+    },
+    {
+      "name" : "Node.js",
+      "progress": "70"
     }
   ],
   "other-skills" : [
     {
-      "name" : "Sample",
+      "name" : "English",
+      "progress": "95"
+    },
+	{
+      "name" : "Spanish",
       "progress": "50"
+    },
+	{
+      "name" : "Problem Solving",
+      "progress": "90"
+    },
+	{
+      "name" : "Communication",
+      "progress": "80"
+    },
+    {
+      "name" : "Leadership",
+      "progress": "80"
     }
   ],
   "education-timeline" : [

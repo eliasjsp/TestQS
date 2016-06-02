@@ -1,6 +1,7 @@
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import org.apache.commons.lang3.text.WordUtils;
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.awt.SystemColor.text;
 import static org.junit.Assert.*;
 
 /**
@@ -321,16 +323,26 @@ public class CommonTests {
     @Test
     public void testPersonalInfoOrder() throws Exception {
         waitToLoad("testPersonalInfoOrder");
-        assertEquals("Label name is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_NAME_ORDER + "]/strong")).getText()).equals("Name:"));
-        assertEquals("Label date of birth is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_BDAY_ORDER + "]/strong")).getText()).equals("Date of birth:"));
-        assertEquals("Label address is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_ADDRESS_ORDER + "]/strong")).getText()).equals("Address:"));
-        assertEquals("Label nationality is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_NATIONALITY_ORDER + "]/strong")).getText()).equals("Nationality:"));
-        assertEquals("Label phone is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_PHONE_ORDER + "]/strong")).getText()).equals("Phone:"));
-        assertEquals("Label email is not on the right order on " + memberName + " page", true, (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_EMAIL_ORDER + "]/strong")).getText()).equals("Email:"));
+        assertEquals("Information name label name is not on the right order on " + memberName + " page", "Name:", (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_NAME_ORDER + "]/strong")).getText()));
+        assertEquals("Content label name is not on the right order on " + memberName + " page", getAsStringFromData("name"), (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_NAME_ORDER + "]/span")).getText()));
+
+        assertEquals("Information label date of birth is not on the right order on " + memberName + " page", "Date of birth:", (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_BDAY_ORDER + "]/strong")).getText()));
+        assertEquals("Content label date of birth is not on the right order on " + memberName + " page", getAsStringFromData("bday"), (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_BDAY_ORDER + "]/span")).getText()));
+
+        assertEquals("Information label address is not on the right order on " + memberName + " page", "Address:", (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_ADDRESS_ORDER + "]/strong")).getText()));
+        assertEquals("Content label address of birth is not on the right order on " + memberName + " page", getAsStringFromData("address"), (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_ADDRESS_ORDER + "]/span")).getText()));
+
+        assertEquals("Label nationality is not on the right order on " + memberName + " page", "Nationality:", (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_NATIONALITY_ORDER + "]/strong")).getText()));
+        assertEquals("Content label nationality of birth is not on the right order on " + memberName + " page", getAsStringFromData("nationality"), (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_NATIONALITY_ORDER + "]/span")).getText()));
+
+        assertEquals("Label phone is not on the right order on " + memberName + " page", "Phone:", (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_PHONE_ORDER + "]/strong")).getText()));
+        assertEquals("Content label phone of birth is not on the right order on " + memberName + " page", getAsStringFromData("phone"), (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_PHONE_ORDER + "]/span")).getText()));
+
+        assertEquals("Label email is not on the right order on " + memberName + " page", "Email:", (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_EMAIL_ORDER + "]/strong")).getText()));
+        assertEquals("Content label phone of birth is not on the right order on " + memberName + " page", getAsStringFromData("email"), (driver.findElement(By.xpath("//section[@id='about']/div/div/div/div/ul/li[" + ABOUT_EMAIL_ORDER + "]/span")).getText()));
 
     }
 
-    //TODO: check if both labels have correct information
 
     @Test
     public void testAboutMeInformation() throws Exception {
@@ -424,6 +436,102 @@ public class CommonTests {
             }
         }
     }
+
+    @Test
+    public void testProgrammingSkills() throws Exception {
+        waitToLoad("testProgrammingSkills");
+
+		JsonArray programmingSkills = getAsArrayFromData("programming-skills");
+		if (programmingSkills == null || programmingSkills.size() == 0) {
+			assertEquals("Skills should be empty", false, Util.isElementPresent(By.cssSelector("#programming-skills div.col-md-6"), driver));
+		} else {
+			assertEquals("Skills section not found", true, Util.isElementPresent(By.id("skills"), driver));
+			assertEquals("Skills title not found", true, Util.isElementPresent(By.xpath("//section[@id='skills']/div/h2"), driver));
+			WebElement titleElement = driver.findElement(By.xpath("//section[@id='skills']/div/h2"));
+			assertEquals("Skills title is wrong", "Skills", titleElement.getAttribute("textContent"));
+			assertEquals("Main skill div not found", true, Util.isElementPresent(By.id("programming-skills"), driver));
+
+            assertEquals("Wrong text style on title", "uppercase", titleElement.getCssValue("text-transform"));
+            assertEquals("Wrong text size on title", "50px", titleElement.getCssValue("font-size"));
+
+
+			List<WebElement> skills = driver.findElements(By.cssSelector("#skills div.skill-progress"));
+			assertEquals("Wrong number of skills", programmingSkills.size(), skills.size());
+			if (skills.size() > 1) {
+				assertEquals("Should have 2 columns", 2, driver.findElements(By.cssSelector("#skills div.col-md-6")).size());
+
+				int leftCount = (int) Math.ceil(skills.size() / 2f);
+				int rightCount = (int) Math.floor(skills.size() / 2f);
+
+				assertEquals("Wrong number of skills on the left", leftCount, driver.findElements(By.xpath("//div[@id='programming-skills']/div[1]/div")).size());
+				assertEquals("Wrong number of skills on the left", rightCount, driver.findElements(By.xpath("//div[@id='programming-skills']/div[2]/div")).size());
+			} else if (skills.size() == 1) {
+				assertEquals("Should have a single column", 1, driver.findElements(By.cssSelector("#skills div.col-md-6")).size());
+				assertEquals("Wrong number of elements in left div", 1, driver.findElements(By.cssSelector("#skills div.col-md-6 div.skill-progress")).size());
+			} else {
+				assertEquals("Columns should not be present", false, Util.isElementPresent(By.xpath("//div[@id='programming-skills']/div"), driver));
+				return;
+			}
+
+			for (JsonElement skill : programmingSkills) {
+				JsonObject skillObj = skill.getAsJsonObject();
+				String skillName = skillObj.get("name").getAsString();
+				int skillProgress = skillObj.get("progress").getAsInt();
+
+				assertEquals("Skill div not found", true, Util.isElementPresent(By.xpath("//div[@id='programming-skills']//div[@class='skill-progress' and ./div[@class='skill-title']/h3/text()='" + skillName + "']"), driver));
+				WebElement skillDiv = driver.findElement(By.xpath("//div[@id='programming-skills']//div[@class='skill-progress' and ./div[@class='skill-title']/h3/text()='" + skillName + "']"));
+				assertEquals("Skill name not found", true, Util.isElementPresent(skillDiv, By.cssSelector("div.skill-title")));
+				assertEquals("Wrong skill name", skillName, skillDiv.findElement(By.cssSelector("div.skill-title")).getText());
+
+				assertEquals("Progress div not found", true, Util.isElementPresent(skillDiv, By.cssSelector("div.progress div.progress-bar")));
+				assertEquals("Progress div has wrong role", "progressbar", skillDiv.findElement(By.cssSelector("div.progress div.progress-bar")).getAttribute("role"));
+
+				assertEquals("Progress not found", true, Util.isElementPresent(skillDiv, By.cssSelector(".progress-bar span")));
+				assertEquals("Progress is not correct", skillProgress + "%", skillDiv.findElement(By.cssSelector(".progress-bar span")).getText());
+			}
+		}
+    }
+
+	@Test
+	public void testOtherSkills() throws Exception {
+		waitToLoad("testOtherSkills");
+
+		JsonArray otherSkills = getAsArrayFromData("other-skills");
+		if (otherSkills == null || otherSkills.size() == 0) {
+			assertEquals("Skills should be empty", false, Util.isElementPresent(By.cssSelector("#other-skills div"), driver));
+		} else {
+			assertEquals("Other Skills title not found", true, Util.isElementPresent(By.xpath("//section[@id='skills']/div/div[@class='skill-chart text-center']/h3"), driver));
+			WebElement titleElement = driver.findElement(By.xpath("//section[@id='skills']/div/div[@class='skill-chart text-center']/h3"));
+			assertEquals("Other Skills title is wrong", "More skills", titleElement.getAttribute("textContent"));
+			assertEquals("Wrong text style on title", "uppercase", titleElement.getCssValue("text-transform"));
+            assertEquals("Wrong text size on title", "24px", titleElement.getCssValue("font-size"));
+
+
+			assertEquals("Other skills div not found", true, Util.isElementPresent(By.id("other-skills"), driver));
+
+			List<WebElement> skills = driver.findElements(By.cssSelector("#skills div.chart"));
+			assertEquals("Wrong number of other skills", otherSkills.size(), skills.size());
+
+			int index = 1;
+			for (JsonElement skill : otherSkills) {
+				JsonObject skillObj = skill.getAsJsonObject();
+				String skillName = skillObj.get("name").getAsString();
+				int skillProgress = skillObj.get("progress").getAsInt();
+
+                assertEquals(skillName + " skill div doesn't have a crucial class", true, driver.findElement(By.xpath("//div[@id='other-skills']/div[" + index +"]/div")).getAttribute("class").contains("chart"));
+
+				assertEquals(skillName + " skill div not found", true, Util.isElementPresent(By.xpath("(//div[@id='other-skills']//div[@class='chart'])[" + index + "]"), driver));
+				WebElement skillDiv = driver.findElement(By.xpath("(//div[@id='other-skills']//div[@class='chart'])[" + index + "]"));
+				assertEquals("Skill name not found", true, Util.isElementPresent(skillDiv, By.cssSelector("div.chart-text span")));
+				assertEquals("Wrong skill name", skillName, skillDiv.findElement(By.cssSelector("div.chart-text span")).getText());
+
+				assertEquals("Progress span not found", true, Util.isElementPresent(skillDiv, By.cssSelector("span.percent")));
+
+				assertEquals("Progress is not correct", "" + skillProgress, skillDiv.getAttribute("data-percent"));
+				index++;
+			}
+		}
+	}
 
    /* @Test
     public void testNavbarHover() throws Exception {

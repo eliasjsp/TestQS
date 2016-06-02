@@ -35,6 +35,15 @@ public final class Util {
         }
     }
 
+    public static boolean isElementPresent(WebElement element, By by) {
+        try {
+            element.findElement(by);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
     public static JsonObject getJsonObject(String member) throws Exception {
         JsonParser jp = new JsonParser();
         URL url = new URL(getBaseUrl() + "/json/" + member + ".json");
