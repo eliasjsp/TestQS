@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.awt.SystemColor.text;
 import static org.junit.Assert.*;
 
 /**
@@ -448,9 +449,11 @@ public class CommonTests {
 			assertEquals("Skills title not found", true, Util.isElementPresent(By.xpath("//section[@id='skills']/div/h2"), driver));
 			WebElement titleElement = driver.findElement(By.xpath("//section[@id='skills']/div/h2"));
 			assertEquals("Skills title is wrong", "Skills", titleElement.getAttribute("textContent"));
-			// TODO: maybe test CSS of title
-
 			assertEquals("Main skill div not found", true, Util.isElementPresent(By.id("programming-skills"), driver));
+
+            assertEquals("Wrong text style on title", "uppercase", titleElement.getCssValue("text-transform"));
+            assertEquals("Wrong text size on title", "50px", titleElement.getCssValue("font-size"));
+
 
 			List<WebElement> skills = driver.findElements(By.cssSelector("#skills div.skill-progress"));
 			assertEquals("Wrong number of skills", programmingSkills.size(), skills.size());
@@ -500,7 +503,9 @@ public class CommonTests {
 			assertEquals("Other Skills title not found", true, Util.isElementPresent(By.xpath("//section[@id='skills']/div/div[@class='skill-chart text-center']/h3"), driver));
 			WebElement titleElement = driver.findElement(By.xpath("//section[@id='skills']/div/div[@class='skill-chart text-center']/h3"));
 			assertEquals("Other Skills title is wrong", "More skills", titleElement.getAttribute("textContent"));
-			// TODO: maybe test CSS of title
+			assertEquals("Wrong text style on title", "uppercase", titleElement.getCssValue("text-transform"));
+            assertEquals("Wrong text size on title", "24px", titleElement.getCssValue("font-size"));
+
 
 			assertEquals("Other skills div not found", true, Util.isElementPresent(By.id("other-skills"), driver));
 
@@ -512,6 +517,8 @@ public class CommonTests {
 				JsonObject skillObj = skill.getAsJsonObject();
 				String skillName = skillObj.get("name").getAsString();
 				int skillProgress = skillObj.get("progress").getAsInt();
+
+                assertEquals(skillName + " skill div doesn't have a crucial class", true, driver.findElement(By.xpath("//div[@id='other-skills']/div[" + index +"]/div")).getAttribute("class").contains("chart"));
 
 				assertEquals(skillName + " skill div not found", true, Util.isElementPresent(By.xpath("(//div[@id='other-skills']//div[@class='chart'])[" + index + "]"), driver));
 				WebElement skillDiv = driver.findElement(By.xpath("(//div[@id='other-skills']//div[@class='chart'])[" + index + "]"));
