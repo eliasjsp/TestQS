@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -230,7 +231,7 @@ public class CommonTests {
         Thread.sleep(200);
         assertEquals("Wrong numbers of tabs. Should be opened one more tab on " + memberName + " page", numTabs + 1, driver.getWindowHandles().size());
 
-     /*   boolean foundTab = false;
+        /*boolean foundTab = false;
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
         for (String tab : tabs) {
             driver.switchTo().window(tab);
@@ -240,7 +241,6 @@ public class CommonTests {
                 break;
             }
         }
-
         assertEquals("No LinkedIn tab found on " + memberName + "page", true, foundTab);*/
     }
 
@@ -532,6 +532,49 @@ public class CommonTests {
 			}
 		}
 	}
+
+    @Test
+    public void testEducation() throws Exception{
+        waitToLoad("testEducation");
+        JsonArray timelineEducation = getAsArrayFromData("education-timeline");
+        int i = 1;
+        int lastYear = 0;
+        if (timelineEducation != null) {
+            for(JsonElement ed : timelineEducation) {
+                // finding the elements
+                WebElement time = driver.findElement(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div/span"));
+                WebElement div = driver.findElement(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div"));
+                WebElement title = driver.findElement(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div/div/h3"));
+                WebElement subTitle = driver.findElement(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div/div/span"));
+                WebElement desc = driver.findElement(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div/div[2]/p"));
+                //testing if elements exists
+                assertEquals("does not have time", false, time == null);
+                assertEquals("does not have the main div", false, div == null);
+                assertEquals("does not have title", false, title == null);
+                assertEquals("does not have subTitle", false, subTitle == null);
+                assertEquals("does not have desc", false, desc == null);
+                //testing if is the correct data
+                assertEquals("the time on html is different from json", true, time.getText().equals(ed.getAsJsonObject().get("when").getAsString()));
+                assertEquals("the title on html is different from json", true, title.getText().equals(ed.getAsJsonObject().get("what").getAsString()));
+                assertEquals("the subTitle on html is different from json", true, subTitle.getText().equals(ed.getAsJsonObject().get("where").getAsString()));
+                assertEquals("the desc on html is different from json", true, desc.getText().equals(ed.getAsJsonObject().get("desc").getAsString().replaceAll("\\<[^>]*>","")));
+                //tests if the time is in the correct order
+                try {
+                    if (lastYear == 0) {
+                        lastYear = Integer.parseInt(time.getText().split("-")[0]);
+                    } else {
+                        int now = Integer.parseInt(time.getText().split("-")[1]);
+                        assertEquals("Dates are not in the correct order", true, lastYear >= now);
+                    }
+                } catch (Exception e) {
+                    fail("Time are not in right form, need to be yyyy-yyyy");
+                }
+                i++;
+            }
+        } else {
+            assertEquals("Does not have education data but exists that section on html", true, ( driver.findElement(By.id("education-title")) == null && driver.findElement(By.id("education-list")) == null));
+        }
+    }
 
    /* @Test
     public void testNavbarHover() throws Exception {
