@@ -76,7 +76,7 @@
   ],
   "education-timeline" : [
     {
-      "when" : "X-Y",
+      "when" : "2015-now",
       "what" : "What I studied",
       "where": "Where I studied",
       "desc" : "What I did there"
@@ -84,7 +84,7 @@
   ],
   "experience-timeline" : [
     {
-      "when" : "X-Y",
+      "when" : "2015-2015",
       "what" : "Doing stuff",
       "where": "Smoewhere",
       "desc" : "I did sum stuff."
