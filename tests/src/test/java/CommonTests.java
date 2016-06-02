@@ -565,6 +565,7 @@ public class CommonTests {
                     } else {
                         int now = Integer.parseInt(time.getText().split("-")[1]);
                         assertEquals("Dates are not in the correct order", true, lastYear >= now);
+                        lastYear = now;
                     }
                 } catch (Exception e) {
                     fail("Time are not in right form, need to be yyyy-yyyy");
@@ -573,6 +574,50 @@ public class CommonTests {
             }
         } else {
             assertEquals("Does not have education data but exists that section on html", true, ( driver.findElement(By.id("education-title")) == null && driver.findElement(By.id("education-list")) == null));
+        }
+    }
+
+    @Test
+    public void testExperience() throws Exception{
+        waitToLoad("testExperience");
+        JsonArray timelineEducation = getAsArrayFromData("experience-timeline");
+        int i = 1;
+        int lastYear = 0;
+        if (timelineEducation != null) {
+            for(JsonElement ed : timelineEducation) {
+                // finding the elements
+                WebElement time = driver.findElement(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div/span"));
+                WebElement div = driver.findElement(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div"));
+                WebElement title = driver.findElement(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div/div/h3"));
+                WebElement subTitle = driver.findElement(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div/div/span"));
+                WebElement desc = driver.findElement(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div/div[2]/p"));
+                //testing if elements exists
+                assertEquals("does not have time", false, time == null);
+                assertEquals("does not have the main div", false, div == null);
+                assertEquals("does not have title", false, title == null);
+                assertEquals("does not have subTitle", false, subTitle == null);
+                assertEquals("does not have desc", false, desc == null);
+                //testing if is the correct data
+                assertEquals("the time on html is different from json", true, time.getText().equals(ed.getAsJsonObject().get("when").getAsString()));
+                assertEquals("the title on html is different from json", true, title.getText().equals(ed.getAsJsonObject().get("what").getAsString()));
+                assertEquals("the subTitle on html is different from json", true, subTitle.getText().equals(ed.getAsJsonObject().get("where").getAsString()));
+                assertEquals("the desc on html is different from json", true, desc.getText().equals(ed.getAsJsonObject().get("desc").getAsString().replaceAll("\\<[^>]*>","")));
+                //tests if the time is in the correct order
+                try {
+                    if (lastYear == 0) {
+                        lastYear = Integer.parseInt(time.getText().split("-")[0]);
+                    } else {
+                        int now = Integer.parseInt(time.getText().split("-")[1]);
+                        assertEquals("Dates are not in the correct order", true, lastYear >= now);
+                        lastYear = now;
+                    }
+                } catch (Exception e) {
+                    fail("Time are not in right form, need to be yyyy-yyyy");
+                }
+                i++;
+            }
+        } else {
+            assertEquals("Does not have experience data but exists that section on html", true, ( driver.findElement(By.id("experience-title")) == null && driver.findElement(By.id("experience-list")) == null));
         }
     }
 
