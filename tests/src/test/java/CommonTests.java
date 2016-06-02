@@ -181,11 +181,19 @@ public class CommonTests {
     }
 
     @Test
-    public void testIfHaveHireSection() throws Exception {
-        waitToLoad("testIfHaveHireSection");
-        assertEquals("does not have a hire section on " + memberName + " page", true, (driver.findElement(By.className("hire-section")) != null));
-        //TODO:if the user doesn�t have a job, test if exists a option to hire him and test its functionality
-        //TODO: if the user have a job, test the company's link
+    public void testHireSection() throws Exception {
+        waitToLoad("testHireSection");
+        assertEquals("Does not have a hire section", true, Util.isElementPresent(By.className("hire-section"), driver));
+
+		String hire = getAsStringFromData("hire");
+		boolean available = getAsStringFromData("hire-available").equals("1");
+
+		assertEquals("Hire text not found", true, Util.isElementPresent(By.id("hire"), driver));
+		assertEquals("Hire text doesn't match", hire.replaceAll("\\<[^>]*>",""), driver.findElement(By.id("hire")).getAttribute("textContent"));
+
+		assertEquals("Hire button has incorrect state", available, driver.findElement(By.id("btn-hire")).isDisplayed());
+		if (available)
+			assertEquals("Hire button has wrong text", "Get Hired", driver.findElement(By.id("btn-hire")).getText());
     }
 
     @Test
