@@ -382,10 +382,10 @@ public class CommonTests {
     @Test
     public void testAboutMeSubTitlesOrder() throws Exception {
         waitToLoad("testAboutMeSubTitlesOrder");
-        WebElement element = driver.findElement(By.cssSelector("#about > div.container > h2 + div.row"));
-        //System.out.println(element.findElement(By.xpath("//section[@id='about]//h2//div[contains]")));
-       //assertEquals("Wrong order of elements on about me section", true, Util.isElementPresent(By.xpath("//section[@id='about']//h2[contains(@class,'section-title')]"), driver));
-        //assertEquals("Wrong order of elements on about me section", true, Util.isElementPresent(By.xpath("//section[@id='about']//h2[contains(@class,'section-title')]//h3[@id='objective-title']/p[@id='objective']"), driver));
+        By selector = By.cssSelector("#about > div.container > h2 + div.row > div.col-md-8 > #objective-container + #what-i-do-container + #published-apps-container + div.download-button");
+        assertEquals("Wrong order of elements on about me section", true, Util.isElementPresent(selector, driver));
+        assertEquals("Title appears after description of objective on about me section", true, Util.isElementPresent(By.cssSelector("#objective-container > #objective-title + #objective"), driver));
+        assertEquals("Title appears after description of what i do on about me section", true, Util.isElementPresent(By.cssSelector("#what-i-do-container > #what-i-do-title + #what-i-do"), driver));
     }
 
 
@@ -637,7 +637,7 @@ public class CommonTests {
         }
     }
 
-    //TODO: Testar ordem dos sub titulos nas secções
+    //TODO: Testar ordem dos sub titulos nas secï¿½ï¿½es
     //TODO: Testar mas css nas skills
 
 
