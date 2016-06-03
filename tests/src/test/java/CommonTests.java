@@ -549,23 +549,22 @@ public class CommonTests {
         int lastYear = 0;
         if (timelineEducation != null) {
             for(JsonElement ed : timelineEducation) {
+				//testing if elements exists
+				assertEquals("does not have time", true, Util.isElementPresent(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div/span"), driver));
+				assertEquals("does not have the main div", true, Util.isElementPresent(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div/span"), driver));
+				assertEquals("does not have title", true, Util.isElementPresent(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div/div/h3"), driver));
+				assertEquals("does not have subTitle", true, Util.isElementPresent(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div/div/span"), driver));
+				assertEquals("does not have desc", true, Util.isElementPresent(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div/div[2]/p"), driver));
                 // finding the elements
                 WebElement time = driver.findElement(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div/span"));
-                WebElement div = driver.findElement(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div"));
                 WebElement title = driver.findElement(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div/div/h3"));
                 WebElement subTitle = driver.findElement(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div/div/span"));
                 WebElement desc = driver.findElement(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div/div[2]/p"));
-                //testing if elements exists
-                assertEquals("does not have time", false, time == null);
-                assertEquals("does not have the main div", false, div == null);
-                assertEquals("does not have title", false, title == null);
-                assertEquals("does not have subTitle", false, subTitle == null);
-                assertEquals("does not have desc", false, desc == null);
                 //testing if is the correct data
-                assertEquals("the time on html is different from json", true, time.getText().equals(ed.getAsJsonObject().get("when").getAsString()));
-                assertEquals("the title on html is different from json", true, title.getText().equals(ed.getAsJsonObject().get("what").getAsString()));
-                assertEquals("the subTitle on html is different from json", true, subTitle.getText().equals(ed.getAsJsonObject().get("where").getAsString()));
-                assertEquals("the desc on html is different from json", true, desc.getText().equals(ed.getAsJsonObject().get("desc").getAsString().replaceAll("\\<[^>]*>","")));
+                assertEquals("the time on html is different from json", ed.getAsJsonObject().get("when").getAsString(), time.getText());
+                assertEquals("the title on html is different from json", ed.getAsJsonObject().get("what").getAsString(), title.getText());
+                assertEquals("the subTitle on html is different from json", ed.getAsJsonObject().get("where").getAsString(), subTitle.getText());
+                assertEquals("the desc on html is different from json", ed.getAsJsonObject().get("desc").getAsString().replaceAll("\\<[^>]*>",""), desc.getText().replaceAll("\n", ""));
                 //tests if the time is in the correct order
                 try {
                     if (lastYear == 0) {
@@ -576,12 +575,12 @@ public class CommonTests {
                         lastYear = now;
                     }
                 } catch (Exception e) {
-                    fail("Time are not in right form, need to be yyyy-yyyy");
+                    fail("Time is not in right form, need to be yyyy-yyyy");
                 }
                 i++;
             }
         } else {
-            assertEquals("Does not have education data but exists that section on html", true, ( driver.findElement(By.id("education-title")) == null && driver.findElement(By.id("education-list")) == null));
+            assertEquals("Does not have education data but exists that section on html", false, driver.findElement(By.id("education-title")).isDisplayed() || driver.findElement(By.id("education-list")).isDisplayed());
         }
     }
 
@@ -593,18 +592,17 @@ public class CommonTests {
         int lastYear = 0;
         if (timelineEducation != null) {
             for(JsonElement ed : timelineEducation) {
+				//testing if elements exists
+				assertEquals("does not have time", true, Util.isElementPresent(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div/span"), driver));
+				assertEquals("does not have the main div", true, Util.isElementPresent(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div"), driver));
+				assertEquals("does not have title", true, Util.isElementPresent(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div/div/h3"), driver));
+				assertEquals("does not have subTitle", true, Util.isElementPresent(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div/div/span"), driver));
+				assertEquals("does not have desc", true, Util.isElementPresent(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div/div[2]/p"), driver));
                 // finding the elements
                 WebElement time = driver.findElement(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div/span"));
-                WebElement div = driver.findElement(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div"));
                 WebElement title = driver.findElement(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div/div/h3"));
                 WebElement subTitle = driver.findElement(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div/div/span"));
                 WebElement desc = driver.findElement(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div/div[2]/p"));
-                //testing if elements exists
-                assertEquals("does not have time", false, time == null);
-                assertEquals("does not have the main div", false, div == null);
-                assertEquals("does not have title", false, title == null);
-                assertEquals("does not have subTitle", false, subTitle == null);
-                assertEquals("does not have desc", false, desc == null);
                 //testing if is the correct data
                 assertEquals("the time on html is different from json", true, time.getText().equals(ed.getAsJsonObject().get("when").getAsString()));
                 assertEquals("the title on html is different from json", true, title.getText().equals(ed.getAsJsonObject().get("what").getAsString()));
@@ -625,7 +623,7 @@ public class CommonTests {
                 i++;
             }
         } else {
-            assertEquals("Does not have experience data but exists that section on html", true, ( driver.findElement(By.id("experience-title")) == null && driver.findElement(By.id("experience-list")) == null));
+            assertEquals("Does not have experience data but exists that section on html", false, driver.findElement(By.id("experience-title")).isDisplayed() || driver.findElement(By.id("experience-list")).isDisplayed());
         }
     }
 
