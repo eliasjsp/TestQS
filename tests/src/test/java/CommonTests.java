@@ -372,6 +372,16 @@ public class CommonTests {
 
 
     @Test
+    public void testAboutMeSubTitlesOrder() throws Exception {
+        waitToLoad("testAboutMeSubTitlesOrder");
+        WebElement element = driver.findElement(By.cssSelector("#about > div.container > h2 + div.row"));
+        //System.out.println(element.findElement(By.xpath("//section[@id='about]//h2//div[contains]")));
+       //assertEquals("Wrong order of elements on about me section", true, Util.isElementPresent(By.xpath("//section[@id='about']//h2[contains(@class,'section-title')]"), driver));
+        //assertEquals("Wrong order of elements on about me section", true, Util.isElementPresent(By.xpath("//section[@id='about']//h2[contains(@class,'section-title')]//h3[@id='objective-title']/p[@id='objective']"), driver));
+    }
+
+
+    @Test
     public void testPublishedAppsURLs() throws Exception {
         waitToLoad("testPublishedAppsURLs");
 
@@ -503,9 +513,9 @@ public class CommonTests {
 			assertEquals("Other Skills title not found", true, Util.isElementPresent(By.xpath("//section[@id='skills']/div/div[@class='skill-chart text-center']/h3"), driver));
 			WebElement titleElement = driver.findElement(By.xpath("//section[@id='skills']/div/div[@class='skill-chart text-center']/h3"));
 			assertEquals("Other Skills title is wrong", "More skills", titleElement.getAttribute("textContent"));
+
 			assertEquals("Wrong text style on title", "uppercase", titleElement.getCssValue("text-transform"));
             assertEquals("Wrong text size on title", "24px", titleElement.getCssValue("font-size"));
-
 
 			assertEquals("Other skills div not found", true, Util.isElementPresent(By.id("other-skills"), driver));
 
@@ -532,6 +542,10 @@ public class CommonTests {
 			}
 		}
 	}
+
+    //TODO: Testar ordem dos sub titulos nas secções
+    //TODO: Testar mas css nas skills
+
 
    /* @Test
     public void testNavbarHover() throws Exception {
