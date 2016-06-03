@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -181,11 +182,19 @@ public class CommonTests {
     }
 
     @Test
-    public void testIfHaveHireSection() throws Exception {
-        waitToLoad("testIfHaveHireSection");
-        assertEquals("does not have a hire section on " + memberName + " page", true, (driver.findElement(By.className("hire-section")) != null));
-        //TODO:if the user doesnï¿½t have a job, test if exists a option to hire him and test its functionality
-        //TODO: if the user have a job, test the company's link
+    public void testHireSection() throws Exception {
+        waitToLoad("testHireSection");
+        assertEquals("Does not have a hire section", true, Util.isElementPresent(By.className("hire-section"), driver));
+
+		String hire = getAsStringFromData("hire");
+		boolean available = getAsStringFromData("hire-available").equals("1");
+
+		assertEquals("Hire text not found", true, Util.isElementPresent(By.id("hire"), driver));
+		assertEquals("Hire text doesn't match", hire.replaceAll("\\<[^>]*>",""), driver.findElement(By.id("hire")).getAttribute("textContent"));
+
+		assertEquals("Hire button has incorrect state", available, driver.findElement(By.id("btn-hire")).isDisplayed());
+		if (available)
+			assertEquals("Hire button has wrong text", "Get Hired", driver.findElement(By.id("btn-hire")).getText());
     }
 
     @Test
@@ -230,7 +239,7 @@ public class CommonTests {
         Thread.sleep(200);
         assertEquals("Wrong numbers of tabs. Should be opened one more tab on " + memberName + " page", numTabs + 1, driver.getWindowHandles().size());
 
-     /*   boolean foundTab = false;
+        /*boolean foundTab = false;
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
         for (String tab : tabs) {
             driver.switchTo().window(tab);
@@ -240,7 +249,6 @@ public class CommonTests {
                 break;
             }
         }
-
         assertEquals("No LinkedIn tab found on " + memberName + "page", true, foundTab);*/
     }
 
@@ -543,7 +551,93 @@ public class CommonTests {
 		}
 	}
 
-    //TODO: Testar ordem dos sub titulos nas secÃ§Ãµes
+    @Test
+    public void testEducation() throws Exception{
+        waitToLoad("testEducation");
+        JsonArray timelineEducation = getAsArrayFromData("education-timeline");
+        int i = 1;
+        int lastYear = 0;
+        if (timelineEducation != null) {
+            for(JsonElement ed : timelineEducation) {
+				//testing if elements exists
+				assertEquals("does not have time", true, Util.isElementPresent(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div/span"), driver));
+				assertEquals("does not have the main div", true, Util.isElementPresent(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div/span"), driver));
+				assertEquals("does not have title", true, Util.isElementPresent(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div/div/h3"), driver));
+				assertEquals("does not have subTitle", true, Util.isElementPresent(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div/div/span"), driver));
+				assertEquals("does not have desc", true, Util.isElementPresent(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div/div[2]/p"), driver));
+                // finding the elements
+                WebElement time = driver.findElement(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div/span"));
+                WebElement title = driver.findElement(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div/div/h3"));
+                WebElement subTitle = driver.findElement(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div/div/span"));
+                WebElement desc = driver.findElement(By.xpath("//ul[@id='education-timeline']/li["+i+"]/div[2]/div/div[2]/p"));
+                //testing if is the correct data
+                assertEquals("the time on html is different from json", ed.getAsJsonObject().get("when").getAsString(), time.getText());
+                assertEquals("the title on html is different from json", ed.getAsJsonObject().get("what").getAsString(), title.getText());
+                assertEquals("the subTitle on html is different from json", ed.getAsJsonObject().get("where").getAsString(), subTitle.getText());
+                assertEquals("the desc on html is different from json", ed.getAsJsonObject().get("desc").getAsString().replaceAll("\\<[^>]*>",""), desc.getText().replaceAll("\n", ""));
+                //tests if the time is in the correct order
+                try {
+                    if (lastYear == 0) {
+                        lastYear = Integer.parseInt(time.getText().split("-")[0]);
+                    } else {
+                        int now = Integer.parseInt(time.getText().split("-")[1]);
+                        assertEquals("Dates are not in the correct order", true, lastYear >= now);
+                        lastYear = now;
+                    }
+                } catch (Exception e) {
+                    fail("Time is not in right form, need to be yyyy-yyyy");
+                }
+                i++;
+            }
+        } else {
+            assertEquals("Does not have education data but exists that section on html", false, driver.findElement(By.id("education-title")).isDisplayed() || driver.findElement(By.id("education-list")).isDisplayed());
+        }
+    }
+
+    @Test
+    public void testExperience() throws Exception{
+        waitToLoad("testExperience");
+        JsonArray timelineEducation = getAsArrayFromData("experience-timeline");
+        int i = 1;
+        int lastYear = 0;
+        if (timelineEducation != null) {
+            for(JsonElement ed : timelineEducation) {
+				//testing if elements exists
+				assertEquals("does not have time", true, Util.isElementPresent(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div/span"), driver));
+				assertEquals("does not have the main div", true, Util.isElementPresent(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div"), driver));
+				assertEquals("does not have title", true, Util.isElementPresent(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div/div/h3"), driver));
+				assertEquals("does not have subTitle", true, Util.isElementPresent(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div/div/span"), driver));
+				assertEquals("does not have desc", true, Util.isElementPresent(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div/div[2]/p"), driver));
+                // finding the elements
+                WebElement time = driver.findElement(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div/span"));
+                WebElement title = driver.findElement(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div/div/h3"));
+                WebElement subTitle = driver.findElement(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div/div/span"));
+                WebElement desc = driver.findElement(By.xpath("//ul[@id='experience-timeline']/li["+i+"]/div[2]/div/div[2]/p"));
+                //testing if is the correct data
+                assertEquals("the time on html is different from json", true, time.getText().equals(ed.getAsJsonObject().get("when").getAsString()));
+                assertEquals("the title on html is different from json", true, title.getText().equals(ed.getAsJsonObject().get("what").getAsString()));
+                assertEquals("the subTitle on html is different from json", true, subTitle.getText().equals(ed.getAsJsonObject().get("where").getAsString()));
+                assertEquals("the desc on html is different from json", true, desc.getText().equals(ed.getAsJsonObject().get("desc").getAsString().replaceAll("\\<[^>]*>","")));
+                //tests if the time is in the correct order
+                try {
+                    if (lastYear == 0) {
+                        lastYear = Integer.parseInt(time.getText().split("-")[0]);
+                    } else {
+                        int now = Integer.parseInt(time.getText().split("-")[1]);
+                        assertEquals("Dates are not in the correct order", true, lastYear >= now);
+                        lastYear = now;
+                    }
+                } catch (Exception e) {
+                    fail("Time are not in right form, need to be yyyy-yyyy");
+                }
+                i++;
+            }
+        } else {
+            assertEquals("Does not have experience data but exists that section on html", false, driver.findElement(By.id("experience-title")).isDisplayed() || driver.findElement(By.id("experience-list")).isDisplayed());
+        }
+    }
+
+    //TODO: Testar ordem dos sub titulos nas secções
     //TODO: Testar mas css nas skills
 
 

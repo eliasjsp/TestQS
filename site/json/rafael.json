@@ -72,22 +72,24 @@
     {
       "name" : "Leadership",
       "progress": "80"
+    },
+    {
+      "name" : "Agile Development",
+      "progress": "85"
     }
   ],
   "education-timeline" : [
     {
-      "when" : "X-Y",
-      "what" : "What I studied",
-      "where": "Where I studied",
-      "desc" : "What I did there"
-    }
-  ],
-  "experience-timeline" : [
+      "when" : "2015-NOW",
+      "what" : "MSc Computer Engineering and Mobile Computing",
+      "where": "Superior School of Technology and Management, IPLeiria",
+      "desc" : "Course delegate"
+    },
     {
-      "when" : "X-Y",
-      "what" : "Doing stuff",
-      "where": "Smoewhere",
-      "desc" : "I did sum stuff."
+      "when" : "2012-2015",
+      "what" : "BSc Computer Engineering, 17",
+      "where": "Superior School of Technology and Management, IPLeiria",
+      "desc" : "Participated in an Erasmus Intesive Program in Finland<br>Participated in multiple programming contests<br>Developed a strategy game as a final project"
     }
   ],
   "hire" : "Hiring info",

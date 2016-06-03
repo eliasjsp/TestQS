@@ -25,9 +25,27 @@ $(function () {
             '</div><!-- /timeline-panel --> ' +
             '</li>';
     }
-
+    var edFlag = true;
+    var exFlag = true;
+    var resumeFlag = 0;
     function populateResumeTimeline(key, val) {
         var div = $("#"+key);
+        if(key === "education-timeline") { edFlag = false; } else { exFlag = false; }
+        if (val.length == 0) {
+            if(key === "education-timeline") {
+                $("#education-list").css("display", "none");
+                $("#education-title").css("display", "none");
+                resumeFlag++;
+            } else {
+                $("#experience-list").css("display", "none");
+                $("#experience-title").css("display", "none");
+                resumeFlag++;
+            }
+        }
+        if(resumeFlag == 2) {
+            $("#resume").css("display", "none");
+        }
+
         $.each(val, function ( key, val ) {
             div.append(getResumeHtml(val));
             resumeCount++;
@@ -103,6 +121,7 @@ $(function () {
     }
 
     $.getJSON( "../json/" + window.location.href.split("name=")[1].split(".")[0] + ".json", function( data ) {
+
         $.each(data, function (key, val) {
             switch (key) {
                 case "title":
@@ -132,6 +151,7 @@ $(function () {
                     break;
                 case "education-timeline":
                 case "experience-timeline":
+
                     populateResumeTimeline(key, val);
                     break;
                 case "hire-available":
@@ -150,5 +170,14 @@ $(function () {
                     $("#" + key).append(val);
             }
         });
+        if(edFlag && exFlag) {
+            $("#resume").css("display", "none");
+        } else if(edFlag) {
+            $("#education-list").css("display", "none");
+            $("#education-title").css("display", "none");
+        } else if(exFlag) {
+            $("#experience-list").css("display", "none");
+            $("#experience-title").css("display", "none");
+        }
     });
 });

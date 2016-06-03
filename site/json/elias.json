@@ -94,7 +94,7 @@
     {
       "when" : "2016-NOW",
       "what" : "Back End Developer and Data Miner",
-      "where": "AMARMITA.COM",
+      "where": "AMARMITA.PT",
       "desc" : "I'm getting experience in data mining and back end developing(PHP, JavaScript, RazorflowJS, SQL)."
     },
     {
@@ -104,6 +104,6 @@
       "desc" : "I got experience in JavaScript, HTML, CSS and JavaEE."
     }
   ],
-  "hire" : "Working at <a href=\"https://www.amarmita.pt\" target=\"_blank\">AMARMITA.PT<a>",
+  "hire" : "Working at <a href=\"https://www.amarmita.pt\" target=\"_blank\">AMARMITA.PT</a>",
   "hire-available" : 0
 }
