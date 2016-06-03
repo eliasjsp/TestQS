@@ -510,6 +510,13 @@ public class CommonTests {
 		}
     }
 
+    @Test
+    public void testSkillsOrder() throws Exception {
+        waitToLoad("testSkillsOrder");
+        By selector = By.cssSelector("#skills > div.container > h2.section-title + #programming-skills + div.skill-chart + #other-skills");
+        assertEquals("Other skills appears first that skills on " + memberName + " page", true, Util.isElementPresent(selector, driver));
+    }
+
 	@Test
 	public void testOtherSkills() throws Exception {
 		waitToLoad("testOtherSkills");
@@ -638,7 +645,7 @@ public class CommonTests {
     }
 
     //TODO: Testar ordem dos sub titulos nas sec��es
-    //TODO: Testar mas css nas skills
+    //TODO: Testar mais css nas skills
 
 
    /* @Test
