@@ -644,7 +644,15 @@ public class CommonTests {
         }
     }
 
-    //TODO: Testar ordem dos sub titulos nas sec��es
+    @Test
+    public void testFooter() throws Exception {
+        waitToLoad("testFooter");
+        assertEquals("Footer not present", true, Util.isElementPresent(By.cssSelector("footer.footer-wrapper"), driver));
+        assertEquals("Copyright text not present", true, Util.isElementPresent(By.cssSelector("footer.footer-wrapper .copyright"), driver));
+        assertEquals("Copyright text is wrong", "© PT 2016. All rights reserved.", driver.findElement(By.cssSelector("footer.footer-wrapper .copyright")).getText());
+    }
+
+    //TODO: Testar ordem dos sub titulos nas secções
     //TODO: Testar mais css nas skills
 
 
