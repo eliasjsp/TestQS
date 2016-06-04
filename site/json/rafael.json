@@ -1,6 +1,6 @@
 {
   "title": "I AM RAFAEL",
-  "home-sub-title" : "Personal description to be put here. Use line breaks for gud stuf",
+  "home-sub-title" : "I am a software and game developer with multiple personal projects developed.<br>Feel free to contact me.",
   "home-facebook" : "https://www.facebook.com/rafael.caetano.50",
   "home-linkedin" : "https://pt.linkedin.com/in/rafael-caetano-376636b4",
   "photo" : "assets/images/rafael.jpg",
@@ -50,6 +50,10 @@
     {
       "name" : "Node.js",
       "progress": "70"
+    },
+    {
+      "name" : "Unity",
+      "progress": "75"
     }
   ],
   "other-skills" : [
@@ -92,6 +96,6 @@
       "desc" : "Participated in an Erasmus Intesive Program in Finland<br>Participated in multiple programming contests<br>Developed a strategy game as a final project"
     }
   ],
-  "hire" : "Hiring info",
+  "hire" : "I am available for hiring!",
   "hire-available" : 1
 }
