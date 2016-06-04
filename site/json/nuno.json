@@ -13,11 +13,10 @@
   "objective" : "An opportunity to work and upgrade oneself, as well as being involved in an organization that believes in gaining a competitive edge and giving back to the community. I'm presently become a master in mobile computing. I hope develop skills and knowledge of mobile computing area and become an honest asset to the business.  As an individual, I'm self-confident you’ll find me creative, funny and naturally passionate. I’m a forward thinker, which others may find inspiring when working as a team.",
   "what-i-do" : "I am a student of master in mobile computing in IPLeiria, Portugal. Before, I graduated also in IPLeiria.Besides the normal school project, I like develop by myself.This way I can improve my skills. Normally those project are project for android platform",
   "what-i-do-list" : [
-    "Desktop Applications",
+    "Android Applications",
     "Game Development (Unity)",
-    "Cross Platform Applications",
-    "Data Mining",
-    "Web Applications"
+    "Software Development",
+    "Agile development"
   ],
   "published-apps" : [
     {
@@ -31,88 +30,65 @@
       "url": "https://play.google.com/store/apps/details?id=pt.me.fayax.alwaysondisplay"
     }
   ],  
-  "programming-skills" : [
+ "programming-skills" : [
     {
+      "name" : "Android",
+      "progress": "85"
+    },   
+     {
+      "name" : "JavaEE",
+      "progress": "70"
+    },
+     {
       "name" : "Java",
-      "progress": "80"
+      "progress": "75"
     },
     {
-      "name" : "Data Mining",
-      "progress": "85"
+      "name" : "C#",
+      "progress": "70"
     },
     {
       "name" : "Unity",
-      "progress": "60"
-    },
-    {
-      "name" : "AngularJS",
-      "progress": "60"
-    },
-    {
-      "name" : "NodeJS",
-      "progress": "75"
-    },
-    {
-      "name" : "JavaScript",
-      "progress": "85"
-    },
-    {
-      "name" : "PHP",
-      "progress": "75"
+      "progress": "70"
     }
   ],
   "other-skills" : [
-    {
-      "name" : "English",
-      "progress": "80"
-    },
-    {
-      "name" : "Leadership",
+	{
+      "name" : "Problem Solving",
       "progress": "85"
     },
     {
-      "name" : "Communication",
-      "progress": "95"
-    },
-    {
       "name" : "Motivation",
-      "progress": "100"
+      "progress": "85"
     },
-    {
-      "name" : "Problem Solving",
-      "progress": "90"
-    },
-    {
-      "name" : "Self Discipline",
+	{
+      "name" : "Communication",
       "progress": "80"
+    },
+    {
+      "name" : "Persistent",
+      "progress": "80"
+    },
+    {
+      "name" : "Agile Development",
+      "progress": "85"
+    },
+    {
+      "name" : "English",
+      "progress": "70"
     }
   ],
   "education-timeline" : [
     {
+      "when" : "2015-NOW",
+      "what" : "MSc Computer Engineering and Mobile Computing",
+      "where": "Superior School of Technology and Management, IPLeiria"
+    },
+    {
       "when" : "2012-2015",
-      "what" : "Computer science - Bachelor degree",
-      "where": "Polytechnic Institute of Leiria",
-      "desc" : "I got the degree in the Information Systems core. More information at: <a href=\"http://www.ipleiria.pt/cursos/course/undergraduate-in-computer-engineering/\">IPLeiria - Degree</a>"
-    },
-    {
-      "when" : "2009-2012",
-      "what" : "Informatics and management technician",
-      "where": "High School, Ourém, Portugal",
-      "desc" : "I got bases in programing, economics and hardware."
-    }
-  ],
-  "experience-timeline" : [
-    {
-      "when" : "2016-NOW",
-      "what" : "Back End Developer and Data Miner",
-      "where": "AMARMITA.COM",
-      "desc" : "I'm getting experience in data mining and back end developing(PHP, JavaScript, RazorflowJS, SQL)."
-    },
-    {
-      "when" : "2015-2015",
-      "what" : "Front-end developer - Internship",
-      "where": "Interact Solutions, Lajeado, RS, Brasil",
-      "desc" : "I got experience in JavaScript, HTML, CSS and JavaEE."
+      "what" : "BSc Computer Engineering, 17",
+      "where": "Superior School of Technology and Management, IPLeiria",
+      "desc" : "Participated in an Erasmus Intesive Program in Finland<br>Developed a strategy game as a final project"
     }
   ],
   "hire" : "Hiring info",

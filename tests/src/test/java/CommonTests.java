@@ -510,13 +510,6 @@ public class CommonTests {
 		}
     }
 
-    @Test
-    public void testSkillsOrder() throws Exception {
-        waitToLoad("testSkillsOrder");
-        By selector = By.cssSelector("#skills > div.container > h2.section-title + #programming-skills + div.skill-chart + #other-skills");
-        assertEquals("Other skills appears first that skills on " + memberName + " page", true, Util.isElementPresent(selector, driver));
-    }
-
 	@Test
 	public void testOtherSkills() throws Exception {
 		waitToLoad("testOtherSkills");
@@ -557,6 +550,13 @@ public class CommonTests {
 			}
 		}
 	}
+
+    @Test
+    public void testSkillsOrder() throws Exception {
+        waitToLoad("testSkillsOrder");
+        By selector = By.cssSelector("#skills > div.container > h2.section-title + #programming-skills + div.skill-chart + #other-skills");
+        assertEquals("Other skills appears first that skills on " + memberName + " page", true, Util.isElementPresent(selector, driver));
+    }
 
     @Test
     public void testEducation() throws Exception{
@@ -644,7 +644,13 @@ public class CommonTests {
         }
     }
 
-    //TODO: Testar ordem dos sub titulos nas sec��es
+    @Test
+    public void testResumeOrder() throws Exception {
+        waitToLoad("testResumeOrder");
+        By selector = By.cssSelector("#resume > div.container > #resume-title + #education-list + #experience-list");
+        assertEquals("Wrong order of element on resume section on " + memberName + " page", true, Util.isElementPresent(selector, driver));
+    }
+
     //TODO: Testar mais css nas skills
 
 
