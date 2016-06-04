@@ -645,6 +645,15 @@ public class CommonTests {
     }
 
     @Test
+    public void testFooter() throws Exception {
+        waitToLoad("testFooter");
+        assertEquals("Footer not present", true, Util.isElementPresent(By.cssSelector("footer.footer-wrapper"), driver));
+        assertEquals("Copyright text not present", true, Util.isElementPresent(By.cssSelector("footer.footer-wrapper .copyright"), driver));
+        assertEquals("Copyright text is wrong", "© PT 2016. All rights reserved.", driver.findElement(By.cssSelector("footer.footer-wrapper .copyright")).getText());
+    }
+
+    //TODO: Testar ordem dos sub titulos nas secções
+    @Test
     public void testResumeOrder() throws Exception {
         waitToLoad("testResumeOrder");
         By selector = By.cssSelector("#resume > div.container > #resume-title + #education-list + #experience-list");
